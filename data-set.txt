@@ -1,0 +1,318 @@
+[0]
+(3 broccoli, steak), (3 carote, 2 salsicce), (uovo, pane)
+1 banana, 1 mela rossa
+forchetta-m
+TBO
+bicchiere-t, acqua V
+R
+
+[1]
+(1 salmone, 1 pane), (piselli)
+1 pesca, 1 arancia
+1 croissant
+forchetta nera, coltello nero,
+coca-cola verticale
+fazzoletti rovinati
+G
+
+[2]
+(1 mela verde), (3 cauli, 1 pane), (3 carote, 1 steak)
+1 cracker
+forchetta trasparente, tovagliolo rosso
+coca-cola zero orizzontale
+R
+
+[3]
+{1 torta} ((3 salsicce, 4 broccoli))
+1 pane
+forchetta metallo, cucchiaio metallo, tovagliolo bianco
+sprite verticale, acqua orizzontale
+chiavi
+G con carta
+
+[4]
+(8 carote) (3 cauli, 4 broccoli) (piselli, cucchiaio nero)
+2 arancie
+1 cracker, 1 milka
+forchetta nera
+sale verticale
+R
+
+[5]
+(((1 uovo, 2 salsicce)))
+1 mela verde, 1 arancia
+2 pane, 1 croissant
+2 cucchiai metallo, 1 forchetta metallo
+acqua orizzontale, bicchiere trasparente, tazza bianca
+G
+
+[6]
+(1 torta, 1 croissant) (1 broccoli, 1 cauli, 1 uovo, forchetta metallo)
+1 banana
+coca-cola verticale, acqua verticale
+chiavi, fazzoletti
+R
+
+[7]
+(1 salmone) (2 cauli, 3 carote)
+1 mela rossa, 1 pesca
+forchetta trasparente, coltello nero, tovagliolo rosso
+coca-cola orizzontale, bicchiere rosso, "grissini"
+G
+
+[8]
+(4 salsicce) (2 pane)
+cucchiaio nero, forchetta nera, coltello nero, fazzoletto bianco
+coca-cola verticale, sprite verticale
+chiavi, olio, fazzoletti rovinati
+R
+
+[9]
+(1 steak, 2 salsicce)
+1 banana
+1 pane, 1 milka
+forchetta metallo, cucchiaio metallo, tovagliolo bordeaux
+tennets verticale, bicchiere bianco
+sale orizzontale
+G
+
+[10]
+(piselli) (salmone) (steak)
+forchetta metallo, coltello nero, tovagliolo bianco
+tennents verticale
+sale verticale
+R
+
+[11]
+(1 torta)
+2 croissant, 1 cracker
+cucchiaio metallo, tovagliolo bianco
+tazza bianca, olio
+portafoglio, chiavi
+G
+
+[12]
+(salmone) (6 carote)
+1 arancia
+1 pane, 1 kellogs
+1 forchetta metallo, 1 coltello rosso, 1 cucchiaino, fazzoletto bianco
+1 acqua verticale, 1 yogurt
+R
+
+[13]
+(1 uovo) (2 salsicce, 4 carote)
+1 pane
+forchetta trasparente, tovagliolo rosso
+coca-cola orizzontale, bicchiere trasparente
+fazzoletti rovinati
+G
+
+[14]
+(1 steak) (piselli)
+1 pesca
+1 cracker
+1 forchetta metallo, 1 coltello rosso, fazzoletto bordeaux
+1 succo alla pesca verticale, 1 borraccia verticale, 1 bicchiere trasparente
+1 portafogli
+R
+
+[15]
+(piselli) (steak, 2 cauli)
+1 cracker, 1 "grissini"
+forchetta trasparente, coltello nero, cucchiaio metallo, tovagliolo bianco
+tennents orizzontale, sprite verticale
+fazzoletti
+G
+
+[16]
+(1 torta, 1 cucchiaino) (1 uovo, 4 carote)
+1 "grissini"
+1 forchetta trasparente, tovagliolo rosso
+1 succo alla pera verticale
+1 sale verticale, chiavi, olio
+R con carta
+
+[17]
+(1 salmone) (2 cauli, 3 + 2 broccoli)
+1 arancia
+1 pane, 1 milka
+forchetta nera, tovagliolo bordeaux
+borraccia verticale, bicchiere rosso
+portafoglio, olio
+G
+
+[18]
+(piselli 1 cucchiaio metallo)
+1 arancia, 1 mela rossa
+1 milka, 1 kellogs
+1 acqua verticale, 1 yogurt
+fazzoletti
+R con carta
+
+[19]
+(steak, 2 broccoli) (pane, 7 carote)
+mela-r, mela-v
+cracker
+forchetta-n
+TBO
+coca-cola zero C, borraccia O
+tazza
+G
+
+[20]
+(((steak, 3 cauli)))
+pesca
+kellogs
+forchetta-n, cucchiaio-n
+TR
+sprite V, 1 succo pesca O
+fazzoletti, chiavi
+R con carta
+
+[21]
+(piselli, cucchiaio-m) (salsiccia, 8 carote) (croissant, pane)
+banana
+forchetta-m
+TR
+succo pera O
+sale V, olio, fazzoletti rovinati
+G con carta
+
+[22]
+((4 salsicce, 2 + 2 broccoli, 3 carote))
+pane, cracker
+forchetta-m, cucchiaio-m, coltello-r
+TBI
+borraccia V, yogurt C, tazza
+portafoglio
+R
+
+[23]
+((piselli, uovo)) (3 cauli, 6 carote)
+cucchiaio-m, forchetta-n, cucchiaino
+TBO
+acqua V, yogurt
+olio, portafoglio
+G con carta
+
+[24]
+((1 steak, 2 salsicce, 3 cauli))
+pane, kellogs
+forchetta-m, coltello-r
+TR
+acqua O
+sale V, chiavi, fazzoletti rovinati
+R
+
+[25]
+(torta, cucchiaino) (6 broccoli, 3 cauli)
+arancia
+cucchiaio-n, 1 forchetta-n, coltello-n
+TBI
+acqua V, bicchiere-t
+sale O
+fazzoletti, chiavi
+G
+
+[26]
+((1 salmone, 5 broccoli))
+mela-v
+croissant, grissini
+forchetta-n, coltello-n
+TBO
+fazzoletti, sale verticale, olio, chiavi
+R
+
+[27]
+(steak, uovo)
+mela-r
+kellogs
+forchetta-m, coltello-r
+TR
+sprite C, borraccia O
+olio, fazzoletti, portafoglio
+G
+
+[28]
+(1 torta, 1 cucchiaino) (1 uovo) (3 salsicce)
+pane
+forchetta-m
+TR
+tennents V, acqua V
+bicchiere trasparente C
+R
+
+[29]
+(1 salmone, 4 carote)
+1 pesca
+1 pane, 1 milka, 1 "grissini"
+1 forchetta metallo, 1 coltello nero, 1 cucchiaino
+TBI
+1 succo alla pesca capovolto, 1 borraccia verticale, 1 tennents verticale
+1 bicchiere bianco
+chiavi
+G
+
+[30]
+(salmone) (8 carote)
+pesca
+forchetta-m
+TR
+borraccia V, coca-cola V
+bicchiere-r
+telefono fronte
+R
+
+[31]
+(steak) (salmone)
+pane, liquirizia
+forchetta-n, coltello-n
+TBI
+borracia V
+tazza C
+portafoglio
+G
+
+[32]
+(torta) (uovo, 2+7 broccoli)
+mela-r
+milka
+forchetta-m, cucchiaino
+TBO
+acqua V
+bicchiere-t
+chiavi
+R
+
+[33]
+(salsiccia, 7 carote) (uovo)
+banana
+pane, milka
+cucchiaio-m, forchetta-m
+TBO
+coca-cola zero V
+bicchiere-b C
+sale C, chiavi
+G
+
+[35]
+(steak, 7 carote) (4 salsicce)
+mela-v
+forchetta-t, coltello-r
+TR
+coca-cola C, coca-cola zero C, sprite C
+olio, portafoglio
+G
+
+[37]
+(6+2 broccoli) (piselli)
+2 pane
+liquirizia
+forchetta-n, cucchiaio-n
+TBI
+sprite O, acqua V
+sale V
+fazzoletti
+G
+
+

@@ -1,0 +1,4 @@
+python3-plotly
+python3-sklearn
+python3-pandas
+python3-ijson
