@@ -20,8 +20,8 @@ components = pca.fit_transform(df_counts.T)
 
 pca_df = pd.DataFrame({
     'class': ids,
-    'PC1': components[:, 0],
-    'PC2': components[:, 1],
+    'PC1': components[:,0],
+    'PC2': components[:,1],
     'instance_count': df_counts.sum(axis=0).values
 })
 

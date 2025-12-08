@@ -1,0 +1,218 @@
+[
+  {
+    "name": "broccoli",
+    "color": "#1a5132",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "cauliflower",
+    "color": "#bfc293",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "peas",
+    "color": "#99e550",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "carrot",
+    "color": "#d55a31",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "egg",
+    "color": "#d7a278",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "steak",
+    "color": "#7a4f49",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "salmon",
+    "color": "#e67853",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "sausage",
+    "color": "#4c191e",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "apple",
+    "color": "#adce4c",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "orange",
+    "color": "#d7710f",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "banana",
+    "color": "#efe051",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "peach",
+    "color": "#b95c67",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "bread",
+    "color": "#a46843",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "croissant",
+    "color": "#a17747",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "cake",
+    "color": "#a17747",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "snack",
+    "color": "#4d4a79",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "breadsticks",
+    "color": "#9c8563",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "plastic bottle",
+    "color": "#639bff",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "alluminum can",
+    "color": "#872b2c",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "thermal bottle",
+    "color": "#334559",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "tetrapak",
+    "color": "#273b76",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "glass bottle",
+    "color": "#332824",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "yogurt",
+    "color": "#699fc5",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "sweets",
+    "color": "#8e786a",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "napkin",
+    "color": "#cbdbfc",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "fork",
+    "color": "#39342e",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "spoon",
+    "color": "#625a58",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "knife",
+    "color": "#858585",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "plastic cup",
+    "color": "#d1d7d7",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "mug",
+    "color": "#ffffff",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "oil cruet",
+    "color": "#8f974a",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "tissues",
+    "color": "#cc74ce",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "keys",
+    "color": "#d241d6",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "wallet",
+    "color": "#825f43",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "salt shaker",
+    "color": "#cc8a2c",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "phone",
+    "color": "#222034",
+    "type": "mask",
+    "attributes": []
+  }
+]

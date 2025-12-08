@@ -1,0 +1,21 @@
+- docker
+    - cvat
+        - nuclio
+        - CUDA
+
+git clone https://github.com/cvat-ai/cvat && cd cvat
+sudo docker compose up -d
+sudo docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
+cd serverless
+sudo ./deploy_gpy.sh pytorch/facebookresearch/sam/nuclio/
+sudo docker compose down
+
+#download nuctl from https://github.com/nuclio/nuclio/releases/tag/1.13.0
+chmod +x nuctl-1.13.0-linux-amd64
+sudo ln -sf dependencies/nuctl-1.13.0-linux-amd64 /usr/local/bin/nuctl
+
+#install nvidia docker
+
+sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml up -d
+sudo ./deploy_gpu.sh pytorch/facebookresearch/sam/nuclio/
+sudo docker compose down
