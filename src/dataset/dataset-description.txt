@@ -1,0 +1,341 @@
+[0]
+(3 broccoli, steak) (3 carrot, 2 sausage) (egg, bread)
+banana, red apple
+metal fork
+bordeaux napkin
+water
+transparent cup
+R
+
+[1]
+(salmon, bread) (peas)
+peach, orange
+croissant
+black fork, black knife
+coca-cola
+tissues
+G
+
+[2]
+(green apple) (3 cauliflower, bread) (3 carrot, steak)
+crackers
+transparent fork
+red napkin
+coca-cola zero
+R
+
+[3]
+(cake) (3 sausage, 4 broccoli)
+bread
+metal fork, metal spoon
+white napkin
+sprite, water
+keys
+G with paper
+
+[4]
+(8 carrot) (3 cauliflower, 4 broccoli) (peas)
+2 orange
+crackers, milka
+black fork, black spoon
+salt
+R
+
+[5]
+(egg, 2 sausage)
+green apple, orange
+2 bread, croissant
+2 metal spoon, metal fork
+water
+transparent cup
+mug
+G
+
+[6]
+(cake, croissant) (broccoli, cauliflower, egg, metal fork)
+banana
+coca-cola, water
+keys, tissues
+R
+
+[7]
+(salmon) (2 cauliflower, 3 carrot)
+red apple, peach
+breadsticks
+transparent fork, black knife
+red napkin
+coca-cola
+red cup
+G
+
+[8]
+(4 sausage) (2 bread)
+black spoon, black fork, black knife
+white napkin
+coca-cola, sprite
+keys, oil cruet, tissues
+R
+
+[9]
+(steak, 2 sausage)
+banana
+bread, milka
+metal fork, metal spoon
+bordeaux napkin
+tennent's
+white cup
+salt
+G
+
+[10]
+(peas) (salmon) (steak)
+metal fork, black knife
+white napkin
+tennent's
+salt
+R
+
+[11]
+(cake)
+2 croissant, crackers
+metal spoon
+white napkin
+mug
+oil cruet
+wallet, keys
+G
+
+[12]
+(salmon) (6 carrot)
+orange
+bread, kellogs
+metal fork, red knife, teaspoon
+white napkin
+water, yogurt
+R
+
+[13]
+(egg) (2 sausage, 4 carrot)
+bread
+transparent fork
+red napkin
+coca-cola
+transparent cup
+tissues
+G
+
+[14]
+(steak) (peas)
+peach
+crackers
+metal fork, red knife
+bordeaux napkin
+peach juice 1, thermal bottle
+transparent cup
+wallet
+R
+
+[15]
+(peas) (steak, 2 cauliflower)
+crackers, breadsticks
+transparent fork, black knife, metal spoon
+white napkin
+tennent's, sprite
+tissues
+G
+
+[16]
+(cake, teaspoon) (egg, 4 carrot)
+breadsticks
+transparent fork
+red napkin
+pear juice
+salt, keys, oil cruet
+R with paper
+
+[17]
+(salmon) (2 cauliflower, 5 broccoli)
+orange
+bread, milka
+black fork
+bordeaux napkin
+thermal bottle
+red cup
+wallet, oil cruet
+G
+
+[18]
+(peas, metal spoon)
+orange, red apple
+milka, kellogs
+water, yogurt
+tissues
+R with paper
+
+[19]
+(steak, 2 broccoli) (bread, 7 carrot)
+red apple, green apple
+crackers
+black fork
+bordeaux napkin
+coca-cola zero, thermal bottle
+mug
+G
+
+[20]
+(steak, 3 cauliflower) (peach)
+kellogs
+black fork, black spoon
+red napkin
+sprite, peach juice 1
+tissues, keys
+R with paper
+
+[21]
+(peas, metal spoon) (sausage, 8 carrot) (croissant, bread)
+banana
+metal fork
+red napkin
+pear juice
+salt, oil cruet, tissues
+G with paper
+
+[22]
+(4 sausage, 4 broccoli, 3 carrot)
+bread, crackers
+metal fork, metal spoon, red knife
+white napkin
+thermal bottle, yogurt, mug
+wallet
+R
+
+[23]
+(peas, egg) (3 cauliflower, 6 carrot)
+metal spoon, black fork, teaspoon
+bordeaux napkin
+water, yogurt
+oil cruet, wallet
+G with paper
+
+[24]
+(steak, 2 sausage, 3 cauliflower)
+bread, kellogs
+metal fork, red knife
+red napkin
+water
+salt, keys, tissues
+R
+
+[25]
+(cake, teaspoon) (6 broccoli, 3 cauliflower)
+orange
+black spoon, black fork, black knife
+white napkin
+water
+transparent cup
+salt, tissues, keys
+G
+
+[26]
+(salmon, 5 broccoli)
+green apple
+croissant, breadsticks
+black fork, black knife
+bordeaux napkin
+tissues, salt, oil cruet, keys
+R
+
+[27]
+(steak, egg)
+red apple
+kellogs
+metal fork, red knife
+red napkin
+sprite, thermal bottle
+oil cruet, tissues, wallet
+G
+
+[28]
+(cake, teaspoon) (egg) (3 sausage)
+bread
+metal fork
+red napkin
+tennent's, water
+transparent cup
+R
+
+[29]
+(salmon, 4 carrot)
+peach
+bread, milka, breadsticks
+metal fork, black knife, teaspoon
+white napkin
+peach juice 1, thermal bottle, tennent's
+white cup
+keys
+G
+
+[30]
+(salmon) (8 carrot)
+peach
+metal fork
+red napkin
+thermal bottle, coca-cola
+red cup
+telephone
+R
+
+[31]
+(steak) (salmon)
+bread
+licorice
+black fork, black knife
+white napkin
+thermal bottle
+mug
+wallet
+G
+
+[32]
+(cake) (egg, 8 broccoli)
+red apple
+milka
+metal fork, teaspoon
+bordeaux napkin
+water
+transparent cup
+keys
+R
+
+[33]
+(sausage, 7 carrot) (egg)
+banana
+bread, milka
+metal spoon, metal fork
+bordeaux napkin
+coca-cola zero
+white cup
+salt, keys
+G
+
+[34]
+
+[35]
+(steak, 7 carrot) (4 sausage)
+green apple
+transparent fork, red knife
+red napkin
+coca-cola, coca-cola zero, sprite
+oil cruet, wallet
+G
+
+[37]
+(8 broccoli) (peas)
+2 bread
+licorice
+black fork, black spoon
+white napkin
+sprite, water
+salt
+tissues
+G

@@ -1,21 +1,27 @@
-- docker
-    - cvat
-        - nuclio
-        - CUDA
+docker, cvat, nuclio, CUDA
 
-git clone https://github.com/cvat-ai/cvat && cd cvat
-sudo docker compose up -d
-sudo docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
-cd serverless
-sudo ./deploy_gpy.sh pytorch/facebookresearch/sam/nuclio/
-sudo docker compose down
+cvat installation:
 
-#download nuctl from https://github.com/nuclio/nuclio/releases/tag/1.13.0
-chmod +x nuctl-1.13.0-linux-amd64
-sudo ln -sf dependencies/nuctl-1.13.0-linux-amd64 /usr/local/bin/nuctl
+1.git clone https://github.com/cvat-ai/cvat && cd cvat
+2.update image in 'components/serverless/docker-compose.serverless.yml
+    from 'image: quay.io/nuclio/dashboard:1.13.0-amd64'
+    to   'image: quay.io/nuclio/dashboard:1.15.0-amd64'
 
-#install nvidia docker
+3.to launch cvat for the first time do
+    sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml up -d --build
+4.to create cvat user
+    sudo docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
+5.1.install NVIDIA CUDA and NVIDIA container toolkit 
+    https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installing-the-nvidia-container-toolkit
+5.2.nuctl installation
+    5.2.1.download from https://github.com/nuclio/nuclio/releases/tag/1.13.0
+    5.2.2.make program executable
+        chmod +x nuctl-1.13.0-linux-amd64
+    5.2.3.create soft link for the program
+        sudo ln -sf dependencies/nuctl-1.13.0-linux-amd64 /usr/local/bin/nuctl
+5.3.to add SAM to cvat
+    cd serverless
+    sudo ./deploy_gpu.sh pytorch/facebookresearch/sam/nuclio/
 
-sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml up -d
-sudo ./deploy_gpu.sh pytorch/facebookresearch/sam/nuclio/
-sudo docker compose down
+6.to stop the cvat container run
+    sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml down
