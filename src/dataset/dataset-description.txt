@@ -319,6 +319,11 @@ salt, keys
 G
 
 [34]
+water, yogurt
+transparent cup, red cup, white cup, mug
+wallet, 2 ear buds, 2 lighter, keys, 2 lip balm
+R
+
 
 [35]
 (steak, 7 carrot) (4 sausage)
@@ -328,6 +333,14 @@ red napkin
 coca-cola, coca-cola zero, sprite
 oil cruet, wallet
 G
+
+[36]
+breadsticks, milka, kellogs
+licorice
+water, coca-cola, sprite, thermal bottle, tennent's
+red cup, mug
+keys
+R
 
 [37]
 (8 broccoli) (peas)
@@ -339,3 +352,117 @@ sprite, water
 salt
 tissues
 G
+
+[38]
+breadsticks, crackers, kellogs, milka
+estathe verde, yogurt, tennent's, pear juice
+phone, oil cruet, tissues, keys
+R
+
+[40]
+(cake)
+peach, red apple
+milka
+transparent fork, black knife
+red napkin
+water
+mug
+wallet, lighter
+R
+
+[42]
+(peas) (egg, 3 cauliflower)
+metal fork, black spoon, teaspoon
+white napkin
+yogurt, peach juice 2, coca-cola zero, thermal bottle
+red cup
+phone, keys
+R
+
+[44]
+(6 carrot, 3 cauliflower, steak) (salmon)
+metal fork
+white napkin
+estathe verde
+transparent cup
+phone, lighter, ear buds, lip balm
+R
+
+[46]
+(2 sausage, egg, steak) (6 broccoli, cauliflower)
+bread
+licorice
+black fork, black spoon
+red napkin
+monster
+white cup
+ear buds, lip balm
+R
+
+[48]
+(8 carrot, steak) (croissant)
+orange
+metal fork, red knife
+bordeaux napkin
+gatorade, peach juice 2
+red cup
+salt, lip balm, ear buds
+R
+
+[50]
+breadsticks
+milka, kellogs, crackers
+water, gatorade, tennent's, monster
+mug, transparent cup
+phone, keys, salt, tissues
+R
+
+[52]
+water, yogurt
+mug, red cup, transparent cup, white cup
+wallet, 2 lip balm, 2 lighter, 2 ear buds, keys
+R
+
+[54]
+water, yogurt, pear juice, peach juice 1, peach juice 2
+white cup, red cup, transparent cup
+wallet, 2 lip balm, 2 ear buds, 2 lighter, keys
+R
+
+[56]
+peach juice 1, pear juice, gatorade, tennent's, yogurt
+phone, keys, 2 lip balm, lighter, oil cruet
+R
+
+[58]
+breadsticks
+3 metal spoon
+yogurt
+red cup, white cup
+2 tissues, keys, 2 lighter
+R
+
+[60]
+tennent's, gatorade
+mug
+phone, keys, 2 lip balm, 2 lighter, 2 ear buds, oil cruet
+R
+
+[62]
+2 water, gatorade, estathe verde, monster, tennent's, thermal bottle, coca-cola, coca-cola zero, pear juice, peach juice 1, peach juice 2
+red cup, transparent cup, mug, white cup
+keys, salt, oil cruet
+R
+
+[64]
+breadsticks
+milka, kellogs, crackers
+estathe verde, peach juice 1, peach juice 2, yogurt, tennent's
+oil cruet, keys
+R
+
+[66]
+metal fork, black fork, transparent fork, black knife, red knife, 2 metal spoon, black spoon
+monster, sprite, coca-cola zero, tennent's, estathe verde, gatorade, pear juice, peach juice 1, peach juice 2
+salt
+R

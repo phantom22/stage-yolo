@@ -76,7 +76,7 @@ id2txt = {
     "ks":"keys",
     "ll":"wallet",
     "sh":"salt",
-    "ph":"telephone",
+    "ph":"phone",
     "eb":"ear buds",
     "lg":"lighter",
     "lb":"lip balm",
@@ -207,7 +207,7 @@ __all__ = [
     'id2txt',
     'id2cl',
     'ids',
-    'classes'
+    'classes',
     'dataset',
     'CL_FOOD',
     'CL_SNACK',

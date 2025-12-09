@@ -1,217 +1,169 @@
 [
   {
-    "name": "broccoli",
-    "color": "#1a5132",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "cauliflower",
-    "color": "#bfc293",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "peas",
-    "color": "#99e550",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "carrot",
-    "color": "#d55a31",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "egg",
-    "color": "#d7a278",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "steak",
-    "color": "#7a4f49",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "salmon",
-    "color": "#e67853",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "sausage",
-    "color": "#4c191e",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "apple",
-    "color": "#adce4c",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "orange",
-    "color": "#d7710f",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "banana",
-    "color": "#efe051",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "peach",
-    "color": "#b95c67",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "bread",
-    "color": "#a46843",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "croissant",
-    "color": "#a17747",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "cake",
-    "color": "#a17747",
+    "name": "food",
+    "id": 0,
+    "color": "#f800ff",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "snack",
+    "id": 1,
     "color": "#4d4a79",
     "type": "mask",
     "attributes": []
   },
   {
-    "name": "breadsticks",
-    "color": "#9c8563",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "plastic bottle",
-    "color": "#639bff",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "alluminum can",
-    "color": "#872b2c",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "thermal bottle",
-    "color": "#334559",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "tetrapak",
-    "color": "#273b76",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "glass bottle",
-    "color": "#332824",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "yogurt",
-    "color": "#699fc5",
-    "type": "mask",
-    "attributes": []
-  },
-  {
     "name": "sweets",
-    "color": "#8e786a",
-    "type": "mask",
-    "attributes": []
-  },
-  {
-    "name": "napkin",
-    "color": "#cbdbfc",
+    "id": 2,
+    "color": "#1a5132",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "fork",
+    "id": 3,
     "color": "#39342e",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "spoon",
+    "id": 4,
     "color": "#625a58",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "knife",
-    "color": "#858585",
+    "id": 5,
+    "color": "#847e87",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "napkin",
+    "id": 6,
+    "color": "#aaaaaa",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "plastic bottle",
+    "id": 7,
+    "color": "#273b76",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "alluminum can",
+    "id": 8,
+    "color": "#2f4788",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "thermal bottle",
+    "id": 9,
+    "color": "#365399",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "tetrapak",
+    "id": 10,
+    "color": "#456bbb",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "glass bottle",
+    "id": 11,
+    "color": "#5483dd",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "yogurt",
+    "id": 12,
+    "color": "#6dab66",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "plastic cup",
-    "color": "#d1d7d7",
+    "id": 13,
+    "color": "#5799e6",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "mug",
-    "color": "#ffffff",
+    "id": 14,
+    "color": "#5aafee",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "oil cruet",
-    "color": "#8f974a",
+    "id": 15,
+    "color": "#d20505",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "tissues",
-    "color": "#cc74ce",
+    "id": 16,
+    "color": "#de2d13",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "keys",
-    "color": "#d241d6",
+    "id": 17,
+    "color": "#e4411a",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "wallet",
-    "color": "#825f43",
+    "id": 18,
+    "color": "#e95521",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "salt shaker",
-    "color": "#cc8a2c",
+    "id": 19,
+    "color": "#ec5f25",
     "type": "mask",
     "attributes": []
   },
   {
     "name": "phone",
-    "color": "#222034",
+    "id": 20,
+    "color": "#ef6928",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "ear buds",
+    "id": 21,
+    "color": "#f47d2f",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "lighter",
+    "id": 22,
+    "color": "#fa9136",
+    "type": "mask",
+    "attributes": []
+  },
+  {
+    "name": "lip balm",
+    "id": 23,
+    "color": "#ffa43c",
     "type": "mask",
     "attributes": []
   }
