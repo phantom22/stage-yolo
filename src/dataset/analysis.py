@@ -70,8 +70,8 @@ def raw_pca(dataset_label, dataset_as_rows, column_ids, column_ids2labels):
             customdata=pca_df[['photo_occurrence_count', 'instance_count']],
             hovertemplate=(
                 "<b>Label:</b> %{text}<br>"
-                "<b>Instance Count:</b> %{customdata[0]:,}<br>"
-                "<b>Photo Occurrence:</b> %{customdata[1]:,}<br>"
+                "<b>Photo Occurrence:</b> %{customdata[0]:,}<br>"
+                "<b>Instance Count:</b> %{customdata[1]:,}<br>"
                 "<extra></extra>"
             ),
             marker=dict(
