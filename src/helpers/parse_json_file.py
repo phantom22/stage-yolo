@@ -1,8 +1,12 @@
 import json
+import os
 
-def parse_json_file(filepath):
+def parse_json_file(from_file,filepath):
+    from_dir = os.path.dirname(from_file)
+    json_path = os.path.join(from_dir, filepath)
+
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(json_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"File not found: {filepath}")
