@@ -1,5 +1,6 @@
 from helpers import parse_json_file
-from .analysis import raw_pca
+from .log.dataset_manifest import DatasetManifest
+import pandas as pd
 
 var2txt = {"br":"broccoli","cf":"cauliflower","ps":"peas","ct":"carrot","eg":"egg","st":"steak","sn":"salmon","sg":"sausage","ra":"red apple","ga":"green apple","og":"orange","bn":"banana","pc":"peach","bd":"bread","cr":"croissant","ck":"cake","cc":"crackers","ml":"milka","kg":"kellogs","bt":"breadsticks","lc":"licorice","mf":"metal fork","bf":"black fork","tf":"transparent fork","ms":"metal spoon","bs":"black spoon","ts":"teaspoon","bk":"black knife","rk":"red knife","wn":"white napkin","xn":"bordeaux napkin","rn":"red napkin","wt":"water","ga":"gatorade","hv":"estathe verde","cl":"coca-cola","cz":"coca-cola zero","mr":"monster","sp":"sprite","rz":"red thermal bottle","lz":"blue thermal bottle","bz":"brown thermal bottle","az":"black thermal bottle","dz":"dark thermal bottle","gz":"green thermal bottle","pj":"pear juice","j1":"peach juice 1","j2":"peach juice 2","nn":"tennent's","yt":"yogurt","wc":"white cup","rc":"red cup","tc":"transparent cup","sc":"small cup","mg":"mug","oc":"oil cruet","ss":"tissues","ks":"keys","ll":"wallet","sh":"salt","ph":"phone","eb":"ear buds","lg":"lighter","lb":"lip balm","r":"red tray","g":"gray tray","p":"parchment paper"}
 variables = sorted(var2txt)
@@ -37,16 +38,16 @@ classid2class = {value: key for key, value in class2classid.items()}
 
 var2classid = {"br":CL_FOOD,"cf":CL_FOOD,"ps":CL_FOOD,"ct":CL_FOOD,"eg":CL_FOOD,"st":CL_FOOD,"sn":CL_FOOD,"sg":CL_FOOD,"ra":CL_FOOD,"ga":CL_FOOD,"og":CL_FOOD,"bn":CL_FOOD,"pc":CL_FOOD,"bd":CL_FOOD,"cr":CL_FOOD,"ck":CL_FOOD,"cc":CL_SNACK,"ml":CL_SNACK,"kg":CL_SNACK,"bt":CL_SNACK,"lc":CL_SWEETS,"mf":CL_FORK,"bf":CL_FORK,"tf":CL_FORK,"ms":CL_SPOON,"bs":CL_SPOON,"ts":CL_SPOON,"bk":CL_KNIFE,"rk":CL_KNIFE,"wn":CL_NAPKIN,"xn":CL_NAPKIN,"rn":CL_NAPKIN,"wt":CL_PLASTIC_BOTTLE,"ga":CL_PLASTIC_BOTTLE,"hv":CL_PLASTIC_BOTTLE,"cl":CL_ALLUMINUM_CAN,"cz":CL_ALLUMINUM_CAN,"mr":CL_ALLUMINUM_CAN,"sp":CL_ALLUMINUM_CAN,"rz":CL_THERMAL_BOTTLE,"lz":CL_THERMAL_BOTTLE,"bz":CL_THERMAL_BOTTLE,"az":CL_THERMAL_BOTTLE,"dz":CL_THERMAL_BOTTLE,"gz":CL_THERMAL_BOTTLE,"pj":CL_TETRAPAK,"j1":CL_TETRAPAK,"j2":CL_TETRAPAK,"nn":CL_GLASS_BOTTLE,"yt":CL_YOGURT,"wc":CL_PLASTIC_CUP,"rc":CL_PLASTIC_CUP,"tc":CL_PLASTIC_CUP,"sc":CL_PLASTIC_CUP,"mg":CL_MUG,"oc":CL_OIL_CRUET,"ss":CL_TISSUES,"ks":CL_KEYS,"ll":CL_WALLET,"sh":CL_SALT_SHAKER,"ph":CL_PHONE,"eb":CL_EARBUDS,"lg":CL_LIGHTER,"lb":CL_LIP_BALM,"r":None,"g":None,"p":None}
 
-_detailed_dataset = parse_json_file(__file__, "log/content-log.json")
-vec_detailed_dataset = []
+obj_ann_man = parse_json_file(__file__, "log/annotation_manifest.json")
+vec_detailed_man = []
 
-dataset = []
-vec_dataset = []
+man = []
+vec_man = []
 
-for i in _detailed_dataset:
+for i in obj_ann_man:
     remapped_entry = {}
     full_remapped = {}
-    entry = _detailed_dataset[i]
+    entry = obj_ann_man[i]
     full_entry = {}
     for var in variables:
         clid = var2classid[var]
@@ -74,12 +75,15 @@ for i in _detailed_dataset:
         remapped_entry[cl] += entry[var]
         full_remapped[cl] = remapped_entry[cl]
 
-    vec_detailed_dataset.append(full_entry)
-    dataset.append(remapped_entry)
-    vec_dataset.append(full_remapped)
+    vec_detailed_man.append(full_entry)
+    man.append(remapped_entry)
+    vec_man.append(full_remapped)
 
 
-detailed_dataset = [_detailed_dataset.get(str(i)) for i in range(len(_detailed_dataset))]    
+detailed_man = [obj_ann_man.get(str(i)) for i in range(len(obj_ann_man))]
+
+detailed_dataset_manifest = DatasetManifest("annotation_manifest", detailed_man, vec_detailed_man, variables, var2txt)
+dataset_manifest = DatasetManifest("stripped_annotation_manifest", man, vec_man, classes, class2txt)
 
 __all__ = [
     'var2txt',
@@ -89,10 +93,10 @@ __all__ = [
     'classid2class',
     'var2classid',
     'variables',
-    'detailed_dataset',
-    'vec_detailed_dataset',
-    'dataset',
-    'vec_dataset',
+
+    'detailed_dataset_manifest',
+    'dataset_manifest',
+
     'CL_FOOD',
     'CL_SNACK',
     'CL_SWEETS',
@@ -116,6 +120,5 @@ __all__ = [
     'CL_PHONE',
     'CL_EARBUDS',
     'CL_LIGHTER',
-    'CL_LIP_BALM',
-    'raw_pca'
+    'CL_LIP_BALM'
 ]

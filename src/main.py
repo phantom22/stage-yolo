@@ -1,4 +1,6 @@
 from dataset import *
 
-raw_pca("detailed-content-log.json", vec_detailed_dataset, variables, var2txt)
-raw_pca("content-log.json", vec_dataset, classes, class2txt)
+# detailed_dataset_manifest.visualize_2D_PCA()
+# dataset_manifest.visualize_2D_PCA()
+
+detailed_dataset_manifest.visualize_CCM(None)

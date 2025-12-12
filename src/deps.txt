@@ -1,9 +1,12 @@
 | ubuntu          | fedora               |
 |-----------------+----------------------|
-| python3-plotly  | python3-plotly       |
+|          python3-matplotlib            |
+|          python3-plotly                |
+|          python3-pandas                |
+|          python3-seaborn               |
 | python3-sklearn | python3-scikit-learn |
-| python3-pandas  | python3-pandas       |
+|          for datumaro: 1*              |
 
-datumaro: /usr/bin/python3.13 -m pip install datumaro
+1*: /usr/bin/python3.13 -m pip install datumaro
 
 /usr/bin/python3.13 src/main.py
