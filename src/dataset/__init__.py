@@ -37,7 +37,7 @@ classid2class = {value: key for key, value in class2classid.items()}
 
 var2classid = {"br":CL_FOOD,"cf":CL_FOOD,"ps":CL_FOOD,"ct":CL_FOOD,"eg":CL_FOOD,"st":CL_FOOD,"sn":CL_FOOD,"sg":CL_FOOD,"ra":CL_FOOD,"ga":CL_FOOD,"og":CL_FOOD,"bn":CL_FOOD,"pc":CL_FOOD,"bd":CL_FOOD,"cr":CL_FOOD,"ck":CL_FOOD,"cc":CL_SNACK,"ml":CL_SNACK,"kg":CL_SNACK,"bt":CL_SNACK,"lc":CL_SWEETS,"mf":CL_FORK,"bf":CL_FORK,"tf":CL_FORK,"ms":CL_SPOON,"bs":CL_SPOON,"ts":CL_SPOON,"bk":CL_KNIFE,"rk":CL_KNIFE,"wn":CL_NAPKIN,"xn":CL_NAPKIN,"rn":CL_NAPKIN,"wt":CL_PLASTIC_BOTTLE,"ga":CL_PLASTIC_BOTTLE,"hv":CL_PLASTIC_BOTTLE,"cl":CL_ALLUMINUM_CAN,"cz":CL_ALLUMINUM_CAN,"mr":CL_ALLUMINUM_CAN,"sp":CL_ALLUMINUM_CAN,"rz":CL_THERMAL_BOTTLE,"lz":CL_THERMAL_BOTTLE,"bz":CL_THERMAL_BOTTLE,"az":CL_THERMAL_BOTTLE,"dz":CL_THERMAL_BOTTLE,"gz":CL_THERMAL_BOTTLE,"pj":CL_TETRAPAK,"j1":CL_TETRAPAK,"j2":CL_TETRAPAK,"nn":CL_GLASS_BOTTLE,"yt":CL_YOGURT,"wc":CL_PLASTIC_CUP,"rc":CL_PLASTIC_CUP,"tc":CL_PLASTIC_CUP,"sc":CL_PLASTIC_CUP,"mg":CL_MUG,"oc":CL_OIL_CRUET,"ss":CL_TISSUES,"ks":CL_KEYS,"ll":CL_WALLET,"sh":CL_SALT_SHAKER,"ph":CL_PHONE,"eb":CL_EARBUDS,"lg":CL_LIGHTER,"lb":CL_LIP_BALM,"r":None,"g":None,"p":None}
 
-_detailed_dataset = parse_json_file(__file__, "descriptors/detailed-dataset.json")
+_detailed_dataset = parse_json_file(__file__, "log/content-log.json")
 vec_detailed_dataset = []
 
 dataset = []

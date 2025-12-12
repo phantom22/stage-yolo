@@ -1,0 +1,741 @@
+[0]
+(3 broccoli, steak) (3 carrot, 2 sausage) (egg, bread)
+banana, red apple
+metal fork
+bordeaux napkin
+water
+transparent cup
+R
+
+[1]
+(salmon, bread) (peas)
+peach, orange
+croissant
+black fork, black knife
+coca-cola
+tissues
+G
+
+[2]
+(green apple) (3 cauliflower, bread) (3 carrot, steak)
+crackers
+transparent fork
+red napkin
+coca-cola zero
+R
+
+[3]
+(cake) (3 sausage, 4 broccoli)
+bread
+metal fork, metal spoon
+white napkin
+sprite, water
+keys
+G with paper
+
+[4]
+(8 carrot) (3 cauliflower, 4 broccoli) (peas)
+2 orange
+crackers, milka
+black fork, black spoon
+salt
+R
+
+[5]
+(egg, 2 sausage)
+green apple, orange
+2 bread, croissant
+2 metal spoon, metal fork
+water
+transparent cup
+mug
+G
+
+[6]
+(cake, croissant) (broccoli, cauliflower, egg, metal fork)
+banana
+coca-cola, water
+keys, tissues
+R
+
+[7]
+(salmon) (2 cauliflower, 3 carrot)
+red apple, peach
+breadsticks
+transparent fork, black knife
+red napkin
+coca-cola
+red cup
+G
+
+[8]
+(4 sausage) (2 bread)
+black spoon, black fork, black knife
+white napkin
+coca-cola, sprite
+keys, oil cruet, tissues
+R
+
+[9]
+(steak, 2 sausage)
+banana
+bread, milka
+metal fork, metal spoon
+bordeaux napkin
+tennent's
+white cup
+salt
+G
+
+[10]
+(peas) (salmon) (steak)
+metal fork, black knife
+white napkin
+tennent's
+salt
+R
+
+[11]
+(cake)
+2 croissant, crackers
+metal spoon
+white napkin
+mug
+oil cruet
+wallet, keys
+G
+
+[12]
+(salmon) (6 carrot)
+orange
+bread, kellogs
+metal fork, red knife, teaspoon
+white napkin
+water, yogurt
+R
+
+[13]
+(egg) (2 sausage, 4 carrot)
+bread
+transparent fork
+red napkin
+coca-cola
+transparent cup
+tissues
+G
+
+[14]
+(steak) (peas)
+peach
+crackers
+metal fork, red knife
+bordeaux napkin
+peach juice 1, thermal bottle
+transparent cup
+wallet
+R
+
+[15]
+(peas) (steak, 2 cauliflower)
+crackers, breadsticks
+transparent fork, black knife, metal spoon
+white napkin
+tennent's, sprite
+tissues
+G
+
+[16]
+(cake, teaspoon) (egg, 4 carrot)
+breadsticks
+transparent fork
+red napkin
+pear juice
+salt, keys, oil cruet
+R with paper
+
+[17]
+(salmon) (2 cauliflower, 5 broccoli)
+orange
+bread, milka
+black fork
+bordeaux napkin
+thermal bottle
+red cup
+wallet, oil cruet
+G
+
+[18]
+(peas, metal spoon)
+orange, red apple
+milka, kellogs
+water, yogurt
+tissues
+R with paper
+
+[19]
+(steak, 2 broccoli) (bread, 7 carrot)
+red apple, green apple
+crackers
+black fork
+bordeaux napkin
+coca-cola zero, thermal bottle
+mug
+G
+
+[20]
+(steak, 3 cauliflower) (peach)
+kellogs
+black fork, black spoon
+red napkin
+sprite, peach juice 1
+tissues, keys
+R with paper
+
+[21]
+(peas, metal spoon) (sausage, 8 carrot) (croissant, bread)
+banana
+metal fork
+red napkin
+pear juice
+salt, oil cruet, tissues
+G with paper
+
+[22]
+(4 sausage, 4 broccoli, 3 carrot)
+bread, crackers
+metal fork, metal spoon, red knife
+white napkin
+thermal bottle, yogurt, mug
+wallet
+R
+
+[23]
+(peas, egg) (3 cauliflower, 6 carrot)
+metal spoon, black fork, teaspoon
+bordeaux napkin
+water, yogurt
+oil cruet, wallet
+G with paper
+
+[24]
+(steak, 2 sausage, 3 cauliflower)
+bread, kellogs
+metal fork, red knife
+red napkin
+water
+salt, keys, tissues
+R
+
+[25]
+(cake, teaspoon) (6 broccoli, 3 cauliflower)
+orange
+black spoon, black fork, black knife
+white napkin
+water
+transparent cup
+salt, tissues, keys
+G
+
+[26]
+(salmon, 5 broccoli)
+green apple
+croissant, breadsticks
+black fork, black knife
+bordeaux napkin
+tissues, salt, oil cruet, keys
+R
+
+[27]
+(steak, egg)
+red apple
+kellogs
+metal fork, red knife
+red napkin
+sprite, thermal bottle
+oil cruet, tissues, wallet
+G
+
+[28]
+(cake, teaspoon) (egg) (3 sausage)
+bread
+metal fork
+red napkin
+tennent's, water
+transparent cup
+R
+
+[29]
+(salmon, 4 carrot)
+peach
+bread, milka, breadsticks
+metal fork, black knife, teaspoon
+white napkin
+peach juice 1, thermal bottle, tennent's
+white cup
+keys
+G
+
+[30]
+(salmon) (8 carrot)
+peach
+metal fork
+red napkin
+thermal bottle, coca-cola
+red cup
+telephone
+R
+
+[31]
+(steak) (salmon)
+bread
+licorice
+black fork, black knife
+white napkin
+thermal bottle
+mug
+wallet
+G
+
+[32]
+(cake) (egg, 8 broccoli)
+red apple
+milka
+metal fork, teaspoon
+bordeaux napkin
+water
+transparent cup
+keys
+R
+
+[33]
+(sausage, 7 carrot) (egg)
+banana
+bread, milka
+metal spoon, metal fork
+bordeaux napkin
+coca-cola zero
+white cup
+salt, keys
+G
+
+[34]
+water, yogurt
+transparent cup, red cup, white cup, mug
+wallet, 2 ear buds, 2 lighter, keys, 2 lip balm
+R
+
+
+[35]
+(steak, 7 carrot) (4 sausage)
+green apple
+transparent fork, red knife
+red napkin
+coca-cola, coca-cola zero, sprite
+oil cruet, wallet
+G
+
+[36]
+breadsticks, milka, kellogs
+licorice
+water, coca-cola, sprite, thermal bottle, tennent's
+red cup, mug
+keys
+R
+
+[37]
+(8 broccoli) (peas)
+2 bread
+licorice
+black fork, black spoon
+white napkin
+sprite, water
+salt
+tissues
+G
+
+[38]
+breadsticks, crackers, kellogs, milka
+estathe verde, yogurt, tennent's, pear juice
+phone, oil cruet, tissues, keys
+R
+
+[!39=1111]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[40]
+(cake)
+peach, red apple
+milka
+transparent fork, black knife
+red napkin
+water
+mug
+wallet, lighter
+R
+
+[!41=1001]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[42]
+(peas) (egg, 3 cauliflower)
+metal fork, black spoon, teaspoon
+white napkin
+yogurt, peach juice 2, coca-cola zero, thermal bottle
+red cup
+phone, keys
+R
+
+[!43=1063]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[44]
+(6 carrot, 3 cauliflower, steak) (salmon)
+metal fork
+white napkin
+estathe verde
+transparent cup
+phone, lighter, ear buds, lip balm
+R
+
+[!45=1007]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[46]
+(2 sausage, egg, steak) (6 broccoli, cauliflower)
+bread
+licorice
+black fork, black spoon
+red napkin
+monster
+white cup
+ear buds, lip balm
+R
+
+[!47=1247]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[48]
+(8 carrot, steak) (croissant)
+orange
+metal fork, red knife
+bordeaux napkin
+gatorade, peach juice 2
+red cup
+salt, lip balm, ear buds
+R
+
+[!49=1069]
+3 metal fork, transparent fork, black fork, 3 metal spoon, black spoon, teaspoon, black knife, red knife
+white napkin, red napkin, bordeaux napkin
+G
+
+[50]
+breadsticks
+milka, kellogs, crackers
+water, gatorade, tennent's, monster
+mug, transparent cup
+phone, keys, salt, tissues
+R
+
+[!51=1116]
+red thermal bottle, brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[52]
+water, yogurt
+mug, red cup, transparent cup, white cup
+wallet, 2 lip balm, 2 lighter, 2 ear buds, keys
+R
+
+[!53=1064]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[54]
+water, yogurt, pear juice, peach juice 1, peach juice 2
+white cup, red cup, transparent cup
+wallet, 2 lip balm, 2 ear buds, 2 lighter, keys
+R
+
+[!55=0101]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[56]
+peach juice 1, pear juice, gatorade, tennent's, yogurt
+phone, keys, 2 lip balm, lighter, oil cruet
+R
+
+[!57=1065]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[58]
+breadsticks
+3 metal spoon
+yogurt
+red cup, white cup
+2 tissues, keys, 2 lighter
+R
+
+[!59=1249]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[60]
+tennent's, gatorade
+mug
+phone, keys, 2 lip balm, 2 lighter, 2 ear buds, oil cruet
+R
+
+[!61=1207]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[62]
+2 water, gatorade, estathe verde, monster, tennent's, thermal bottle, coca-cola, coca-cola zero, pear juice, peach juice 1, peach juice 2
+red cup, transparent cup, mug, white cup
+keys, salt, oil cruet
+R
+
+[!63=1022]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[64]
+breadsticks
+milka, kellogs, crackers
+estathe verde, peach juice 1, peach juice 2, yogurt, tennent's
+oil cruet, keys
+R
+
+[!65=1021]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[66]
+metal fork, black fork, transparent fork, black knife, red knife, 2 metal spoon, black spoon
+monster, sprite, coca-cola zero, tennent's, estathe verde, gatorade, pear juice, peach juice 1, peach juice 2
+salt
+R
+
+[!67=1028]
+brown thermal bottle, dark thermal bottle, blue thermal bottle, black thermal bottle, green thermal bottle
+white napkin, red napkin, bordeaux napkin
+G
+
+[!68=1027]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!69=1025]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!70=1026]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!71=1024]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!72=1115]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!73=1023]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!74=1201]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!75=1029]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!76=1118]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!77=1030]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!78=1225]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!79=1057]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!80=1143]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!81=1234]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!82=1121]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!83=1062]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!84=1054]
+3 water, gatorade, estathe verde, pear juice, peach juice 1, peach juice 2
+white napkin, red napkin, bordeaux napkin
+R
+
+[!85=1010]
+monster, coca-cola, coca-cola zero, sprite, tennent's, yogurt
+white napkin, red napkin, bordeaux napkin
+G with paper
+
+[!86=1244]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!87=1113]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!88=1112]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!89=1213]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!90=1068]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!91=1212]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!92=1123]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!93=1239]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!94=1226]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!95=1217]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!96=1202]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!97=1005]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!98=1130]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!99=1106]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[!100=1052]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[!101=1103]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G
+
+[102=1248]
+kellogs, milka, crackers
+white cup, red cup, transparent cup, small cup, mug
+white napkin, red napkin, bordeaux napkin
+R with paper
+
+[103=1238]
+licorice
+oil cruet, 2 tissues, salt, phone, 2 ear buds, 2 lighter, 3 lip balm
+white napkin, red napkin, bordeaux napkin
+G

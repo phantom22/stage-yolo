@@ -4,4 +4,6 @@
 | python3-sklearn | python3-scikit-learn |
 | python3-pandas  | python3-pandas       |
 
+datumaro: /usr/bin/python3.13 -m pip install datumaro
+
 /usr/bin/python3.13 src/main.py

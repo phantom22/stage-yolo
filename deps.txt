@@ -1,4 +1,4 @@
-docker, cvat, nuclio, CUDA
+docker, cvat, nuclio, CUDA, (datumaro for merging CVAT tasks)
 
 cvat installation:
 
