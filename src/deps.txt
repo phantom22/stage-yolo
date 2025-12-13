@@ -6,6 +6,7 @@
 |          python3-seaborn               |
 | python3-sklearn | python3-scikit-learn |
 |          for datumaro: 1*              |
+|          python3-mplcursors            |
 
 1*: /usr/bin/python3.13 -m pip install datumaro
 
