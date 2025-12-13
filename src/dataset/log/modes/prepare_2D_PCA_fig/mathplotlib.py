@@ -49,6 +49,9 @@ def fig(fig_title, pca_df, pc_data_list, show):
             alpha=0.7
         )
 
+        axes[i, j].grid(True, linestyle='-', color='gray', linewidth=1, alpha=0.3)
+        #axes[i, j].set_aspect('equal', adjustable='datalim')
+
         ymin, ymax, xmin, xmax = pc2.min(), pc2.max(), pc1.min(), pc1.max(),
         y_range = ymax - ymin
         x_range = xmax - xmin
@@ -69,7 +72,6 @@ def fig(fig_title, pca_df, pc_data_list, show):
             # Convert marker diameter from points to inches, then to data units
             # Marker size (s) is area in points^2, so radius is sqrt(s)/2
             marker_radius_points = np.sqrt(marker_size) / 2
-            marker_radius_inches = marker_radius_points / 72.0
             
             # Convert inches to data units (this is approximate)
             # Get the data-to-display transform

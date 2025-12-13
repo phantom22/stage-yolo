@@ -49,6 +49,40 @@ def fig(fig_title, pca_df, pc_data_list, show):
             ),
             showlegend=False
         )
+
+        fig.update_xaxes(
+            row=row, col=col,
+            ticks="outside",
+            ticklen=5,
+            tickwidth=1,
+            showgrid=True,
+            gridcolor="lightgray",
+            zeroline=True,
+            zerolinecolor='lightgray',
+            zerolinewidth=1,
+            title_text="",
+            showline=True,  # Make the axis line visible
+            linecolor='black',
+            linewidth=1,
+            mirror=True
+        )
+
+        fig.update_yaxes(
+            row=row, col=col,
+            ticks="outside",
+            ticklen=5,
+            tickwidth=1,
+            showgrid=True,
+            gridcolor="lightgray",
+            zeroline=True,
+            zerolinecolor='lightgray',
+            zerolinewidth=1,
+            title_text="",
+            showline=True,
+            linecolor='black',
+            linewidth=1,
+            mirror=True
+        )
         
         fig.add_trace(trace, row=row, col=col)
 
@@ -62,12 +96,9 @@ def fig(fig_title, pca_df, pc_data_list, show):
         title_xanchor="center",
         title_yanchor="top",
         showlegend=False,
-        margin=dict(l=0, r=0, t=80, b=80)
+        margin=dict(l=0, r=0, t=80, b=80),
+        plot_bgcolor="white"
     )
-
-    # Remove axis tooltips
-    fig.update_xaxes(title_text="")
-    fig.update_yaxes(title_text="")
 
     # Update subplot title style
     fig.update_annotations(
