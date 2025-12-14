@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import mplcursors
 import numpy as np
 
-def fig(fig_title, pca_df, pc_data_list, show):
+def prepare_2D_PCA_matplotlib_fig(fig_title, pca_df, pc_data_list, show):
     fig, axes = plt.subplots(2, 2, figsize=(12, 10),
                             constrained_layout=True,
                             gridspec_kw={

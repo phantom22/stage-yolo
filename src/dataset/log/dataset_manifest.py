@@ -1,9 +1,7 @@
 import pandas as pd
 from sklearn.decomposition import PCA
 
-from .modes.prepare_2D_PCA_fig.plotly import fig as prepare_2D_PCA_plotly_fig
-from .modes.prepare_2D_PCA_fig.mathplotlib import fig as prepare_2D_PCA_mathplotlib_fig
-from .modes.prepare_CCM_figs.mathplotlib import fig as prepare_CCM_mathplotlib_figs
+from .backends import *
 
 class DatasetManifest:
     def __init__(self, name, og, vec, column_ids, column_ids2labels):
@@ -50,16 +48,16 @@ class DatasetManifest:
             ('Co-Presence', c_co_presence[:, 0], c_co_presence[:, 1])
         ]
 
-        mode = kw.get("mode","plotly")
+        lib = kw.get("lib","plotly")
         show = kw.get("show",True)
 
-        match mode:
+        match lib:
             case "plotly":
                 fig = prepare_2D_PCA_plotly_fig(self.name, pca_df, pc_data_list, show)
-            case "mathplotlib":
+            case "matplotlib":
                 fig = prepare_2D_PCA_mathplotlib_fig(self.name, pca_df, pc_data_list, show)
             case _:
-                raise Exception(f"prepare_2D_PCA_fig: 'plotly' and 'mathplotlib' are the only supported modes. got '{mode}'.")
+                raise Exception(f"prepare_2D_PCA_fig: 'plotly' and 'matplotlib' are the only supported modes. got lib='{lib}'.")
 
         max_photo_occurrence_row = pca_df.loc[pca_df['photo_occurrence_count'].idxmax()]
         min_photo_occurrence_row = pca_df.loc[pca_df['photo_occurrence_count'].idxmin()]
@@ -84,14 +82,24 @@ class DatasetManifest:
             columns=self.column_ids2labels
         )
         
-        mode = kw.get("mode", "mathplotlib")
+        lib = kw.get("lib", "matplotlib")
+        mode = kw.get("mode", "heatmap")
         show = kw.get("show", True)
         show_values = kw.get("show_values", False)
         fmt = kw.get("fmt", "1.f")
 
-
-        match mode:
-            case "mathplotlib":
-                return prepare_CCM_mathplotlib_figs(ccm_renamed, ccm_bin_renamed, show_values, fmt, show)
+        match lib:
+            case "matplotlib":
+                match mode:
+                    case "heatmap":
+                        return prepare_CCM_matplotlib_heatmap_figs(ccm_renamed, ccm_bin_renamed, show_values, fmt, show)
+                    case _:
+                        raise Exception(f"prepare_CCM_figs: lib='matplotlib': 'heatmap' is the only suppported mode. got mode='{mode}'")
+            case "plotly":
+                match mode:
+                    case "heatmap":
+                        return prepare_CCM_plotly_heatmap_figs(ccm_renamed, ccm_bin_renamed, show_values, fmt, show)
+                    case _:
+                        raise Exception(f"prepare_CCM_figs: lib='plotly': 'heatmap' is the only suppported mode. got mode='{mode}'")
             case _:
-                raise Exception(f"prepare_CCM_figs: 'mathplotlib' is the only supported mode. got '{mode}'.")
+                raise Exception(f"prepare_CCM_figs: 'plotly' and 'matplotlib' are the only supported libs. got lib='{lib}'.")

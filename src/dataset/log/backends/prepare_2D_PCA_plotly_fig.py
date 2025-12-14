@@ -2,16 +2,16 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
-def fig(fig_title, pca_df, pc_data_list, show):
+def prepare_2D_PCA_plotly_fig(fig_title, pca_df, pc_data_list, show):
     
     # Create a 2x2 grid of subplots
     fig = make_subplots(
         rows=2, cols=2,
         subplot_titles=(
-            f'Instance counts',
-            f'Photo Occurrence',
-            f'Co-Intensity',
-            f'Co-Presence'
+            'Instance counts',
+            'Photo Occurrence',
+            'Co-Intensity',
+            'Co-Presence'
         ),
         horizontal_spacing=0.025,
         vertical_spacing=0.075

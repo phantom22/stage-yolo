@@ -1,7 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def fig(ccm, ccm_bin, show_values, fmt, show):
+def prepare_CCM_matplotlib_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
     fig1 = plt.figure(figsize=(12, 10))
     sns.heatmap(ccm, 
                 annot=show_values,  # Don't show values in cells
