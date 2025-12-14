@@ -82,8 +82,25 @@ for i in obj_ann_man:
 
 detailed_man = [obj_ann_man.get(str(i)) for i in range(len(obj_ann_man))]
 
-detailed_dataset_manifest = DatasetManifest("annotation_manifest", detailed_man, vec_detailed_man, variables, var2txt)
-dataset_manifest = DatasetManifest("stripped_annotation_manifest", man, vec_man, classes, class2txt)
+detailed_dataset_column_ids = variables
+dataset_column_ids = classes
+
+def get_detailed_dataset_manifest(**kw):
+    return DatasetManifest("annotation_manifest", detailed_man, vec_detailed_man, variables, var2txt, **kw)
+
+def get_dataset_manifest(**kw):
+    return DatasetManifest("stripped_annotation_manifest", man, vec_man, classes, class2txt, **kw)
+
+
+dd_df = pd.DataFrame(vec_detailed_man, columns=variables)
+dd_bin_df = dd_df.map(lambda x: 1 if x > 0 else 0)
+detailed_dataset_instance_counts = dd_df.sum(axis=0)
+detailed_dataset_occurrence_counts = dd_bin_df.sum(axis=0)
+
+d_df = pd.DataFrame(man, columns=classes)
+d_bin_df = d_df.map(lambda x: 1 if x > 0 else 0)
+dataset_instance_counts = d_df.sum(axis=0)
+dataset_occurrence_counts = d_bin_df.sum(axis=0)
 
 __all__ = [
     'var2txt',
@@ -94,8 +111,16 @@ __all__ = [
     'var2classid',
     'variables',
 
-    'detailed_dataset_manifest',
-    'dataset_manifest',
+    'detailed_dataset_column_ids',
+    'dataset_column_ids',
+
+    'detailed_dataset_instance_counts',
+    'detailed_dataset_occurrence_counts',
+    'dataset_instance_counts',
+    'dataset_occurrence_counts',
+
+    'get_detailed_dataset_manifest',
+    'get_dataset_manifest',
 
     'CL_FOOD',
     'CL_SNACK',

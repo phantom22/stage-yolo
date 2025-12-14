@@ -21,7 +21,7 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
     fig1.update_xaxes(
         tickfont=dict(size=20),
         tickangle=-90,
-        ticktext=ccm.columns.tolist(),
+        ticktext=ccm.columns,
         ticks="outside",
         ticklen=5,
         tickwidth=1,
@@ -31,7 +31,7 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
 
     fig1.update_yaxes(
         tickfont=dict(size=20),
-        ticktext=ccm.columns.tolist(),
+        ticktext=ccm.columns,
         ticks="outside",
         ticklen=5,
         tickwidth=1,
@@ -59,7 +59,7 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
     fig2.update_xaxes(
         tickfont=dict(size=20),
         tickangle=-90,
-        ticktext=ccm.columns.tolist(),
+        ticktext=ccm.columns,
         ticks="outside",
         ticklen=5,
         tickwidth=1,
@@ -69,7 +69,7 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
 
     fig2.update_yaxes(
         tickfont=dict(size=20),
-        ticktext=ccm.columns.tolist(),
+        ticktext=ccm.columns,
         ticks="outside",
         ticklen=5,
         tickwidth=1,

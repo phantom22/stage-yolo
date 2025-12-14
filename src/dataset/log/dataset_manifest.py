@@ -4,14 +4,33 @@ from sklearn.decomposition import PCA
 from .backends import *
 
 class DatasetManifest:
-    def __init__(self, name, og, vec, column_ids, column_ids2labels):
+    def __init__(self, name, og, vec, column_ids, column_ids2labels, **kw):
+        drop = kw.get("drop")
+        
         self.name = name.upper()
         self.og = og
-        self.vec = vec
-        self.column_ids = column_ids
-        self.column_ids2labels = column_ids2labels 
 
-        raw = pd.DataFrame(vec, columns=column_ids)
+        if drop is None:
+            _vec = vec
+            _column_ids = column_ids
+            _column_ids2labels = column_ids2labels
+            self.dropped = []
+        else:
+            drop_set = set(drop)
+            _vec = [
+                {k: v for k, v in row.items() if k not in drop_set} 
+                for row in vec
+            ]
+            _column_ids = [col_id for col_id in column_ids if col_id not in drop_set]
+            _column_ids2labels = {k: v for k, v in column_ids2labels.items() if k not in drop_set}
+            self.dropped = [column_ids2labels[col_id] for col_id in drop if col_id in column_ids2labels]
+        
+        self.vec = _vec
+        self.column_ids = _column_ids
+        self.column_ids2labels = _column_ids2labels 
+
+        raw = pd.DataFrame(_vec, columns=_column_ids)
+
         raw_bin = raw.map(lambda x: 1 if x > 0 else 0)
 
         self.raw = raw.T

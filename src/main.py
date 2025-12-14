@@ -1,8 +1,10 @@
 from dataset import *
 
-#dataset_manifest.prepare_2D_PCA_fig(mode="plotly")
-#dataset_manifest.prepare_2D_PCA_fig(mode="mathplotlib")
-#dataset_manifest.prepare_2D_PCA_fig()
+detailed_dataset_manifest = get_detailed_dataset_manifest(drop=detailed_dataset_instance_counts.nlargest(5).index.tolist())
+print(detailed_dataset_manifest.dropped)
+detailed_dataset_manifest.prepare_CCM_figs(lib="plotly")
 
-dataset_manifest.prepare_CCM_figs(lib="plotly",mode="interactive heatmap")
-# dataset_manifest.prepare_CCM_figs(lib="matplotlib")
+
+dataset_manifest = get_dataset_manifest(drop=dataset_instance_counts.nlargest(5).index.tolist())
+print(dataset_manifest.dropped)
+dataset_manifest.prepare_CCM_figs(lib="plotly")
