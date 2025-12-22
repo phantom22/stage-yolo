@@ -3,47 +3,40 @@ from sklearn.decomposition import PCA
 
 from .backends import *
 
-class DatasetManifest:
-    def __init__(self, name, og, vec, column_ids, column_ids2labels, **kw):
-        drop = kw.get("drop")
-        
-        self.name = name.upper()
-        self.og = og
+pca = PCA(n_components=2)
 
+class DatasetManifest:
+    def __init__(self, name, df, df_bin, ccm, ccm_bin, 
+                instance_counts, photo_occurrence_counts,
+                column_ids, column_ids2labels, **kw):
+        self.name = name.upper()
+
+        drop = kw.get("drop")
         if drop is None:
-            _vec = vec
-            _column_ids = column_ids
-            _column_ids2labels = column_ids2labels
-            self.dropped = []
+            self.raw = df
+            self.raw_bin = df_bin
+            self.ccm = ccm
+            self.ccm_bin = ccm_bin
+            self.instance_counts = instance_counts
+            self.photo_occurrence_counts = photo_occurrence_counts
+            self.column_ids = column_ids
+            self.column_ids2labels = column_ids2labels 
+            self.dropped = None
         else:
             drop_set = set(drop)
-            _vec = [
-                {k: v for k, v in row.items() if k not in drop_set} 
-                for row in vec
-            ]
-            _column_ids = [col_id for col_id in column_ids if col_id not in drop_set]
-            _column_ids2labels = {k: v for k, v in column_ids2labels.items() if k not in drop_set}
-            self.dropped = [column_ids2labels[col_id] for col_id in drop if col_id in column_ids2labels]
-        
-        self.vec = _vec
-        self.column_ids = _column_ids
-        self.column_ids2labels = _column_ids2labels 
-
-        raw = pd.DataFrame(_vec, columns=_column_ids)
-
-        raw_bin = raw.map(lambda x: 1 if x > 0 else 0)
-
-        self.raw = raw.T
-        self.raw_bin = raw_bin.T
-        self.ccm = raw.T.dot(raw)
-        self.ccm_bin = raw_bin.T.dot(raw_bin)
-
-        self.instance_counts = raw.sum(axis=0).values
-        self.photo_occurrence_counts = raw_bin.sum(axis=0).values
+            _cids = [cid for cid in column_ids if cid not in drop_set]
+            self.raw = df.loc[_cids]
+            self.raw_bin = df_bin.loc[_cids]
+            self.ccm = ccm.loc[_cids,_cids]
+            self.ccm_bin = ccm_bin.loc[_cids,_cids]
+            self.instance_counts = instance_counts[_cids]
+            self.photo_occurrence_counts = photo_occurrence_counts[_cids]
+            self.column_ids = _cids
+            self.column_ids2labels = {k: v for k, v in column_ids2labels.items() if k not in drop_set}
+            self.dropped = [column_ids2labels[cid] for cid in drop if cid in column_ids2labels]
+            print(f"DATASET:{self.name}, dropped_columns:{self.dropped}")
 
     def prepare_2D_PCA_fig(self, **kw):
-        pca = PCA(n_components=2)
-
         c_instance_count = pca.fit_transform(self.raw)
         c_photo_occurence_count = pca.fit_transform(self.raw_bin)
         c_co_intensity = pca.fit_transform(self.ccm)
@@ -101,7 +94,7 @@ class DatasetManifest:
             columns=self.column_ids2labels
         )
         
-        lib = kw.get("lib", "matplotlib")
+        lib = kw.get("lib", "plotly")
         mode = kw.get("mode", "heatmap")
         show = kw.get("show", True)
         show_values = kw.get("show_values", False)
@@ -111,13 +104,13 @@ class DatasetManifest:
             case "matplotlib":
                 match mode:
                     case "heatmap":
-                        return prepare_CCM_matplotlib_heatmap_figs(ccm_renamed, ccm_bin_renamed, show_values, fmt, show)
+                        return prepare_CCM_matplotlib_heatmap_figs(self.name, ccm_renamed, ccm_bin_renamed, show_values, fmt, self.dropped, show)
                     case _:
                         raise Exception(f"prepare_CCM_figs: lib='matplotlib': 'heatmap' is the only suppported mode. got mode='{mode}'")
             case "plotly":
                 match mode:
                     case "heatmap":
-                        return prepare_CCM_plotly_heatmap_figs(ccm_renamed, ccm_bin_renamed, show_values, fmt, show)
+                        return prepare_CCM_plotly_heatmap_figs(self.name, ccm_renamed, ccm_bin_renamed, show_values, fmt, self.dropped, show)
                     case _:
                         raise Exception(f"prepare_CCM_figs: lib='plotly': 'heatmap' is the only suppported mode. got mode='{mode}'")
             case _:

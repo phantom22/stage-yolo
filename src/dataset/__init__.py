@@ -2,11 +2,11 @@ from helpers import parse_json_file
 from .log.dataset_manifest import DatasetManifest
 import pandas as pd
 
-var2txt = {"br":"broccoli","cf":"cauliflower","ps":"peas","ct":"carrot","eg":"egg","st":"steak","sn":"salmon","sg":"sausage","ra":"red apple","ga":"green apple","og":"orange","bn":"banana","pc":"peach","bd":"bread","cr":"croissant","ck":"cake","cc":"crackers","ml":"milka","kg":"kellogs","bt":"breadsticks","lc":"licorice","mf":"metal fork","bf":"black fork","tf":"transparent fork","ms":"metal spoon","bs":"black spoon","ts":"teaspoon","bk":"black knife","rk":"red knife","wn":"white napkin","xn":"bordeaux napkin","rn":"red napkin","wt":"water","ga":"gatorade","hv":"estathe verde","cl":"coca-cola","cz":"coca-cola zero","mr":"monster","sp":"sprite","rz":"red thermal bottle","lz":"blue thermal bottle","bz":"brown thermal bottle","az":"black thermal bottle","dz":"dark thermal bottle","gz":"green thermal bottle","pj":"pear juice","j1":"peach juice 1","j2":"peach juice 2","nn":"tennent's","yt":"yogurt","wc":"white cup","rc":"red cup","tc":"transparent cup","sc":"small cup","mg":"mug","oc":"oil cruet","ss":"tissues","ks":"keys","ll":"wallet","sh":"salt","ph":"phone","eb":"ear buds","lg":"lighter","lb":"lip balm","r":"red tray","g":"gray tray","p":"parchment paper"}
-variables = sorted(var2txt)
+var2txt = {"br":"broccoli","cf":"cauliflower","ps":"peas","ct":"carrot","eg":"egg","st":"steak","sn":"salmon","sg":"sausage","ra":"red apple","ga":"green apple","og":"orange","bn":"banana","pc":"peach","bd":"bread","cr":"croissant","ck":"cake","cc":"crackers","ml":"milka","kg":"kellogs","lc":"licorice","mf":"metal fork","bf":"black fork","tf":"transparent fork","ms":"metal spoon","bs":"black spoon","ts":"teaspoon","bk":"black knife","rk":"red knife","wn":"white napkin","xn":"bordeaux napkin","rn":"red napkin","wt":"water","ga":"gatorade","hv":"estathe verde","cl":"coca-cola","cz":"coca-cola zero","mr":"monster","sp":"sprite","rz":"red thermal bottle","lz":"blue thermal bottle","bz":"brown thermal bottle","az":"black thermal bottle","dz":"dark thermal bottle","gz":"green thermal bottle","pj":"pear juice","j1":"peach juice 1","j2":"peach juice 2","nn":"tennent's","yt":"yogurt","wc":"white cup","rc":"red cup","tc":"transparent cup","sc":"small cup","mg":"mug","oc":"oil cruet","ss":"tissues","ks":"keys","ll":"wallet","sh":"salt","ph":"phone","eb":"ear buds","lg":"lighter","lb":"lip balm","r":"red tray","g":"gray tray","p":"parchment paper","ci":"cigarettes","dc":"disposable cutlery","cb":"crushed plastic bottle","ch":"chinotto","tp":"the pesca","fm":"foco maracuya"}
+variables = sorted(var2txt, key=lambda k: var2txt[k])
 
-class2txt = {"fd":"food","sn":"snack","sw":"sweets","fo":"fork","sp":"spoon","kn":"knife","na":"napkin","pb":"plastic bottle","ac":"alluminum can","tb":"thermal bottle","tt":"tetrapak","gb":"glass bottle","yo":"yogurt","pc":"plastic cup","mu":"mug","oc":"oil cruet","ti":"tissues","ke":"keys","wa":"wallet","ss":"salt shaker","ph":"phone","ea":"earbuds","li":"lighter","lb":"lip balm",}
-classes = sorted(class2txt)
+class2txt = {"fd":"food","sn":"snack","sw":"sweets","fo":"fork","sp":"spoon","kn":"knife","na":"napkin","pb":"plastic bottle","ac":"alluminum can","tb":"thermal bottle","tt":"tetrapak","gb":"glass bottle","yo":"yogurt","pc":"plastic cup","mu":"mug","oc":"oil cruet","ti":"tissues","ke":"keys","wa":"wallet","ss":"salt shaker","ph":"phone","ea":"earbuds","li":"lighter","lb":"lip balm","ci":"cigarettes","dc":"disposable cutlery","cb":"crushed plastic bottle"} # cigarettes=ci, disposable=dc, crushed=cb
+classes = sorted(class2txt, key=lambda k: class2txt[k])
 
 CL_FOOD = 0
 CL_SNACK = 1
@@ -32,11 +32,14 @@ CL_PHONE = 20
 CL_EARBUDS = 21
 CL_LIGHTER = 22
 CL_LIP_BALM = 23
+CL_CIGARETTES = 24
+CL_DISPOSABLE_CUTLERY = 25
+CL_CRUSHED_BOTTLE = 26
 
-class2classid = {"fd":CL_FOOD,"sn":CL_SNACK,"sw":CL_SWEETS,"fo":CL_FORK,"sp":CL_SPOON,"kn":CL_KNIFE,"na":CL_NAPKIN,"pb":CL_PLASTIC_BOTTLE,"ac":CL_ALLUMINUM_CAN,"tb":CL_THERMAL_BOTTLE,"tt":CL_TETRAPAK,"gb":CL_GLASS_BOTTLE,"yo":CL_YOGURT,"pc":CL_PLASTIC_CUP,"mu":CL_MUG,"oc":CL_OIL_CRUET,"ti":CL_TISSUES,"ke":CL_KEYS,"wa":CL_WALLET,"ss":CL_SALT_SHAKER,"ph":CL_PHONE,"ea":CL_EARBUDS,"li":CL_LIGHTER,"lb":CL_LIP_BALM,}
+class2classid = {"fd":CL_FOOD,"sn":CL_SNACK,"sw":CL_SWEETS,"fo":CL_FORK,"sp":CL_SPOON,"kn":CL_KNIFE,"na":CL_NAPKIN,"pb":CL_PLASTIC_BOTTLE,"ac":CL_ALLUMINUM_CAN,"tb":CL_THERMAL_BOTTLE,"tt":CL_TETRAPAK,"gb":CL_GLASS_BOTTLE,"yo":CL_YOGURT,"pc":CL_PLASTIC_CUP,"mu":CL_MUG,"oc":CL_OIL_CRUET,"ti":CL_TISSUES,"ke":CL_KEYS,"wa":CL_WALLET,"ss":CL_SALT_SHAKER,"ph":CL_PHONE,"ea":CL_EARBUDS,"li":CL_LIGHTER,"lb":CL_LIP_BALM,"ci":CL_CIGARETTES,"dc":CL_DISPOSABLE_CUTLERY,"cb":CL_CRUSHED_BOTTLE}
 classid2class = {value: key for key, value in class2classid.items()}
 
-var2classid = {"br":CL_FOOD,"cf":CL_FOOD,"ps":CL_FOOD,"ct":CL_FOOD,"eg":CL_FOOD,"st":CL_FOOD,"sn":CL_FOOD,"sg":CL_FOOD,"ra":CL_FOOD,"ga":CL_FOOD,"og":CL_FOOD,"bn":CL_FOOD,"pc":CL_FOOD,"bd":CL_FOOD,"cr":CL_FOOD,"ck":CL_FOOD,"cc":CL_SNACK,"ml":CL_SNACK,"kg":CL_SNACK,"bt":CL_SNACK,"lc":CL_SWEETS,"mf":CL_FORK,"bf":CL_FORK,"tf":CL_FORK,"ms":CL_SPOON,"bs":CL_SPOON,"ts":CL_SPOON,"bk":CL_KNIFE,"rk":CL_KNIFE,"wn":CL_NAPKIN,"xn":CL_NAPKIN,"rn":CL_NAPKIN,"wt":CL_PLASTIC_BOTTLE,"ga":CL_PLASTIC_BOTTLE,"hv":CL_PLASTIC_BOTTLE,"cl":CL_ALLUMINUM_CAN,"cz":CL_ALLUMINUM_CAN,"mr":CL_ALLUMINUM_CAN,"sp":CL_ALLUMINUM_CAN,"rz":CL_THERMAL_BOTTLE,"lz":CL_THERMAL_BOTTLE,"bz":CL_THERMAL_BOTTLE,"az":CL_THERMAL_BOTTLE,"dz":CL_THERMAL_BOTTLE,"gz":CL_THERMAL_BOTTLE,"pj":CL_TETRAPAK,"j1":CL_TETRAPAK,"j2":CL_TETRAPAK,"nn":CL_GLASS_BOTTLE,"yt":CL_YOGURT,"wc":CL_PLASTIC_CUP,"rc":CL_PLASTIC_CUP,"tc":CL_PLASTIC_CUP,"sc":CL_PLASTIC_CUP,"mg":CL_MUG,"oc":CL_OIL_CRUET,"ss":CL_TISSUES,"ks":CL_KEYS,"ll":CL_WALLET,"sh":CL_SALT_SHAKER,"ph":CL_PHONE,"eb":CL_EARBUDS,"lg":CL_LIGHTER,"lb":CL_LIP_BALM,"r":None,"g":None,"p":None}
+var2classid = {"br":CL_FOOD,"cf":CL_FOOD,"ps":CL_FOOD,"ct":CL_FOOD,"eg":CL_FOOD,"st":CL_FOOD,"sn":CL_FOOD,"sg":CL_FOOD,"ra":CL_FOOD,"ga":CL_FOOD,"og":CL_FOOD,"bn":CL_FOOD,"pc":CL_FOOD,"bd":CL_FOOD,"cr":CL_FOOD,"ck":CL_FOOD,"cc":CL_SNACK,"ml":CL_SNACK,"kg":CL_SNACK,"lc":CL_SWEETS,"mf":CL_FORK,"bf":CL_FORK,"tf":CL_FORK,"ms":CL_SPOON,"bs":CL_SPOON,"ts":CL_SPOON,"bk":CL_KNIFE,"rk":CL_KNIFE,"wn":CL_NAPKIN,"xn":CL_NAPKIN,"rn":CL_NAPKIN,"wt":CL_PLASTIC_BOTTLE,"ga":CL_PLASTIC_BOTTLE,"hv":CL_PLASTIC_BOTTLE,"cl":CL_ALLUMINUM_CAN,"cz":CL_ALLUMINUM_CAN,"mr":CL_ALLUMINUM_CAN,"sp":CL_ALLUMINUM_CAN,"rz":CL_THERMAL_BOTTLE,"lz":CL_THERMAL_BOTTLE,"bz":CL_THERMAL_BOTTLE,"az":CL_THERMAL_BOTTLE,"dz":CL_THERMAL_BOTTLE,"gz":CL_THERMAL_BOTTLE,"pj":CL_TETRAPAK,"j1":CL_TETRAPAK,"j2":CL_TETRAPAK,"nn":CL_GLASS_BOTTLE,"yt":CL_YOGURT,"wc":CL_PLASTIC_CUP,"rc":CL_PLASTIC_CUP,"tc":CL_PLASTIC_CUP,"sc":CL_PLASTIC_CUP,"mg":CL_MUG,"oc":CL_OIL_CRUET,"ss":CL_TISSUES,"ks":CL_KEYS,"ll":CL_WALLET,"sh":CL_SALT_SHAKER,"ph":CL_PHONE,"eb":CL_EARBUDS,"lg":CL_LIGHTER,"lb":CL_LIP_BALM,"r":None,"g":None,"p":None,"ci":CL_CIGARETTES,"dc":CL_DISPOSABLE_CUTLERY,"cb":CL_CRUSHED_BOTTLE,"ch":CL_ALLUMINUM_CAN,"tp":CL_ALLUMINUM_CAN,"fm":CL_ALLUMINUM_CAN}
 
 obj_ann_man = parse_json_file(__file__, "log/annotation_manifest.json")
 vec_detailed_man = []
@@ -85,22 +88,37 @@ detailed_man = [obj_ann_man.get(str(i)) for i in range(len(obj_ann_man))]
 detailed_dataset_column_ids = variables
 dataset_column_ids = classes
 
-def get_detailed_dataset_manifest(**kw):
-    return DatasetManifest("annotation_manifest", detailed_man, vec_detailed_man, variables, var2txt, **kw)
-
-def get_dataset_manifest(**kw):
-    return DatasetManifest("stripped_annotation_manifest", man, vec_man, classes, class2txt, **kw)
-
-
 dd_df = pd.DataFrame(vec_detailed_man, columns=variables)
-dd_bin_df = dd_df.map(lambda x: 1 if x > 0 else 0)
+detailed_dataset_df = dd_df.T
+dd_bin_df = (dd_df > 0).astype(int)
+detailed_dataset_bin_df = dd_bin_df.T
 detailed_dataset_instance_counts = dd_df.sum(axis=0)
 detailed_dataset_occurrence_counts = dd_bin_df.sum(axis=0)
+detailed_dataset_ccm = detailed_dataset_df.dot(dd_df)
+detailed_dataset_bin_ccm = detailed_dataset_bin_df.dot(dd_bin_df)
 
-d_df = pd.DataFrame(man, columns=classes)
-d_bin_df = d_df.map(lambda x: 1 if x > 0 else 0)
+d_df = pd.DataFrame(vec_man, columns=classes)
+dataset_df = d_df.T
+d_bin_df = (d_df > 0).astype(int)
+dataset_bin_df = d_bin_df.T
 dataset_instance_counts = d_df.sum(axis=0)
 dataset_occurrence_counts = d_bin_df.sum(axis=0)
+dataset_ccm = dataset_df.dot(d_df)
+dataset_bin_ccm = dataset_bin_df.dot(d_bin_df)
+
+def get_detailed_dataset_manifest(**kw):
+    return DatasetManifest("annotation_manifest", 
+                           detailed_dataset_df, detailed_dataset_bin_df, 
+                           detailed_dataset_ccm, detailed_dataset_bin_ccm,
+                           detailed_dataset_instance_counts, detailed_dataset_occurrence_counts,
+                           variables, var2txt, **kw)
+
+def get_dataset_manifest(**kw):
+    return DatasetManifest("stripped_annotation_manifest",
+                           dataset_df, dataset_bin_df, 
+                           dataset_ccm, dataset_bin_ccm,
+                           dataset_instance_counts, dataset_occurrence_counts,
+                           classes, class2txt, **kw)
 
 __all__ = [
     'var2txt',
@@ -114,8 +132,17 @@ __all__ = [
     'detailed_dataset_column_ids',
     'dataset_column_ids',
 
+    'detailed_dataset_df',
+    'detailed_dataset_bin_df',
+    'detailed_dataset_ccm',
+    'detailed_dataset_bin_ccm',
     'detailed_dataset_instance_counts',
     'detailed_dataset_occurrence_counts',
+
+    'dataset_df',
+    'dataset_bin_df',
+    'dataset_ccm',
+    'dataset_bin_ccm',
     'dataset_instance_counts',
     'dataset_occurrence_counts',
 

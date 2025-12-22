@@ -10,8 +10,8 @@
 
 import datumaro as dm
 # Load datasets from exported zips
-dataset1 = dm.Dataset.import_from('folder_a', format='datumaro')
-dataset2 = dm.Dataset.import_from('folder_b', format='datumaro')
+dataset1 = dm.Dataset.import_from('A', format='datumaro')
+dataset2 = dm.Dataset.import_from('B', format='datumaro')
 # Merge datasets
 merged_dataset = dm.Dataset.from_extractors(dataset1, dataset2)
 # Export the combined result

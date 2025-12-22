@@ -7,7 +7,12 @@
 | python3-sklearn | python3-scikit-learn |
 |          for datumaro: 1*              |
 |          python3-mplcursors            |
+| apt get opencv    | dnf install opencv |
+|  for torch torchvision torchaudio: 2*  |
+|           for ultralytics: 3*          |     
 
 1*: /usr/bin/python3.13 -m pip install datumaro
+2*: /usr/bin/python3.13 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+3*: /usr/bin/python3.13 -m pip install ultralytics
 
 /usr/bin/python3.13 src/main.py

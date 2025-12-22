@@ -1,21 +1,35 @@
 import plotly.express as px
 import numpy as np
+import plotly.graph_objects as go
 
-def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
+def prepare_CCM_plotly_heatmap_figs(name, ccm, ccm_bin, show_values, fmt, dropped, show):
     num_rows, num_cols = ccm.shape
-    
-    fig1 = px.imshow(ccm,
+    show_legend = dropped is not None
+
+    ccm_masked = ccm.replace(0, np.nan)
+
+    fig1 = px.imshow(ccm_masked,
                      text_auto=fmt,
                      aspect="auto",
-                     range_color=[5, np.max(ccm.values)],
+                     range_color=[0, np.max(ccm_masked.values)],
                      color_continuous_scale="Reds",
                      labels=dict(x="", y="", color=""),
-                     title='Co-occurrence Matrix Heatmap')
+                     title=f'{name} Co-occurrence Matrix Heatmap')
     
     fig1.update_layout(
         autosize=True,
         title_x=0.5,
         title_font=dict(size=30),
+        showlegend=show_legend,
+        legend=dict(
+            x=0,
+            y=1,
+            font=dict(size=28),
+            xanchor='left',
+            yanchor='top',
+            bgcolor="rgba(255, 255, 255, 0.5)"
+        ),
+        plot_bgcolor="rgba(0,0,0,0.2)"
     )
 
     fig1.update_xaxes(
@@ -42,18 +56,30 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
     fig1.update_xaxes(constrain='domain')
     fig1.update_yaxes(scaleanchor="x", scaleratio=1)
 
-    fig2 = px.imshow(ccm_bin,
+    ccm_bin_masked = ccm_bin.replace(0, np.nan)
+
+    fig2 = px.imshow(ccm_bin_masked,
                      text_auto=fmt,
                      aspect="auto",
-                     range_color=[-5, np.max(ccm_bin.values)],
+                     range_color=[0, np.max(ccm_bin_masked.values)],
                      color_continuous_scale="Reds",
                      labels=dict(x="", y="", color=""),
-                     title='Binary Co-occurrence Matrix Heatmap')
+                     title=f'{name} Binary Co-occurrence Matrix Heatmap')
     
     fig2.update_layout(
         autosize=True,
         title_x=0.5,
-        title_font=dict(size=30)
+        title_font=dict(size=30),
+        showlegend=show_legend,
+        legend=dict(
+            x=0,
+            y=1,
+            font=dict(size=28),
+            xanchor='left',
+            yanchor='top',
+            bgcolor="rgba(255, 255, 255, 0.5)"
+        ),
+        plot_bgcolor="rgba(0,0,0,0.2)"
     )
 
     fig2.update_xaxes(
@@ -106,6 +132,31 @@ def prepare_CCM_plotly_heatmap_figs(ccm, ccm_bin, show_values, fmt, show):
             x1=x1, y1=y0,
             line=dict(color="white", width=1)
         )
+
+    if show_legend:
+        trace = go.Scatter(
+            x=[None], y=[None],
+            mode='markers',
+            name='<b>EXCLUDED CLASSES:</b>',
+            marker=dict(color='rgba(0,0,0,0)'), # Invisible
+            showlegend=True
+        )
+
+        fig1.add_trace(trace)
+        fig2.add_trace(trace)
+
+        # 3. Loop through your self.dropped list and add them
+        for item in dropped:
+            trace = go.Scatter(
+                x=[None], y=[None],
+                mode='markers',
+                name=f" - {item}",
+                marker=dict(color='rgba(0,0,0,0)'), # Invisible
+                showlegend=True
+            )
+
+            fig1.add_trace(trace)
+            fig2.add_trace(trace)
 
     fig2.update_xaxes(constrain='domain')
     fig2.update_yaxes(scaleanchor="x", scaleratio=1)
