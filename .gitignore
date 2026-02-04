@@ -4,3 +4,4 @@ __pycache__/
 .python-version
 dataset.json
 yolo/*.pt
+src/yolo/cache

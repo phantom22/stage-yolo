@@ -36,6 +36,38 @@ class DatasetManifest:
             self.dropped = [column_ids2labels[cid] for cid in drop if cid in column_ids2labels]
             print(f"DATASET:{self.name}, dropped_columns:{self.dropped}")
 
+    def query(self, gt=None, lt=None):
+        A = gt is not None
+        B = lt is not None
+
+        if not A and not B:
+            raise ValueError("No spec rows were passed to the query.")
+            
+        all_spec_keys = {k for d in [gt, lt] if d for k in d.keys()}
+        existing_keys = set(self.raw.index)
+        invalid_keys = all_spec_keys - existing_keys
+
+        if invalid_keys:
+            raise KeyError(f"The following features were not found in the data index: {invalid_keys}")
+
+        
+        if A:
+            gt_subset = self.raw.loc[list(gt.keys())]
+            gt_met = gt_subset.ge(pd.Series(gt), axis=0).all(axis=0)
+
+        if B:
+            lt_subset = self.raw.loc[list(lt.keys())]
+            lt_met = lt_subset.le(pd.Series(lt), axis=0).all(axis=0)
+
+        if A and B:
+            final_mask = gt_met & lt_met
+        elif A:
+            final_mask = gt_met
+        else:
+            final_mask = lt_met
+        
+        return final_mask[final_mask].index.tolist()
+
     def prepare_2D_PCA_fig(self, **kw):
         c_instance_count = pca.fit_transform(self.raw)
         c_photo_occurence_count = pca.fit_transform(self.raw_bin)

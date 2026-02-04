@@ -1,28 +1,35 @@
 from dataset import *
+from helpers import visualize
 
-# dataset_manifest = get_dataset_manifest()#drop=dataset_occurrence_counts.nlargest(5).index.tolist())
-# dataset_manifest.prepare_CCM_figs()
-# dataset_manifest.prepare_2D_PCA_fig()
+# ddataset_manifest_no_fd = get_detailed_dataset_manifest(drop=detailed_dataset_occurrence_counts.nlargest(5).index.tolist())#drop=dataset_occurrence_counts.nlargest(5).index.tolist())
 
-# print("Instance counts:")
-# print(dataset_instance_counts.rename(index=class2txt))
-# print(f"Mean instance counts: {dataset_instance_counts.drop('fd').mean()}")
-# print("\nOccurrence counts:")
-# print(dataset_occurrence_counts.rename(index=class2txt))
-# print(f"Mean occurrence counts: {dataset_occurrence_counts.drop('fd').mean()}")
+ddataset_manifest = get_detailed_dataset_manifest()
 
-dataset_manifest_no_fd = get_dataset_manifest(drop=dataset_occurrence_counts.nlargest(5).index.tolist())#drop=dataset_occurrence_counts.nlargest(5).index.tolist())
-dataset_manifest_no_fd.prepare_CCM_figs()
+print(dataset_bin_df.shape[1])
 
-# d_manifest_no_fd_na = get_dataset_manifest(drop=["fd","na"])#drop=dataset_occurrence_counts.nlargest(5).index.tolist())
-# d_manifest_no_fd_na.prepare_CCM_figs()
-# d_manifest_no_fd_na.prepare_2D_PCA_fig()
-# dd_manifest = get_detailed_dataset_manifest()
-# dd_manifest.prepare_CCM_figs()
+# visualize(ddataset_manifest.query(
+#     gt={
+#         DD_LICORICE:1
+#     },
+#     lt={
+#         DD_MILKA:0,
+#         DD_KELLOGS:0,
+#         DD_CRACKERS:0
+#     }
+# ))
 
-# get_detailed_dataset_manifest = get_detailed_dataset_manifest()
-# get_detailed_dataset_manifest.prepare_CCM_figs(lib="plotly")
+# visualize(ddataset_manifest.query(
+#     gt={
+#         DD_PARCHMENT_PAPER:1,
+#         DD_RED_TRAY:1
+#     },
+#     lt=None
+# ))
 
-# dataset_manifest = get_dataset_manifest(drop=dataset_instance_counts.nlargest(5).index.tolist())
-# print(dataset_manifest.dropped)
-# dataset_manifest.prepare_CCM_figs(lib="plotly")
+# visualize(ddataset_manifest.query(
+#     gt={
+#         DD_PARCHMENT_PAPER:1,
+#         DD_GRAY_TRAY:1
+#     },
+#     lt=None
+# ))
