@@ -181,7 +181,7 @@ if __name__ == "__main__":
             yaml.dump(data, f)
         print_fs(f"written to {run_name}/data.yaml")
 
-        if input("all ready, proceed? (y/n): ") != "y":
+        if input(f"all ready, proceed to train the '{run_name}' model with the '{desired_strategy}' strategy? (y/n): ") != "y":
             if input(f"also remove the 'runs/segment/{run_name}/' folder? (y/n): ") == "y":
                 try:
                     shutil.rmtree(abs_run_dir)

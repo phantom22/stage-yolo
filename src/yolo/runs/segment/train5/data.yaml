@@ -1,0 +1,38 @@
+names:
+  0: food
+  1: snack
+  2: sweets
+  3: fork
+  4: spoon
+  5: knife
+  6: napkin
+  7: plastic bottle
+  8: alluminum can
+  9: thermal bottle
+  10: tetrapak
+  11: glass bottle
+  12: yogurt
+  13: plastic cup
+  14: mug
+  15: oil cruet
+  16: tissues
+  17: keys
+  18: wallet
+  19: salt shaker
+  20: phone
+  21: ear buds
+  22: lighter
+  23: lip balm
+  24: cigarettes
+  25: disposable cutlery
+  26: crushed plastic bottle
+  27: coca-cola
+  28: sprite
+  29: monster
+  30: chinotto
+  31: foco-maracuya
+  32: the-pesca
+path: .
+strategy: two_step_training
+train: runs/segment/train5/train.txt
+val: runs/segment/train5/val.txt
