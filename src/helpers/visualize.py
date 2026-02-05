@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import warnings
 
-SRC_DIR = Path(__file__).resolve().parents[1]
+SRC_ABS_DIR = Path(__file__).resolve().parents[1]
 WINDOW_NAME = "visualize"
 
 def numerical_sort_key(path):
@@ -24,7 +24,7 @@ def visualize(indices):
         print(f"\033[93m\033[1mWARNING:\033[0m no images to visualize.")
         return
 
-    input_path = Path(SRC_DIR / "yolo/data/images/train")
+    input_path = Path(SRC_ABS_DIR / "yolo/data/images/train")
     image_files = sorted([f for f in input_path.iterdir() if f.stem in target_indices], key=numerical_sort_key)
 
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)

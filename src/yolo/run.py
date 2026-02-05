@@ -26,13 +26,13 @@ def run_navigable_inference(model_path):
         print_error(f"Model not found at {model_path}")
         return
     
-    cache_dir_name = YOLO_RUN_CACHE_DIR.name
-    if YOLO_RUN_CACHE_DIR.exists():
-        for f in YOLO_RUN_CACHE_DIR.iterdir():
+    cache_dir_name = YOLO_CACHE_ABS_DIR.name
+    if YOLO_CACHE_ABS_DIR.exists():
+        for f in YOLO_CACHE_ABS_DIR.iterdir():
             f.unlink()
         print_fs(f"emptied 'yolo/{cache_dir_name}' contents")
     else:    
-        YOLO_RUN_CACHE_DIR.mkdir()
+        YOLO_CACHE_ABS_DIR.mkdir()
         print_fs(f"created 'yolo/{cache_dir_name}' directory")
 
     
@@ -41,7 +41,7 @@ def run_navigable_inference(model_path):
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    image_files = sorted([f for f in YOLO_IMG_DIR.iterdir() if f.suffix.lower() in IMG_EXTENSIONS], key=numerical_sort_key)
+    image_files = sorted([f for f in DATASET_IMG_ABS_DIR.iterdir() if f.suffix.lower() in IMG_EXTENSIONS], key=numerical_sort_key)
     num_images = len(image_files)
 
     session_cache = {}
@@ -98,7 +98,7 @@ def run_navigable_inference(model_path):
                 cv2.putText(combined_img, info_text, pos, font, scale, (0, 0, 0), thickness + 2, cv2.LINE_AA)
                 cv2.putText(combined_img, info_text, pos, font, scale, (0, 255, 0), thickness, cv2.LINE_AA)
                 
-                cv2.imwrite(YOLO_RUN_CACHE_DIR / f"compare_{img_name}", combined_img)
+                cv2.imwrite(YOLO_CACHE_ABS_DIR / f"compare_{img_name}", combined_img)
                 session_cache[img_name] = combined_img
 
         cv2.imshow(WINDOW_NAME, combined_img)
@@ -114,19 +114,19 @@ def run_navigable_inference(model_path):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    if DEFAULT_MODEL is None:
+    if YOLO_DEFAULT_MODEL is None:
         print_warning("there are available models to use.")
         exit(0)
 
-    target_model = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_MODEL
+    desired_model = sys.argv[1] if len(sys.argv) > 1 else YOLO_DEFAULT_MODEL
 
-    while target_model not in AVAILABLE_MODELS:
+    while desired_model not in YOLO_AVAILABLE_MODELS:
         print_error("the specified model does not exist")
-        print(*AVAILABLE_MODELS, sep=", ")
+        print(*YOLO_AVAILABLE_MODELS, sep=", ")
         i = input(
             f"please specify an existing model from the list above (or '"+
                 rb("q")+"' = quit | '"+
-                rb("d")+f"' = default model '{DEFAULT_MODEL}'): "
+                rb("d")+f"' = default model '{YOLO_DEFAULT_MODEL}'): "
         )
 
         if i == 'q':
@@ -134,9 +134,9 @@ if __name__ == "__main__":
             exit(0)
 
         if i == 'd':
-            target_model = DEFAULT_MODEL
+            desired_model = YOLO_DEFAULT_MODEL
             break
 
-        target_model = i
+        desired_model = i
 
-    run_navigable_inference((YOLO_REL_RUNS_DIR / target_model / "weights/best.pt").resolve())
+    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model / "weights/best.pt").resolve())

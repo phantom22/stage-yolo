@@ -5,3 +5,4 @@ __pycache__/
 dataset.json
 yolo/*.pt
 src/yolo/cache
+src/yolo/data/labels/*.cache

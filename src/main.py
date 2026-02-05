@@ -3,9 +3,9 @@ from helpers import visualize
 
 # ddataset_manifest_no_fd = get_detailed_dataset_manifest(drop=detailed_dataset_occurrence_counts.nlargest(5).index.tolist())#drop=dataset_occurrence_counts.nlargest(5).index.tolist())
 
-ddataset_manifest = get_detailed_dataset_manifest()
-
-print(dataset_bin_df.shape[1])
+# ddataset_manifest = get_detailed_dataset_manifest()
+dataset_manifest = get_dataset_manifest()
+visualize(dataset_manifest.query(gt={D_ALLUMINUM_CAN:1}))
 
 # visualize(ddataset_manifest.query(
 #     gt={

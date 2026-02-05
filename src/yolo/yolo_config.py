@@ -3,31 +3,40 @@ import sys
 from pathlib import Path
 
 FILE_PATH = Path(__file__).resolve()
-YOLO_DIR = FILE_PATH.parent
-os.chdir(YOLO_DIR)
+YOLO_ABS_DIR = FILE_PATH.parent
+os.chdir(YOLO_ABS_DIR)
 
-SRC_DIR = YOLO_DIR.parent
+SRC_ABS_DIR = YOLO_ABS_DIR.parent
+DATASET_IMG_ABS_DIR = SRC_ABS_DIR / "dataset/images"
 
 # --- TO ALLOW IMPORTS FROM src/ (parent folder)
 
-if str(SRC_DIR) not in sys.path:
-    sys.path.append(str(SRC_DIR))
+if str(SRC_ABS_DIR) not in sys.path:
+    sys.path.append(str(SRC_ABS_DIR))
 
 # --- TRAIN CONFIGURATION ---
 
-YOLO_DATA_DIR = YOLO_DIR / "data"
-YOLO_IMG_DIR = YOLO_DATA_DIR / "images/train"
+abs_yolo_data_dir = YOLO_ABS_DIR / "data"
+YOLO_IMAGES_REL_DIR = Path("data/images")
+YOLO_LABELS_REL_DIR = Path("data/labels")
+
 IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp')
-MAIN_YAML_FILE = YOLO_DATA_DIR / "data.yaml"
-YOLO_REL_RUNS_DIR = Path("runs/segment")
-YOLO_RUNS_DIR = YOLO_DIR / YOLO_REL_RUNS_DIR
-RUNS_PREFIX = "train"
-YOLO_SPLIT_RATIO = 0.8
+YOLO_STRATEGIES_ABS_DIR = abs_yolo_data_dir / "strategies"
+YOLO_RUNS_REL_DIR = Path("runs/segment")
+YOLO_RUNS_ABS_DIR = YOLO_ABS_DIR / YOLO_RUNS_REL_DIR
+YOLO_RUN_NAME_PREFIX = "train"
+YOLO_TRAIN_TEST_SPLIT_RATIO = 0.8
+
+YOLO_AVAILABLE_TRAIN_STRATEGIES = [f.stem for f in YOLO_STRATEGIES_ABS_DIR.iterdir() if f.is_file() and f.name.lower().endswith('.yaml')]
+YOLO_DEFAULT_STRATEGY = YOLO_AVAILABLE_TRAIN_STRATEGIES[0] if len(YOLO_AVAILABLE_TRAIN_STRATEGIES) > 0 else None
+
+YOLO_ZIP_NAME = Path("full_data.zip")
 
 # --- RUN CONFIGURATION ---
-AVAILABLE_MODELS = [f.name for f in YOLO_RUNS_DIR.iterdir() if f.is_dir()]
-DEFAULT_MODEL = AVAILABLE_MODELS[0] if len(AVAILABLE_MODELS) > 0 else None
-YOLO_RUN_CACHE_DIR = YOLO_DIR / "cache"
+
+YOLO_AVAILABLE_MODELS = [f.name for f in YOLO_RUNS_ABS_DIR.iterdir() if f.is_dir() and (f/"weights/best.pt").is_file()]
+YOLO_DEFAULT_MODEL = YOLO_AVAILABLE_MODELS[0] if len(YOLO_AVAILABLE_MODELS) > 0 else None
+YOLO_CACHE_ABS_DIR = YOLO_ABS_DIR / "cache"
 YOLO_CONF_THRESHOLD = 0.6
 YOLO_TARGET_SIZE = (640, 480)  # Width, Height
 
@@ -60,20 +69,26 @@ def print_hint(msg):
     print(gb('HINT:') + " " + msg)
 
 __all__ = [
-    'YOLO_DIR',
-    'SRC_DIR',
-    'YOLO_DATA_DIR',
-    'YOLO_IMG_DIR',
-    'IMG_EXTENSIONS',
-    'MAIN_YAML_FILE',
-    'YOLO_REL_RUNS_DIR',
-    'YOLO_RUNS_DIR',
-    'RUNS_PREFIX',
-    'YOLO_SPLIT_RATIO',
+    'YOLO_IMAGES_REL_DIR',
+    'YOLO_LABELS_REL_DIR',
 
-    'AVAILABLE_MODELS',
-    'DEFAULT_MODEL',
-    'YOLO_RUN_CACHE_DIR',
+    'YOLO_ABS_DIR',
+    'SRC_ABS_DIR',
+    'DATASET_IMG_ABS_DIR',
+    'IMG_EXTENSIONS',
+    'YOLO_STRATEGIES_ABS_DIR',
+    'YOLO_RUNS_REL_DIR',
+    'YOLO_RUNS_ABS_DIR',
+    'YOLO_RUN_NAME_PREFIX',
+    'YOLO_TRAIN_TEST_SPLIT_RATIO',
+
+    'YOLO_DEFAULT_STRATEGY',
+    'YOLO_AVAILABLE_TRAIN_STRATEGIES',
+    'YOLO_ZIP_NAME',
+
+    'YOLO_AVAILABLE_MODELS',
+    'YOLO_DEFAULT_MODEL',
+    'YOLO_CACHE_ABS_DIR',
     'YOLO_CONF_THRESHOLD',
     'YOLO_TARGET_SIZE',
 

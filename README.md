@@ -2,12 +2,10 @@
 
 ## to train a model
 ```bash
-cd src/yolo
-/usr/bin/python3.13 train.py
+python3.13 src/yolo/train.py <name?>
 ```
 
 ## to run a model
 ```bash
-cd src/yolo
-/usr/bin/python3.13 run.py
+python3.13 src/yolo/run.py <name?>
 ```

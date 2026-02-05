@@ -38,10 +38,8 @@ PATTERNS = [
     "val_batch*_pred.jpg"
 ]
 
-ZIP_NAME = Path("full_data.zip")
-
 def zip_run(run_dir_name):
-    run_rel_path = YOLO_REL_RUNS_DIR / run_dir_name
+    run_rel_path = YOLO_RUNS_REL_DIR / run_dir_name
     zip_file_path = run_rel_path / ZIP_NAME
 
     if zip_file_path.is_file():
@@ -63,7 +61,7 @@ def zip_run(run_dir_name):
     print_fs(f"zipped '{run_dir_name}' data.")
 
 def unzip_run(run_dir_name):
-    run_rel_path = YOLO_REL_RUNS_DIR / run_dir_name
+    run_rel_path = YOLO_RUNS_REL_DIR / run_dir_name
     zip_file_path = run_rel_path / ZIP_NAME
 
     if not zip_file_path.is_file():
@@ -71,7 +69,7 @@ def unzip_run(run_dir_name):
         exit(1)
     
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(YOLO_DIR)
+        zip_ref.extractall(YOLO_ABS_DIR)
 
     zip_file_path.unlink()
 
@@ -96,7 +94,7 @@ if __name__ == "__main__":
 
     if nargs == 2:
         if first == "fix":
-            for d in YOLO_RUNS_DIR.iterdir():
+            for d in YOLO_RUNS_ABS_DIR.iterdir():
                 run_name = d.name
                 weights = d / "weights"
                 best_pt = weights / "best.pt"
@@ -127,7 +125,7 @@ if __name__ == "__main__":
                             exit(1)
                     continue
 
-                zip_file = d / "full_data.zip"
+                zip_file = d / YOLO_ZIP_NAME
                 was_zipped = False
                 if zip_file.is_file():
                     was_zipped = True
@@ -147,18 +145,25 @@ if __name__ == "__main__":
             exit(0)
         elif first == "list":
             print(gb("AVAILABLE RUNS") + ":")
-            print(*AVAILABLE_MODELS, sep="\n")
+            print(*YOLO_AVAILABLE_MODELS, sep="\n")
+            exit(0)
+        elif first == "zipall":
+            for r in YOLO_AVAILABLE_MODELS:
+                if not (YOLO_RUNS_ABS_DIR / r / YOLO_ZIP_NAME).is_file():
+                    zip_run(r)
+                else:
+                    print_fs(f"run '{r}' is already zipped")
             exit(0)
         else:
             print_usage()
     
     if nargs == 3:
-        run_names = AVAILABLE_MODELS
+        run_names = YOLO_AVAILABLE_MODELS
         second = sys.argv[2]
         
         if second not in run_names:
             print_error(f"the specified run name '{second}' does not exist")
-            print_hint(f"here is a list of available runs: {','.join(AVAILABLE_MODELS)}")
+            print_hint(f"here is a list of available runs: {','.join(YOLO_AVAILABLE_MODELS)}")
             exit(1)
         
         if first == "zip":
