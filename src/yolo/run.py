@@ -10,24 +10,39 @@ from ultralytics import YOLO
 
 import cv2
 import numpy as np
+import yaml
 from ultralytics.utils.plotting import Annotator
 
 WINDOW_NAME = "Navigation"
 
-
-palette_rgb = [[248,0,255], [77,74,121], [26,81,50], [57,52,46], [98,90,88], [132,126,135], [170,170,170], [39,59,118], [47,71,136], [54,83,153], [69,107,187], [84,131,221], [109,171,102], [87,153,230], [90,175,238], [210,5,5], [222,45,19], [228,65,26], [233,85,33], [236,95,37], [239,105,40], [244,125,47], [250,145,54], [255,164,60], [248,176,93], [255,255,255], [34,31,219] ]
-palette_bgr = [tuple(color[::-1]) for color in palette_rgb]
-
 def numerical_sort_key(path):
     return int(path.stem)
 
-def run_navigable_inference(model_path):
+def run_navigable_inference(model_run_path):
+    model_path = model_run_path / "weights/best.pt"
+    run_data_yaml_path = model_run_path / "data.yaml"
     if not model_path.exists():
         print_error(f"Model not found at {model_path}")
         exit(1)
+    if not run_data_yaml_path.exists():
+        print_error(f"data.yaml not found at {run_data_yaml_path}")
+        exit(1)
 
-    print(f"running '{gb(model_path.parents[1].name)}' model")
-    
+    with open(run_data_yaml_path, 'r') as f:
+        run_yaml = yaml.safe_load(f)
+
+    run_strategy = run_yaml['strategy']
+
+    strategy_yaml_path = YOLO_ABS_DIR / f"data/strategies/{run_strategy}.yaml"
+
+    with open(strategy_yaml_path, 'r') as f:
+        strategy_yaml = yaml.safe_load(f)
+
+    palette_rgb = strategy_yaml['palette']
+    palette_bgr = [tuple(color[::-1]) for color in palette_rgb]
+
+    print(f"running '{gb(model_run_path.parents[1].name)}' model")
+
     cache_dir_name = YOLO_CACHE_ABS_DIR.name
     if YOLO_CACHE_ABS_DIR.exists():
         for f in YOLO_CACHE_ABS_DIR.iterdir():
@@ -37,7 +52,7 @@ def run_navigable_inference(model_path):
         YOLO_CACHE_ABS_DIR.mkdir()
         print_fs(f"created 'yolo/{cache_dir_name}' directory")
 
-    model = YOLO(model_path)
+    model = YOLO(model_run_path / "weights/best.pt")
 
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
@@ -140,4 +155,4 @@ if __name__ == "__main__":
 
         desired_model = i
 
-    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model / "weights/best.pt").resolve())
+    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve())

@@ -27,6 +27,7 @@ RELATIVE_PATHS = [
     Path("results.png"),
     ## Path("train_batch*.jpg"),
     Path("train.txt"),
+    Path("val.txt"),
     ## Path("val_batch*_labels.jpg"),
     ## Path("val_batch*_pred.jpg"),
     # Path("val.txt"),
@@ -120,6 +121,7 @@ if __name__ == "__main__":
                         try:
                             shutil.rmtree(d)
                             print_fs(f"succesfully removed 'runs/segment/{run_name}'")
+                            print()
                         except Exception as e:
                             print_error(f"couldn't remove 'runs/segment/{run_name}', reason: {e}")
                             exit(1)
