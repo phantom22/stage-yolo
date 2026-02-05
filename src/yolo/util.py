@@ -40,7 +40,7 @@ PATTERNS = [
 
 def zip_run(run_dir_name):
     run_rel_path = YOLO_RUNS_REL_DIR / run_dir_name
-    zip_file_path = run_rel_path / ZIP_NAME
+    zip_file_path = run_rel_path / YOLO_ZIP_NAME
 
     if zip_file_path.is_file():
         print(f"\033[38;5;210m\033[1mError:\033[0m the specified run is already zipped.")
@@ -62,10 +62,10 @@ def zip_run(run_dir_name):
 
 def unzip_run(run_dir_name):
     run_rel_path = YOLO_RUNS_REL_DIR / run_dir_name
-    zip_file_path = run_rel_path / ZIP_NAME
+    zip_file_path = run_rel_path / YOLO_ZIP_NAME
 
     if not zip_file_path.is_file():
-        print(f"\033[38;5;210m\033[1mError:\033[0m the specified run is already zipped does not have a '{ZIP_NAME}' file to un-zip.")
+        print(f"\033[38;5;210m\033[1mError:\033[0m the specified run is already zipped does not have a '{YOLO_ZIP_NAME}' file to un-zip.")
         exit(1)
     
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:

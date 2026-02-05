@@ -24,7 +24,9 @@ def numerical_sort_key(path):
 def run_navigable_inference(model_path):
     if not model_path.exists():
         print_error(f"Model not found at {model_path}")
-        return
+        exit(1)
+
+    print(f"running '{gb(model_path.parents[1].name)}' model")
     
     cache_dir_name = YOLO_CACHE_ABS_DIR.name
     if YOLO_CACHE_ABS_DIR.exists():
@@ -35,7 +37,6 @@ def run_navigable_inference(model_path):
         YOLO_CACHE_ABS_DIR.mkdir()
         print_fs(f"created 'yolo/{cache_dir_name}' directory")
 
-    
     model = YOLO(model_path)
 
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)

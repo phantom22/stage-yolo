@@ -26,6 +26,3 @@ names:
   24: cigarettes
   25: disposable cutlery
   26: crushed plastic bottle
-path: absolute/path/to/data
-train: absolute/path/to/train.txt
-val: absolute/path/to/val.txt

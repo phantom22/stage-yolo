@@ -27,5 +27,6 @@ names:
   25: disposable cutlery
   26: crushed plastic bottle
 path: data
+strategy: single_step_training
 train: /home/ekstra/phantom22/stage-yolo/src/yolo/runs/segment/train1/train.txt
 val: /home/ekstra/phantom22/stage-yolo/src/yolo/runs/segment/train1/val.txt

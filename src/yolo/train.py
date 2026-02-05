@@ -171,9 +171,10 @@ if __name__ == "__main__":
         with open(strategy_data_yaml, 'r') as f:
             data = yaml.safe_load(f)
         
-        data['path'] = str(YOLO_ABS_DIR)
-        data['train'] = str(abs_train_txt)
-        data['val'] = str(val_txt)
+        data['path'] = "."
+        data['train'] = f"runs/segment/{run_name}/train.txt"
+        data['val'] = f"runs/segment/{run_name}/val.txt"
+        data['strategy'] = desired_strategy
         
         final_data_yaml = abs_run_dir / "data.yaml"
         with open(final_data_yaml, 'w') as f:

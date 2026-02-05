@@ -3,9 +3,10 @@ docker, cvat, nuclio, CUDA, (datumaro for merging CVAT tasks)
 cvat installation:
 
 1.git clone https://github.com/cvat-ai/cvat && cd cvat
-2.update image in 'components/serverless/docker-compose.serverless.yml
+2.1.update image in 'components/serverless/docker-compose.serverless.yml
     from 'image: quay.io/nuclio/dashboard:1.13.0-amd64'
     to   'image: quay.io/nuclio/dashboard:1.15.0-amd64'
+2.2.to fix the following error
 
 3.to launch cvat for the first time do
     sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml up -d --build
@@ -20,8 +21,21 @@ cvat installation:
     5.2.3.create soft link for the program
         sudo ln -sf dependencies/nuctl-1.13.0-linux-amd64 /usr/local/bin/nuctl
 5.3.to add SAM to cvat
-    cd serverless
-    sudo ./deploy_gpu.sh pytorch/facebookresearch/sam/nuclio/
+    5.3.1.modify the file serverless/pytorch/dschoerk/transt/nuclio/function-gpu.yaml
+        by adding typing-extensions==4.5.0
+
+        so your spec.build.directives.preCopy[3].value should be:
+
+        - kind: RUN
+          value: |-
+            pip install \
+                jsonpickle opencv-python-headless typing-extensions==4.5.0 \
+                torch==1.7.1+cu110 torchvision==0.8.2+cu110 \
+                --extra-index-url https://download.pytorch.org/whl/cu110
+
+    5.3.2.now you can safely add SAM to nuclio with
+        cd serverless
+        sudo ./deploy_gpu.sh pytorch/facebookresearch/sam/nuclio/
 
 6.to stop the cvat container run
     sudo docker compose -f docker-compose.yml -f components/serverless/docker-compose.serverless.yml down
