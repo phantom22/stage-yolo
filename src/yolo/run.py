@@ -18,7 +18,8 @@ WINDOW_NAME = "Navigation"
 def numerical_sort_key(path):
     return int(path.stem)
 
-def run_navigable_inference(model_run_path):
+def run_navigable_inference(model_run_path, confidence_treshold):
+    model_name = model_run_path.name
     model_path = model_run_path / "weights/best.pt"
     run_data_yaml_path = model_run_path / "data.yaml"
     if not model_path.exists():
@@ -29,19 +30,23 @@ def run_navigable_inference(model_run_path):
         exit(1)
 
     with open(run_data_yaml_path, 'r') as f:
-        run_yaml = yaml.safe_load(f)
+        run_data_yaml = yaml.safe_load(f)
+        run_strategy = run_data_yaml.get("strategy")
+        run_palette = run_data_yaml.get("palette")
+        run_instant = run_data_yaml.get("instant")
+        if run_strategy is None:
+            print_error(f"the '{model_name}' model's data.yaml file does not specify the used strategy")
+            exit(1)
 
-    run_strategy = run_yaml['strategy']
+        if run_palette is None:
+            print_error(f"the '{model_name}' model's data.yaml file does not specify the used palette")
+            exit(1)
 
-    strategy_yaml_path = YOLO_ABS_DIR / f"data/strategies/{run_strategy}.yaml"
-
-    with open(strategy_yaml_path, 'r') as f:
-        strategy_yaml = yaml.safe_load(f)
-
-    palette_rgb = strategy_yaml['palette']
-    palette_bgr = [tuple(color[::-1]) for color in palette_rgb]
-
-    print(f"running '{gb(model_run_path.parents[1].name)}' model")
+        if run_instant is None:
+            print_warning(f"the '{model_name}' model's data.yaml file does not specify the current instant")
+        palette_bgr = [tuple(color[::-1]) for color in run_palette]
+        
+    print(f"running '{gb(model_name)}' model with {rb(str(confidence_treshold))} threshold value")
 
     cache_dir_name = YOLO_CACHE_ABS_DIR.name
     if YOLO_CACHE_ABS_DIR.exists():
@@ -80,7 +85,7 @@ def run_navigable_inference(model_run_path):
                 original_img = cv2.resize(original_img, YOLO_TARGET_SIZE)
 
             # Inference on the resized image
-            results = model.predict(source=original_img, imgsz=640, conf=YOLO_CONF_THRESHOLD, device=0, verbose=False)
+            results = model.predict(source=original_img, imgsz=640, conf=confidence_treshold, device=0, verbose=False)
             
             for r in results:
                 inf_time = r.speed['inference']
@@ -134,7 +139,27 @@ if __name__ == "__main__":
         print_warning("there are available models to use.")
         exit(0)
 
-    desired_model = sys.argv[1] if len(sys.argv) > 1 else YOLO_DEFAULT_MODEL
+    argc = len(sys.argv)
+    desired_model = sys.argv[1] if argc > 1 else YOLO_DEFAULT_MODEL
+    try:
+        confidence_treshold = float(sys.argv[2]) if argc > 2 and sys.argv[2] else YOLO_CONF_THRESHOLD
+    except Exception as e:
+        print_error("the confidence threshold must be a number between 0 and 1")
+        exit(1)
+
+    if confidence_treshold > 1 or confidence_treshold < 0:
+        print_error("the confidence threshold must be a number between 0 and 1")
+        exit(1)
+
+    if desired_model == "help":
+        print(
+            gb("USAGE:") + "\n" +
+                "  run.py\n" +
+                "  run.py <model_name>\n" +
+                "  run.py <model_name> <confidence treshold>\n" +
+                "  run.py help\n"
+        )
+        exit(0)
 
     while desired_model not in YOLO_AVAILABLE_MODELS:
         print_error("the specified model does not exist")
@@ -155,4 +180,4 @@ if __name__ == "__main__":
 
         desired_model = i
 
-    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve())
+    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve(), confidence_treshold)

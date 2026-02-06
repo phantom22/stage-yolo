@@ -27,6 +27,7 @@ YOLO_RUNS_ABS_DIR = YOLO_ABS_DIR / YOLO_RUNS_REL_DIR
 YOLO_RUN_NAME_PREFIX = "train"
 YOLO_TRAIN_TEST_SPLIT_RATIO = 0.8
 
+YOLO_AVAILABLE_TRAIN_LABELS = [f.stem for f in (abs_yolo_data_dir / "labels").iterdir() if f.is_dir()]
 YOLO_AVAILABLE_TRAIN_STRATEGIES = [f.stem for f in YOLO_STRATEGIES_ABS_DIR.iterdir() if f.is_file() and f.name.lower().endswith('.yaml')]
 YOLO_DEFAULT_STRATEGY = YOLO_AVAILABLE_TRAIN_STRATEGIES[0] if len(YOLO_AVAILABLE_TRAIN_STRATEGIES) > 0 else None
 
@@ -83,6 +84,7 @@ __all__ = [
     'YOLO_TRAIN_TEST_SPLIT_RATIO',
 
     'YOLO_DEFAULT_STRATEGY',
+    'YOLO_AVAILABLE_TRAIN_LABELS',
     'YOLO_AVAILABLE_TRAIN_STRATEGIES',
     'YOLO_ZIP_NAME',
 

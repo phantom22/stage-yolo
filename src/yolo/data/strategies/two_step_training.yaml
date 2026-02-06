@@ -68,8 +68,14 @@ palette:
 - [47,71,136]
 - [47,71,136]
 
-gt:
-- [DD_COCA_COLA,1]
+labels: generic_labels
 
-lt:
-- [DD_COCA_COLA_ZERO,0]
+instants:
+  from: dataset
+
+  operations: 
+    - lt:
+        - [D_ALLUMINUM_CAN, 0]
+
+    - gt:
+        - [D_ALLUMINUM_CAN, 1]

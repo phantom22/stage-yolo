@@ -56,7 +56,7 @@ def zip_run(run_dir_name):
     with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
         for file_path in relative_paths:
             if file_path.exists():
-                zip_file.write(file_path, arcname=file_path)
+                zip_file.write(file_path, arcname=file_path.relative_to(run_rel_path))
                 file_path.unlink()
     
     print_fs(f"zipped '{run_dir_name}' data.")
@@ -66,11 +66,11 @@ def unzip_run(run_dir_name):
     zip_file_path = run_rel_path / YOLO_ZIP_NAME
 
     if not zip_file_path.is_file():
-        print(f"\033[38;5;210m\033[1mError:\033[0m the specified run is already zipped does not have a '{YOLO_ZIP_NAME}' file to un-zip.")
+        print_error("the specified run is already zipped")
         exit(1)
     
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(YOLO_ABS_DIR)
+        zip_ref.extractall(run_rel_path)
 
     zip_file_path.unlink()
 
@@ -82,16 +82,27 @@ __all__ = [
 ]
 
 def print_usage():
-    print(gb("USAGE:") + "\n  util.py zip <run-name>\n  util.py unzip <run-name>\n  fix")
-    exit(1)
+    print(
+        gb("USAGE:") + "\n" +
+            "  util.py zip <run-name>\n" +
+            "  util.py unzip <run-name>\n" +
+            "  util.py fix\n" +
+            "  util.py zipall\n" +
+            "  util.py list\n" +
+            "  util.py help"
+    )
 
 if __name__ == "__main__":
     nargs = len(sys.argv)
     if nargs == 1:
         print_error("insufficient args")
         print_usage()
+        exit(1)
     
     first = sys.argv[1]
+    if first == "help":
+        print_usage()
+        exit(0)
 
     if nargs == 2:
         if first == "fix":
@@ -158,6 +169,7 @@ if __name__ == "__main__":
             exit(0)
         else:
             print_usage()
+            exit(1)
     
     if nargs == 3:
         run_names = YOLO_AVAILABLE_MODELS
@@ -174,3 +186,4 @@ if __name__ == "__main__":
             unzip_run(second)
         else:
             print_usage()
+            exit(1)

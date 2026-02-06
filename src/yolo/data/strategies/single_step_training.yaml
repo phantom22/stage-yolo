@@ -27,6 +27,8 @@ names:
   25: disposable cutlery
   26: crushed plastic bottle
 
+labels: generic_labels
+
 palette:
 - [248,0,255]
 - [77,74,121]
