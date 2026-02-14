@@ -11,6 +11,8 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 import yaml
+import json
+
 from ultralytics.utils.plotting import Annotator
 
 WINDOW_NAME = "Navigation"
@@ -18,7 +20,7 @@ WINDOW_NAME = "Navigation"
 def numerical_sort_key(path):
     return int(path.stem)
 
-def run_navigable_inference(model_run_path, confidence_treshold):
+def run_navigable_inference(model_run_path, confidence_treshold, no_train):
     model_name = model_run_path.name
     model_path = model_run_path / "weights/best.pt"
     run_data_yaml_path = model_run_path / "data.yaml"
@@ -26,7 +28,7 @@ def run_navigable_inference(model_run_path, confidence_treshold):
         print_error(f"Model not found at {model_path}")
         exit(1)
     if not run_data_yaml_path.exists():
-        print_error(f"data.yaml not found at {run_data_yaml_path}")
+        print_error(f"{model_name}/data.yaml: file not found")
         exit(1)
 
     with open(run_data_yaml_path, 'r') as f:
@@ -35,18 +37,16 @@ def run_navigable_inference(model_run_path, confidence_treshold):
         run_palette = run_data_yaml.get("palette")
         run_instant = run_data_yaml.get("instant")
         if run_strategy is None:
-            print_error(f"the '{model_name}' model's data.yaml file does not specify the used strategy")
+            print_error(f"{model_name}/data.yaml: file does not specify the used strategy")
             exit(1)
 
         if run_palette is None:
-            print_error(f"the '{model_name}' model's data.yaml file does not specify the used palette")
+            print_error(f"{model_name}/data.yaml: file does not specify the used palette")
             exit(1)
 
         if run_instant is None:
-            print_warning(f"the '{model_name}' model's data.yaml file does not specify the current instant")
+            print_warning(f"{model_name}/data.yaml:file does not specify the current instant")
         palette_bgr = [tuple(color[::-1]) for color in run_palette]
-        
-    print(f"running '{gb(model_name)}' model with {rb(str(confidence_treshold))} threshold value")
 
     cache_dir_name = YOLO_CACHE_ABS_DIR.name
     if YOLO_CACHE_ABS_DIR.exists():
@@ -57,19 +57,40 @@ def run_navigable_inference(model_run_path, confidence_treshold):
         YOLO_CACHE_ABS_DIR.mkdir()
         print_fs(f"created 'yolo/{cache_dir_name}' directory")
 
+    if no_train:
+        run_data_json_path = model_run_path / "data.json"
+        if not run_data_json_path.is_file():
+            print_error(f"{model_name}/data.json: file not found")
+        
+        with open(run_data_json_path, 'r') as f:
+            data_json = json.load(f)
+            if "cumulative_train" not in data_json:
+                print_error(f"{model_name}/data.json: no 'cumulative_train' key")
+                exit(1)
+            if "train" not in data_json:
+                print_error(f"{model_name}/data.json: no 'train' key")
+                exit(1)
+            cumulative_train_set = list(set(data_json["cumulative_train"]) | set(data_json["train"]))
+        image_ids = [f for f in IMAGE_IDS if f not in cumulative_train_set]
+        num_images = len(image_ids)
+    else:
+        image_ids = IMAGE_IDS
+        num_images = NUM_IMAGES
+
+    if no_train:
+        print(f"running '{gb(model_name)}' model with {rb(str(confidence_treshold))} threshold value, {gb('without train')}")
+    else:
+        print(f"running '{gb(model_name)}' model with {rb(str(confidence_treshold))} threshold value, {rb('with train')}")
     model = YOLO(model_run_path / "weights/best.pt")
 
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    image_files = sorted([f for f in DATASET_IMG_ABS_DIR.iterdir() if f.suffix.lower() in IMG_EXTENSIONS], key=numerical_sort_key)
-    num_images = len(image_files)
-
     session_cache = {}
     idx = 0
     while 0 <= idx < num_images:
-        img_path = image_files[idx]
-        img_name = img_path.name
+        img_path = DATASET_IMG_ABS_DIR / f"{image_ids[idx]}.jpg"
+        img_name = image_ids[idx]
         
         if img_name in session_cache:
             combined_img = session_cache[img_name]
@@ -101,9 +122,10 @@ def run_navigable_inference(model_run_path, confidence_treshold):
                     
                     for box in r.boxes:
                         cls = int(box.cls[0])
+                        cls_name = model.names[cls]
                         label = f"{model.names[cls]} {box.conf[0]:.2f}"
                         bg_color = palette_bgr[cls]
-                        text_color = (0, 0, 0) if cls == 25 else (255, 255, 255)
+                        text_color = (0, 0, 0) if cls_name == "disposable cutlery" else (255, 255, 255)
                         
                         # Bounding boxes are now perfectly aligned with the 640x480 image
                         annotator.box_label(box.xyxy[0], label, color=bg_color, txt_color=text_color)
@@ -114,12 +136,12 @@ def run_navigable_inference(model_run_path, confidence_treshold):
                 combined_img = cv2.hconcat([original_img, inferred_img])
                 
                 # Small Green info text
-                info_text = f"{idx+1}/{num_images} {inf_time:.1f}ms"
+                info_text = f"{idx+1}/{num_images} {img_name}.jpg {inf_time:.1f}ms"
                 pos, font, scale, thickness = (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.7, 1
                 cv2.putText(combined_img, info_text, pos, font, scale, (0, 0, 0), thickness + 2, cv2.LINE_AA)
                 cv2.putText(combined_img, info_text, pos, font, scale, (0, 255, 0), thickness, cv2.LINE_AA)
                 
-                cv2.imwrite(YOLO_CACHE_ABS_DIR / f"compare_{img_name}", combined_img)
+                cv2.imwrite(YOLO_CACHE_ABS_DIR / f"compare_{img_name}.jpg", combined_img)
                 session_cache[img_name] = combined_img
 
         cv2.imshow(WINDOW_NAME, combined_img)
@@ -151,6 +173,10 @@ if __name__ == "__main__":
         print_error("the confidence threshold must be a number between 0 and 1")
         exit(1)
 
+    if argc > 2:
+        no_train = True
+    no_train = sys.argv[2] if argc > 2 else True
+
     if desired_model == "help":
         print(
             gb("USAGE:") + "\n" +
@@ -180,4 +206,4 @@ if __name__ == "__main__":
 
         desired_model = i
 
-    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve(), confidence_treshold)
+    run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve(), confidence_treshold, no_train)

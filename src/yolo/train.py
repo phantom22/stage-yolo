@@ -75,20 +75,33 @@ def get_next_abs_run_dir(desired_name):
     
     return YOLO_RUNS_ABS_DIR / desired_name, desired_name
 
-# def copy_file_from_run_dir(src_path,dest_path,run_dir):
-#     file_path = run_dir / src_path
-#     if file_path.is_file():
-#         shutil.copy(file_path, dest_path)
-#         return
-#     print(src_path, dest_path, run_dir)
-#     zip_file_path = run_dir / YOLO_ZIP_NAME
-#     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-#         with zip_ref.open(src_path) as source_file:
-#             with open(dest_path, 'wb') as dest_file:
-#                 shutil.copyfileobj(source_file, dest_file)
+def is_invalid_indices_list(v):
+    return v is not None and (not isinstance(v, list) or any(not isinstance(e, int) or e < 0 or e > NUM_IMAGES for e in v))
 
+def prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_labels, restriction_spec, base_model_dir):
+    strategy = restriction_spec["strategy"]
+    instant = restriction_spec["instant"]
+    indices = restriction_spec["indices"]
+    split_ratio = restriction_spec["split_ratio"]
+    val = restriction_spec["val"]
+    train = restriction_spec["train"]
 
-def prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_labels, indices_restriction=None, base_model_dir=None):
+    if not isinstance(split_ratio, float) or split_ratio < 0 or split_ratio > 1:
+        print_error(f"{strategy}.yaml: 'split_ratio' or 'instants.split_ratio' or 'instants.index_selection[{instant}].split_ratio': value must be a float in the range [0,1]")
+        exit(1)
+
+    if is_invalid_indices_list(indices):
+        print_error(f"{strategy}yaml: 'instants.index_selection[{instant}].indices': must be an array")
+        exit(1)
+
+    if is_invalid_indices_list(val):
+        print_error(f"{strategy}yaml: 'instants.index_selection[{instant}].val': must be an array")
+        exit(1)
+
+    if is_invalid_indices_list(train):
+        print_error(f"{strategy}yaml: 'instants.index_selection[{instant}].train': must be an array")
+        exit(1)
+    
     if not abs_run_dir.is_dir():
         if input(f"allow mkdir 'runs/segment/{run_name}'? (y/n): ") == "y":
             abs_run_dir.mkdir()
@@ -97,19 +110,20 @@ def prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_lab
             print("aborting...")
             exit(0)
 
-    img_ids = sorted([int(f.stem) for f in DATASET_IMG_ABS_DIR.iterdir() if f.name.lower().endswith(IMG_EXTENSIONS)])
-
-    if len(img_ids) == 0:
-        print_error(f"The image directory does not contain any img_ids!")
+    if NUM_IMAGES == 0:
+        print_error(f"The image directory does not contain any IMAGE_IDS!")
         exit(1)
 
-    if indices_restriction is None:
+    if val is not None:
+        train_files = train
+        val_files = val
+    elif indices is None:
         # --- APPROACH A ---
 
-        # random.shuffle(img_ids)
-        # split_idx = int(len(img_ids) * YOLO_TRAIN_TEST_SPLIT_RATIO)
-        # train_files = img_ids[:split_idx]
-        # val_files = img_ids[split_idx:]
+        # random.shuffle(IMAGE_IDS)
+        # split_idx = int(len(IMAGE_IDS) * YOLO_TRAIN_TEST_SPLIT_RATIO)
+        # train_files = IMAGE_IDS[:split_idx]
+        # val_files = IMAGE_IDS[split_idx:]
 
         # --- APPROACH B ---
 
@@ -122,41 +136,66 @@ def prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_lab
 
         train_ids_x = [int(x[0]) for x in X_train]
         val_ids_x = [int(x[0]) for x in X_test]
-        
-        train_files = [img_ids[i] for i in train_ids_x]
-        val_files = [img_ids[i] for i in val_ids_x]
-    else:
-        if input("visualize indices restriction selection? (y/n): ") == "y":
-            visualize(indices_restriction)
 
-        random.shuffle(indices_restriction)
-        split_idx = int(len(indices_restriction) * YOLO_TRAIN_TEST_SPLIT_RATIO)
-        train_files = indices_restriction[:split_idx]
-        val_files = indices_restriction[split_idx:]
+        train_files = [IMAGE_IDS[i] for i in train_ids_x]
+        val_files = [IMAGE_IDS[i] for i in val_ids_x]
+    else:
+        if input("visualize indices selection? (y/n): ") == "y":
+            visualize(indices)
+
+        random.shuffle(indices)
+        split_idx = int(len(indices) * YOLO_TRAIN_TEST_SPLIT_RATIO)
+        train_files = indices[:split_idx]
+        val_files = indices[split_idx:]
 
     abs_train_txt = abs_run_dir / "train.txt"
     abs_val_txt = abs_run_dir / "val.txt"
 
-    if base_model_dir is not None:
-        # retrieve the files if zipped
-        # copy_file_from_run_dir("train.txt", abs_train_txt, base_model_dir)
-        # copy_file_from_run_dir("val.txt", abs_val_txt, base_model_dir)
+    cumulative_train = []
 
-        with (base_model_dir / "data.json").open("r") as f:
-            # retrieve train/val from data.json
+    if base_model_dir is not None:
+        data_json_path = base_model_dir / "data.json"
+        base_model_name = base_model_dir.name
+
+        if not data_json_path.is_file():
+            print_error(f"there is no '{base_model_name}/data.json' file")
+            exit(1)
+
+        with data_json_path.open("r") as f:
             data_json = json.load(f)
-            if "val" in data_json:
-                val_files = list(set(val_files) | set(data_json["val"]))
-            else:
-                print_error("the data.json file does not contain the 'val' attribute")
+
+            if "val" not in data_json:
+                print_error(f"{base_model_name}/data.json: file does not contain the 'val' attribute")
                 exit(1)
+            if "train" not in data_json:
+                print_error(f"{base_model_name}/data.json: file does not contain the 'train' attribute")
+                exit(1)
+            if "cumulative_train" not in data_json:
+                print_error(f"{base_model_name}/data.json: file does not contain the 'cumulative_train' attribute")
+                exit(1)
+
+            val_files = list(set(val_files) | set(data_json["val"]))
+
+            cumulative_train_set = set(data_json["train"]) | set(data_json["cumulative_train"])
+
+            train_files = [v for v in train_files if v not in cumulative_train_set]
+            cumulative_train = list(set(train_files) | cumulative_train_set)
+            if len(train_files) == 0:
+                    print_error(f"{strategy}.yaml: instants.index_selection[{instant}]: the resulting train indices were either empty or all pointed to files that were already used in training, during previous instants")
+                    exit(1)
+                
         mode = "a"
     else:
         mode = "w"
 
+    train_files.sort()
+    val_files.sort()
+    cumulative_train.sort()
+
     json_data_yaml_dump = {
         "train": train_files,
-        "val": val_files
+        "val": val_files,
+        "cumulative_train": cumulative_train
     }
     
     with open(abs_run_dir / "data.json", 'w') as f:
@@ -173,57 +212,93 @@ def prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_lab
 
     return abs_train_txt, abs_val_txt
 
-def parse_gtlt(yaml):
+def parse_gtlt(strategy, yaml):
     o = {}
     for entry in yaml:
         k,v = entry
-        try:
-            code = getattr(dataset, k)
-            o[code] = v
-        except Exception as e:
-            print_error("the .yaml file contains an invalid code")
+        code = getattr(dataset, k)
+        if code is None:
+            print_error(f"{strategy}.yaml: the code '{code}' is not a valid global constant from the module dataset")
             exit(1)
+        o[code] = v
     return o
 
-def construct_dataset_query_dict(yaml):
-    gt = parse_gtlt(yaml["gt"]) if "gt" in yaml else None
-    lt = parse_gtlt(yaml["lt"]) if "lt" in yaml else None
+def construct_dataset_query_dict(strategy, yaml):
+    gt = parse_gtlt(strategy, yaml["gt"]) if "gt" in yaml else None
+    lt = parse_gtlt(strategy, yaml["lt"]) if "lt" in yaml else None
     return gt, lt    
 
-def get_indices_restriction_from_yaml(yaml, instant):
+def get_indices_and_split_from_yaml(strategy, yaml, instant):
+    o = {
+        "instant": instant,
+        "strategy": strategy,
+        "split_ratio": YOLO_TRAIN_TEST_SPLIT_RATIO,
+        "indices": None,
+        "train": None,
+        "val": None
+    }
+
+    if "split_ratio" in yaml:
+        o["split_ratio"] = yaml["split_ratio"]
+
     if "instants" not in yaml:
-        return None
+        return o
 
     restriction_spec = yaml["instants"]
 
-    if "from" not in restriction_spec:
-        print_error("the .yaml file does not specify what dataset to use for indices restriction")
-        exit(1)
-    target_dataset = restriction_spec["from"]
-    if target_dataset not in ["detailed_dataset","dataset"]:
-        print_error("the .yaml file specifies an invalid 'from' dataset")
+    has_from = "from" in restriction_spec
+
+    target_dataset = restriction_spec.get("from")
+    if has_from and target_dataset not in ["detailed_dataset","dataset"]:
+        print_error(f"{strategy}.yaml: 'instants.from'='{target_dataset}': value must be either 'detailed_dataset' or 'dataset")
         exit(1)
 
-    if "operations" not in restriction_spec:
-        print_warning("the .yaml file does not specify any operation, no indices restriction applied")
-        return None
+    if "split_ratio" in restriction_spec:
+        o["split_ratio"] = restriction_spec["split_ratio"]
 
-    operations = restriction_spec["operations"]
-    ninstants = len(operations)
+    if "index_selection" not in restriction_spec:
+        print_warning(f"{strategy}.yaml: 'instants' is defined, but 'instants.index_selection' is missing: no indices restriction applied")
+        return o
+
+    index_selection = restriction_spec["index_selection"]
+    ninstants = len(index_selection)
 
     if ninstants == 0:
-        print_warning("the .yaml file does not specify any operation, no indices restriction applied")
-        return None
+        print_warning(f"{strategy}.yaml: 'instants.index_selection' is defined as an empty array: no indices restriction applied")
+        return o
     elif ninstants < instant:
-        print_warning(f"the .yaml file does not specify any operation for the {instant} instant, no indices restriction applied")
-        return None
+        print_warning(f"{strategy}.yaml: len('instants.index_selection')={ninstants}: current instant={instant}, no indices restriction applied")
+        return o
 
-    gt,lt = construct_dataset_query_dict(operations[instant])
+    selection_spec = index_selection[instant]
 
-    if target_dataset == "detailed_dataset":
-        return dataset.get_detailed_dataset_manifest().query(gt=gt, lt=lt)
-    elif target_dataset == "dataset":
-        return dataset.get_dataset_manifest().query(gt=gt, lt=lt)
+    if "split_ratio" in selection_spec:
+        o["split_ratio"] = selection_spec["split_ratio"]
+
+    if "train" in selection_spec or "val" in selection_spec:
+        train = selection_spec.get("train")
+        val = selection_spec.get("val")
+        if train is None or val is None:
+            print_error(f"{strategy}.yaml: 'instants.index_selection[{instant}]': the properties 'train' and 'val' must be defined together (one is missing)" )
+            exit(1)
+        o["train"] = train
+        o["val"] = val
+        return o
+    if "indices" in selection_spec:
+        o["indices"] = selection_spec["indices"]
+        return o
+    else:
+        if not has_from:
+            print_error(f"{strategy}.yaml: instants.index_selection[{instant}]: the properties 'gt' and 'lt' require instants.from to be defined")
+            exit(1)
+            
+        gt,lt = construct_dataset_query_dict(strategy, selection_spec)
+
+        if target_dataset == "detailed_dataset":
+            o["indices"] = dataset.get_detailed_dataset_manifest().query(gt=gt, lt=lt)
+        elif target_dataset == "dataset":
+            o["indices"] = dataset.get_dataset_manifest().query(gt=gt, lt=lt)
+        return o
 
 if __name__ == "__main__":
     nargs = len(sys.argv)
@@ -322,8 +397,8 @@ if __name__ == "__main__":
 
     abs_run_dir, run_name = get_next_abs_run_dir(desired_name)
 
-    indices_restriction = get_indices_restriction_from_yaml(strategy_yaml, instant)
-    abs_train_txt, val_txt = prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_labels, indices_restriction, base_model_dir)
+    restriction_spec = get_indices_and_split_from_yaml(desired_strategy, strategy_yaml, instant)
+    abs_train_txt, val_txt = prepare_split_and_json(abs_run_dir, run_name, desired_strategy, strategy_labels, restriction_spec, base_model_dir)
 
     strategy_yaml['instant'] = instant
     strategy_yaml['path'] = "."
@@ -337,9 +412,9 @@ if __name__ == "__main__":
     print_fs(f"written to {run_name}/data.yaml")
 
     if instant == 0:
-        confirmation_text = f"proceed to train the '{run_name}' model with the '{desired_strategy}' strategy and '{strategy_labels}' labels? (y/n): "
+        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{desired_strategy}', labels='{strategy_labels}',\n  split_ratio={restriction_spec['split_ratio']}, base_model='{base_model}'\n]? (y/n): "
     else:
-        confirmation_text = f"proceed to train the '{run_name}' model with the '{desired_strategy}' strategy and '{strategy_labels}', instant {instant}, base model '{base_model_dir.name}'? (y/n): "
+        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{desired_strategy}', labels='{strategy_labels}',\n  split_ratio={restriction_spec['split_ratio']}, base_model='{base_model_dir.name}', instant={instant}\n]? (y/n): "
 
     if input(confirmation_text) != "y":
         if input(f"also remove the 'runs/segment/{run_name}/' folder? (y/n): ") == "y":

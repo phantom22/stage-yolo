@@ -1,0 +1,130 @@
+instant: 0
+instants:
+  from: detailed_dataset
+  index_selection:
+  - lt:
+    - - DD_COCA_COLA
+      - 0
+    - - DD_COCA_COLA_ZERO
+      - 0
+  - gt:
+    - - DD_COCA_COLA
+      - 1
+    - - DD_COCA_COLA_ZERO
+      - 1
+labels: generic_labels
+names:
+  0: food
+  1: snack
+  2: sweets
+  3: fork
+  4: spoon
+  5: knife
+  6: napkin
+  7: plastic bottle
+  8: alluminum can
+  9: thermal bottle
+  10: tetrapak
+  11: glass bottle
+  12: yogurt
+  13: plastic cup
+  14: mug
+  15: oil cruet
+  16: tissues
+  17: keys
+  18: wallet
+  19: salt shaker
+  20: phone
+  21: ear buds
+  22: lighter
+  23: lip balm
+  24: cigarettes
+  25: disposable cutlery
+  26: crushed plastic bottle
+palette:
+- - 248
+  - 0
+  - 255
+- - 77
+  - 74
+  - 121
+- - 26
+  - 81
+  - 50
+- - 57
+  - 52
+  - 46
+- - 98
+  - 90
+  - 88
+- - 132
+  - 126
+  - 135
+- - 170
+  - 170
+  - 170
+- - 39
+  - 59
+  - 118
+- - 47
+  - 71
+  - 136
+- - 54
+  - 83
+  - 153
+- - 69
+  - 107
+  - 187
+- - 84
+  - 131
+  - 221
+- - 109
+  - 171
+  - 102
+- - 87
+  - 153
+  - 230
+- - 90
+  - 175
+  - 238
+- - 210
+  - 5
+  - 5
+- - 222
+  - 45
+  - 19
+- - 228
+  - 65
+  - 26
+- - 233
+  - 85
+  - 33
+- - 236
+  - 95
+  - 37
+- - 239
+  - 105
+  - 40
+- - 244
+  - 125
+  - 47
+- - 250
+  - 145
+  - 54
+- - 255
+  - 164
+  - 60
+- - 248
+  - 176
+  - 93
+- - 255
+  - 255
+  - 255
+- - 34
+  - 31
+  - 219
+path: .
+split_ratio: 0.9
+strategy: 3_lwf_same_class
+train: runs/segment/3_0/train.txt
+val: runs/segment/3_0/val.txt

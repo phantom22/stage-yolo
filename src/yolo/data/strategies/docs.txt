@@ -1,0 +1,112 @@
+names:     default dictionary exported from cvat.
+
+palette:   list of [r,g,b] colors, must have as many elements as names; r,g,b expected as integers.
+
+labels:    what label folder to use from yolo/data/labels.
+
+split_ratio?: override default train/val split ratio (note: this is also overridden by instants.split_ratio and instants.index_selection[].split_ratio)
+
+instants?: property that defines what indices to use during training, per instant
+  from?: dataset           value can be either 'dataset' or 'detailed_dataset'
+  split_ratio?: override default train/val split ratio (note: this is also overridden by instants.index_selection[].split_ratio)
+
+  index_selection:         list of specifications, accessed by the current training instant to determine which image indices are to be used during train/val split
+
+exact same usage as per DatasetManifest.query, at least either gt or lt must be defined, note that in this case 'instants.from' MUST be defined
+both gt and lt are lists of [K,V] pairs, where K is a src/dataset constant that begins with `D_` if from=dataset, or `DD_` if from=detailed_dataset
+  - {
+      gt?:[[D_SPOON,1],],  the indices will have >= counts of the specified items
+      lt?:[[D_FORK,0],],   the indices will have <= counts of the specified items
+                           if both gt and lt are present, the indices will be the intersection of gt and lt
+      split_ratio?:        value between 0 and 1, specifies how much of the indices will be split into train/val
+    }
+
+note that if all the index_selection items are of this type, then from can be safely omitted
+  - {
+      indices:[],          directly define the indices of the images to consider
+      split_ratio?:        same as before
+    }
+
+  - {
+      train:[1,]           the indices of the images that will be used for training
+      val:[5,]             the indices of the images that will be used for validation
+    }
+
+=============================================================
+
+Examples, consider the following part of the .yaml to be present
+in all the following Examples
+
+names:
+  0: food
+  1: snack
+  2: sweets
+  3: fork
+  4: spoon
+  5: knife
+  6: napkin
+  7: plastic bottle
+  8: alluminum can
+  9: thermal bottle
+  10: tetrapak
+  ...
+
+palette:
+- [248,0,255]
+- [77,74,121]
+- [26,81,50]
+- [57,52,46]
+- [98,90,88]
+- [132,126,135]
+- [170,170,170]
+- [39,59,118]
+- [47,71,136]
+- [54,83,153]
+- [69,107,187]
+- ...
+
+=============================================================
+
+Example 1:
+
+labels: generic_labels
+split_ratio: 0.9
+
+=============================================================
+
+Example 2:
+
+labels: specific_labels
+
+instants:
+  from: dataset
+  split_ratio: 0.9
+
+  index_selection:
+  - {lt: [[D_ALLUMINUM_CAN, 0]]}
+  - {gt: [[D_ALLUMINUM_CAN, 1]], split_ratio: 0.8}
+
+=============================================================
+
+Example 3:
+
+labels: specific_labels
+
+instants:
+  from: detailed_dataset
+  split_ratio: 0.7
+
+  index_selection:
+  - {lt: [[DD_COCA_COLA, 0],[DD_COCA_COLA_ZERO, 0]]}
+  - {indices: [1,2,3,4,5,6,7,8,9,10,12,15,17,19,24,53]}
+
+=============================================================
+
+Example 4:
+
+labels: generic_labels
+
+instants:
+  index_selection:
+  - {train: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], val: [30,31,32,33,34,35,36,37]}
+  - {train: [21,22,23,24,25,26,27,28,29], val: [38,39,40,41]}

@@ -8,6 +8,9 @@ os.chdir(YOLO_ABS_DIR)
 
 SRC_ABS_DIR = YOLO_ABS_DIR.parent
 DATASET_IMG_ABS_DIR = SRC_ABS_DIR / "dataset/images"
+IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp')
+IMAGE_IDS = sorted([int(f.stem) for f in DATASET_IMG_ABS_DIR.iterdir() if f.name.lower().endswith(IMG_EXTENSIONS)])
+NUM_IMAGES = max(IMAGE_IDS)
 
 # --- TO ALLOW IMPORTS FROM src/ (parent folder)
 
@@ -20,12 +23,12 @@ abs_yolo_data_dir = YOLO_ABS_DIR / "data"
 YOLO_IMAGES_REL_DIR = Path("data/images")
 YOLO_LABELS_REL_DIR = Path("data/labels")
 
-IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp')
 YOLO_STRATEGIES_ABS_DIR = abs_yolo_data_dir / "strategies"
 YOLO_RUNS_REL_DIR = Path("runs/segment")
 YOLO_RUNS_ABS_DIR = YOLO_ABS_DIR / YOLO_RUNS_REL_DIR
 YOLO_RUN_NAME_PREFIX = "train"
 YOLO_TRAIN_TEST_SPLIT_RATIO = 0.8
+
 
 YOLO_AVAILABLE_TRAIN_LABELS = [f.stem for f in (abs_yolo_data_dir / "labels").iterdir() if f.is_dir()]
 YOLO_AVAILABLE_TRAIN_STRATEGIES = [f.stem for f in YOLO_STRATEGIES_ABS_DIR.iterdir() if f.is_file() and f.name.lower().endswith('.yaml')]
@@ -77,6 +80,8 @@ __all__ = [
     'SRC_ABS_DIR',
     'DATASET_IMG_ABS_DIR',
     'IMG_EXTENSIONS',
+    'IMAGE_IDS',
+    'NUM_IMAGES',
     'YOLO_STRATEGIES_ABS_DIR',
     'YOLO_RUNS_REL_DIR',
     'YOLO_RUNS_ABS_DIR',
