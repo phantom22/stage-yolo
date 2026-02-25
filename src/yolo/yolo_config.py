@@ -28,7 +28,7 @@ YOLO_RUNS_REL_DIR = Path("runs/segment")
 YOLO_RUNS_ABS_DIR = YOLO_ABS_DIR / YOLO_RUNS_REL_DIR
 YOLO_RUN_NAME_PREFIX = "train"
 YOLO_TRAIN_TEST_SPLIT_RATIO = 0.8
-
+YOLO_DEFAULT_BASE_MODEL = "yolo11m-seg.pt"
 
 YOLO_AVAILABLE_TRAIN_LABELS = [f.stem for f in (abs_yolo_data_dir / "labels").iterdir() if f.is_dir()]
 YOLO_AVAILABLE_TRAIN_STRATEGIES = [f.stem for f in YOLO_STRATEGIES_ABS_DIR.iterdir() if f.is_file() and f.name.lower().endswith('.yaml')]
@@ -72,6 +72,10 @@ def print_fs(msg):
 def print_hint(msg):
     print(gb('HINT:') + " " + msg)
 
+if NUM_IMAGES == 0:
+    print_error(f"The image directory does not contain any IMAGE_IDS!")
+    exit(1)
+
 __all__ = [
     'YOLO_IMAGES_REL_DIR',
     'YOLO_LABELS_REL_DIR',
@@ -87,6 +91,7 @@ __all__ = [
     'YOLO_RUNS_ABS_DIR',
     'YOLO_RUN_NAME_PREFIX',
     'YOLO_TRAIN_TEST_SPLIT_RATIO',
+    'YOLO_DEFAULT_BASE_MODEL',
 
     'YOLO_DEFAULT_STRATEGY',
     'YOLO_AVAILABLE_TRAIN_LABELS',

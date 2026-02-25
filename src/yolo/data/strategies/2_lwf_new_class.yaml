@@ -1,4 +1,4 @@
-labels: fixed_specific_labels
+labels: specific_labels
 split_ratio: 0.9
 
 instants:

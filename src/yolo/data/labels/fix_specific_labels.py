@@ -8,19 +8,29 @@ LABELS_ABS_DIR = FILE_PATH.parent
 os.chdir(LABELS_ABS_DIR)
 
 def print_usage():
-    print(f"\033[38;5;120m\033[1mUSAGE:\033[0m\n  fix_specific_labels.py <input_dir> <output_dir>\n  fix_specific_labels.py help")
+    print(f"\033[38;5;120m\033[1mUSAGE:\033[0m\n  fix_specific_labels.py <input_dir> <output_dir> <specific|generic>\n  fix_specific_labels.py help")
 
-REMOVED_CLASS = 8 # alluminum can
+ALLUMINUM_CAN_ID = 8 # alluminum can
+FIRST_SPECIFIC_CLASS = 27 # coca-cola
 
 if __name__ == "__main__":
     nargs = len(sys.argv)
 
-    if nargs == 2 and sys.argv[1] != "help" or nargs < 3:
+    if nargs == 2 and sys.argv[1] == "help":
+        print_usage()
+        exit(0)
+
+    if nargs < 4:
         print_usage()
         exit(1)
 
     input_dir = LABELS_ABS_DIR / sys.argv[1]
     output_dir = LABELS_ABS_DIR / sys.argv[2]
+    mode = sys.argv[3]
+
+    if mode not in ["specific","generic"]:
+        print(f"\033[38;5;210m\033[1mERROR:\033[0m expected mode either 'generic' or 'specific', got '{mode}'")
+        exit(1)
 
     if not input_dir.is_dir():
         print(f"\033[38;5;210m\033[1mERROR:\033[0m the specified input folder '{sys.argv[1]}' does not exist in '{LABELS_ABS_DIR}'")
@@ -28,13 +38,11 @@ if __name__ == "__main__":
 
     if output_dir.is_dir():
         print(f"\033[93m\033[1mWARNING:\033[0m the specified output folder '{sys.argv[2]}' already exists")
-        if input("do you want to override it? (y/n): ") == "y":
-            shutil.rmtree(output_dir)
-        else:
+        if input("do you want to use it? (y/n): ") != "y":
             print("aborting...")
             exit(0)
 
-    output_dir.mkdir()
+    output_dir.mkdir(exist_ok=True)
 
     for input_file in input_dir.iterdir():
         fname = input_file.name
@@ -50,14 +58,17 @@ if __name__ == "__main__":
                 continue
 
             line_class_id = int(parts[0]) 
-            if line_class_id == REMOVED_CLASS:
+            if mode == "specific" and line_class_id == ALLUMINUM_CAN_ID:
                 continue
-            elif line_class_id > REMOVED_CLASS:
+            elif mode == "specific" and line_class_id > ALLUMINUM_CAN_ID:
                 parts[0] = str(line_class_id - 1)
-                output_lines.append(" ".join(parts) + "\n")
+            elif mode == "generic" and line_class_id >= FIRST_SPECIFIC_CLASS:
+                parts[0] = str(ALLUMINUM_CAN_ID)
             else:
-                output_class_id = line_class_id
                 output_lines.append(line)
+                continue
+
+            output_lines.append(" ".join(parts) + "\n")
 
         with open(output_file_path, "w") as f:
             f.writelines(output_lines)
