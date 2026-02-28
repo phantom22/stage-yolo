@@ -6,14 +6,17 @@ import sys
 
 from pathlib import Path
 
-from ultralytics import YOLO
-
 import cv2
 import numpy as np
 import yaml
 import json
 
-from ultralytics.utils.plotting import Annotator
+if sys.platform == "win32":
+    import ctypes
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    except Exception:
+        ctypes.windll.user32.SetProcessDPIAware()
 
 WINDOW_NAME = "Navigation"
 
@@ -83,8 +86,8 @@ def run_navigable_inference(model_run_path, confidence_treshold, no_train):
         print(f"running '{gb(model_name)}' model with {rb(str(confidence_treshold))} threshold value, {rb('with train')}")
     model = YOLO(model_run_path / "weights/best.pt")
 
-    cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)
-    cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO | cv2.WINDOW_GUI_EXPANDED)
+    # cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
     session_cache = {}
     idx = 0
@@ -147,6 +150,11 @@ def run_navigable_inference(model_run_path, confidence_treshold, no_train):
         cv2.imshow(WINDOW_NAME, combined_img)
         
         raw_key = cv2.waitKeyEx(0)
+
+        # window explicitly closes by clicking on the 'x' on windows
+        if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+            break
+
         if raw_key in [97, 81, 65361, 2424832]: # A or LEFT
             idx = max(0, idx - 1)
         elif raw_key in [100, 83, 65363, 2555904]: # D or RIGHT
@@ -173,16 +181,17 @@ if __name__ == "__main__":
         print_error("the confidence threshold must be a number between 0 and 1")
         exit(1)
 
-    if argc > 2:
+    if argc < 4:
         no_train = True
-    no_train = sys.argv[2] if argc > 2 else True
+    no_train = sys.argv[3] == "True" if argc > 3 else True
 
     if desired_model == "help":
         print(
             gb("USAGE:") + "\n" +
                 "  run.py\n" +
                 "  run.py <model_name>\n" +
-                "  run.py <model_name> <confidence treshold>\n" +
+                "  run.py <model_name> <confidence treshold=[0,1]>\n" +
+                "  run.py <model_name> <confidence treshold=[0,1]> <no train=True|False>\n" +
                 "  run.py help\n"
         )
         exit(0)
@@ -206,4 +215,6 @@ if __name__ == "__main__":
 
         desired_model = i
 
+    from ultralytics import YOLO
+    from ultralytics.utils.plotting import Annotator
     run_navigable_inference((YOLO_RUNS_REL_DIR / desired_model).resolve(), confidence_treshold, no_train)

@@ -45,6 +45,11 @@ def visualize(indices):
         cv2.imshow(WINDOW_NAME, im)
         
         raw_key = cv2.waitKeyEx(0)
+
+        # window explicitly closes by clicking on the 'x' on windows
+        if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+            break
+
         if raw_key in [97, 81, 65361, 2424832]: # A or LEFT
             idx = max(0, idx - 1)
         elif raw_key in [100, 83, 65363, 2555904]: # D or RIGHT

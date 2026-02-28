@@ -66,7 +66,7 @@ def unzip_run(run_dir_name):
     zip_file_path = run_rel_path / YOLO_ZIP_NAME
 
     if not zip_file_path.is_file():
-        print_error("the specified run is already zipped")
+        print_error("the specified run is already unzipped")
         exit(1)
     
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:

@@ -11,6 +11,9 @@ LABELS_ABS_DIR = STRATEGIES_ABS_DIR.parent / "labels"
 IMAGES_ABS_DIR = STRATEGIES_ABS_DIR.parents[2] / "dataset/images"
 os.chdir(LABELS_ABS_DIR)
 
+def sort_files(fname):
+    return int(fname.stem)
+
 def print_usage():
     print(f"\033[38;5;120m\033[1mUSAGE:\033[0m\n  visualize_labels.py <strategy>\n  visualize_labels.py help")
 
@@ -61,7 +64,9 @@ if __name__ == "__main__":
     cv2.namedWindow(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    images = [f for f in IMAGES_ABS_DIR.iterdir() if f.is_file()]
+    images = [f for f in IMAGES_ABS_DIR.iterdir() if f.is_file() and f.name.endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+    images.sort(key=sort_files)
+
     num_images = len(images)
 
     idx = 0
@@ -121,6 +126,11 @@ if __name__ == "__main__":
             cv2.imshow(WINDOW_NAME, im)
             
         raw_key = cv2.waitKeyEx(0)
+
+        # window explicitly closes by clicking on the 'x' on windows
+        if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+            break
+
         if raw_key in [97, 81, 65361, 2424832]: # A or LEFT
             idx = max(0, idx - 1)
         elif raw_key in [100, 83, 65363, 2555904]: # D or RIGHT

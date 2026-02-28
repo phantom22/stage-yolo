@@ -1,0 +1,82 @@
+\documentclass[a4paper, oneside]{book}
+\usepackage[italian]{babel}
+\usepackage{graphicx} % allows inserting graphics
+\usepackage{listings}
+\usepackage{algpseudocode} % allows code snippets
+\usepackage{algorithm}
+\usepackage{hyperref} % allows
+\usepackage{subcaption} 
+\usepackage[export]{adjustbox} 
+\usepackage{wrapfig} % allows warped figures
+\usepackage[acronym]{glossaries} % add glossary
+\usepackage{acronym} % add acronyms
+\usepackage{subfiles} % support multiple files
+\usepackage{fancyhdr} % more control on headers and footers
+\usepackage{xcolor}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\graphicspath{ {./images/} }
+
+\pagestyle{plain} %oppure none
+% Altrimenti usare fancy header per più controllo: https://www.overleaf.com/learn/latex/Headers_and_footers#Using_the_fancyhdr_package
+
+\usepackage[
+backend=biber,
+style=ieee,
+sorting=ynt
+]{biblatex}
+
+% serve per risolvere conflitti di versione della libreria biblatex
+\makeatletter
+\@ifundefined{abx@macro@volume+number}{%
+  \newbibmacro*{volume+number}{%
+    \printfield{volume}%
+    \setunit*{\adddot}%
+    \printfield{number}%
+  }%
+}{}
+\makeatother
+
+\addbibresource{extra/bibliografia.bib}
+% per mostrare tutta la bibliografia, a
+\nocite{*} 
+
+\makeglossaries
+\loadglsentries{extra/glossario.tex}
+
+\begin{document}
+
+\subfile{chapters/0-frontespizio.tex}
+
+\tableofcontents
+% \listoffigures
+% \listoftables
+\printglossary
+\clearpage
+
+\subfile{extra/acronimi.tex}
+
+\subfile{chapters/1-introduzione.tex}
+\subfile{chapters/2-stato-dell-arte.tex}
+\subfile{chapters/3-dataset.tex}
+\subfile{chapters/4-metodi.tex}
+\subfile{chapters/5-esperimenti-e-risultati.tex}
+\subfile{chapters/6-conclusioni.tex}
+
+% \subfile{chapters/tutorial/1-structure.tex}
+% \subfile{chapters/tutorial/2-text-style.tex}
+% \subfile{chapters/tutorial/3-elements-of-the-document.tex}
+% \subfile{chapters/tutorial/4-positioning-and-size.tex}
+% \subfile{chapters/tutorial/5-advanced-images-and-table.tex}
+% \subfile{chapters/tutorial/6-additional-concepts.tex}
+% \subfile{chapters/tutorial/7-multiple-files-management.tex}
+% \subfile{chapters/tutorial/8-citations.tex}
+
+\subfile{chapters/7-bibliografia.tex}
+
+% \appendix
+% \subfile{chapters/8-appendice-a.tex}
+% \subfile{chapters/9-appendice-b.tex}
+
+\end{document}

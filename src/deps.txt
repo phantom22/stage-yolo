@@ -1,20 +1,16 @@
-| ubuntu          | fedora               |
-|-----------------+----------------------|
-|          python3-matplotlib            |
-|          python3-plotly                |
-|          python3-pandas                |
-|          python3-seaborn               |
-| python3-sklearn | python3-scikit-learn |
-|          for datumaro: 1*              |
-|          python3-mplcursors            |
-| apt get opencv    | dnf install opencv |
-|  for torch torchvision torchaudio: 2*  |
-|           for ultralytics: 3*          |
-|      for scikit-multilearn: 4*         |
+from project root:
+python3.13 -m venv .venv
 
-1*: /usr/bin/python3.13 -m pip install datumaro
-2*: /usr/bin/python3.13 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-3*: /usr/bin/python3.13 -m pip install ultralytics
-4*: /usr/bin/python3.13 -m pip install scikit-multilearn
+on linux:
+    terminal:
+        source .venv/bin/activate
 
-/usr/bin/python3.13 src/main.py
+on windows:
+    powershell:
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    cmd:
+        .\.venv\Scripts\Activate.ps1
+    also set `Settings > Advanced System Settings > Developer mode > On`
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+pip install matplotlib plotly pandas seaborn scikit-learn mplcursors opencv-python scikit-multilearn datumaro ultralytics

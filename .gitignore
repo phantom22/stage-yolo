@@ -9,3 +9,4 @@ src/yolo/data/labels/*.cache
 .vscode
 TODO
 .venv
+*.npy

@@ -1,27 +1,8 @@
 import os
 import sys
 from pathlib import Path
-import shutil
-import numpy as np
-import yaml
-import time
-import json
-import random
-
-import yaml
-import zipfile
-
-import math
-
-from skmultilearn.model_selection import iterative_train_test_split
 
 from yolo_config import *
-from util import zip_run
-from helpers import visualize
-import dataset
-from yaml_parse import *
-
-from ultralytics import YOLO
 
 def format_time(seconds):
     hours, rem = divmod(seconds, 3600)
@@ -111,6 +92,7 @@ def prepare_train_val_txt_files(config):
 
         # --- APPROACH B ---
 
+        from skmultilearn.model_selection import iterative_train_test_split
         dataset_bin_df = dataset.dataset_bin_df
         X = np.array([[x] for x in range(dataset_bin_df.shape[1])])
         Y = dataset_bin_df.T.values
@@ -136,6 +118,8 @@ def prepare_train_val_txt_files(config):
     abs_val_txt = abs_run_dir / "val.txt"
 
     cumulative_train = []
+
+    base_model_dir = config["base_model_dir"]
 
     if base_model_dir is not None:
         data_json_path = base_model_dir / "data.json"
@@ -186,6 +170,8 @@ def prepare_train_val_txt_files(config):
         json.dump(json_data_yaml_dump, f, indent=2)
     print_fs(f"written to {run_name}/data.json")
 
+    strategy_labels = config["labels"]
+
     with open(abs_train_txt, mode) as f:
         f.writelines([str(YOLO_IMAGES_REL_DIR / strategy_labels / f"{i}.jpg") + "\n" for i in train_files])
     print_fs(f"written to {run_name}/train.txt")
@@ -213,6 +199,19 @@ if __name__ == "__main__":
                 "  train.py help\n"
         )
         exit(0)
+
+    import shutil
+    import yaml
+    import zipfile
+    import json
+    import math
+    import time
+    import random
+    import numpy as np
+    from util import zip_run
+    from helpers import visualize
+    import dataset
+    from yaml_parse import *
 
     DATASET_IMG_ABS_DIR.mkdir(exist_ok=True)
     YOLO_RUNS_ABS_DIR.mkdir(exist_ok=True)
@@ -264,7 +263,7 @@ if __name__ == "__main__":
     ##             BASE MODEL            ##
     #######################################
 
-    if args["base"] != YOLO_DEFAULT_BASE_MODEL:
+    if args["base"] != YOLO_DEFAULT_BASE_MODEL and not args["base"].endswith(".pt"):
         base_model_dir = YOLO_RUNS_ABS_DIR / config["base"]
         base_model_name = base_model_dir / "weights/best.pt"
 
@@ -292,8 +291,10 @@ if __name__ == "__main__":
             exit(1)
 
         config["instant"] = base_model_config["instant"]+1
+        config["base_model_dir"] = base_model_dir
     else:
         config["base"] = args["base"]
+        config["base_model_dir"] = None
 
     #######################################
     ##       PREPARE YOLO FILESYSTEM     ##
@@ -305,16 +306,17 @@ if __name__ == "__main__":
 
     yaml_parse_strategy(config, strategy_yaml)
 
-    print(config["instant"])
-    exit(0)
-
     prepare_train_val_txt_files(config)
 
     #######################################
     ##     PREPARE STRATEGY data.yaml    ##
     #######################################
 
-    strategy_yaml['instant'] = config["instant"]
+    instant = config["instant"]
+    strategy_labels = config["labels"]
+    split_ratio = config["ind"]["split_ratio"]
+
+    strategy_yaml['instant'] = instant
     strategy_yaml['path'] = "."
     strategy_yaml['train'] = f"runs/segment/{run_name}/train.txt"
     strategy_yaml['val'] = f"runs/segment/{run_name}/val.txt"
@@ -325,10 +327,12 @@ if __name__ == "__main__":
         yaml.dump(strategy_yaml, f)
     print_fs(f"written to {run_name}/data.yaml")
 
+    base_model = args["base"]
+
     if instant == 0:
-        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{strategy}', labels='{strategy_labels}',\n  split_ratio={restriction_spec['split_ratio']}, base_model='{base_model}'\n]? (y/n): "
+        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{strategy}', labels='{strategy_labels}',\n  split_ratio={split_ratio}, base_model='{base_model}'\n]? (y/n): "
     else:
-        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{strategy}', labels='{strategy_labels}',\n  split_ratio={restriction_spec['split_ratio']}, base_model='{base_model_dir.name}', instant={instant}\n]? (y/n): "
+        confirmation_text = f"proceed to train [\n  run_name='{run_name}', strategy='{strategy}', labels='{strategy_labels}',\n  split_ratio={split_ratio}, base_model='{base_model_dir.name}', instant={instant}\n]? (y/n): "
 
     if input(confirmation_text) != "y":
         if input(f"also remove the 'runs/segment/{run_name}/' folder? (y/n): ") == "y":
@@ -340,7 +344,10 @@ if __name__ == "__main__":
         print("aborting...")
         exit(0)
 
-    dataset_img_sym_link = YOLO_ABS_DIR / "data/images" / strategy_labels
+    base_images_folder = YOLO_ABS_DIR / "data/images"
+    base_images_folder.mkdir(exist_ok=True)
+
+    dataset_img_sym_link = base_images_folder / strategy_labels
     
     if dataset_img_sym_link.is_file() or dataset_img_sym_link.is_symlink():
         dataset_img_sym_link.unlink()
@@ -352,21 +359,38 @@ if __name__ == "__main__":
     dataset_img_sym_link.symlink_to(DATASET_IMG_ABS_DIR)
     print_fs(f"created 'yolo/data/images/{strategy}' symlink that points to 'dataset/images'")
 
+    from ultralytics import YOLO
     model = YOLO(base_model) 
 
     print(f"Training {gb(run_name)}...")
     start_t = time.time()
-    
-    model.train(
-        data=final_data_yaml,
-        epochs=100,
-        imgsz=640,
-        batch=16,
-        device=0,      
-        name=run_name,
-        exist_ok=True,
-        cache=True
-    )
+
+    if sys.platform == "win32":
+        model.train(
+            data=final_data_yaml,
+            imgsz=640,
+            device=0,
+            exist_ok=True,
+            name=run_name,
+            project=str(YOLO_RUNS_ABS_DIR),
+            **config["args"],
+            # windows optimizations
+            cache='disk',
+            fraction=1.0,
+            overlap_mask=False
+        )
+    else:
+        model.train(
+            data=final_data_yaml,
+            imgsz=640,
+            device=0,
+            exist_ok=True,
+            cache=True,
+            name=run_name,
+            project=str(YOLO_RUNS_ABS_DIR),
+            workers=0,
+            **config["args"]
+        )
     
     total_duration = time.time() - start_t
     

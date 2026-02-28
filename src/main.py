@@ -8,6 +8,7 @@ what_to_preserve = set([DD_COCA_COLA, DD_CHINOTTO, DD_THE_PESCA, DD_SPRITE, DD_M
 full_set = set(variables)
 ddataset_manifest = get_detailed_dataset_manifest()# drop=list(full_set - what_to_preserve))
 ddataset_manifest.prepare_2D_PCA_fig()
+
 # visualize(ddataset_manifest.query(
 #     gt={
 #         DD_LICORICE:1

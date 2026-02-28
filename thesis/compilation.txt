@@ -1,0 +1,4 @@
+pdflatex main
+biber --output-directory C:\Programming\latex-minted-cache\ main
+makeglossaries -d C:\Programming\latex-minted-cache\ main
+pdflatex main

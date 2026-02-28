@@ -1,0 +1,62 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Advanced images and table}
+\label{chap:tutorial5}
+
+\section{Double figures}
+Praesent in sapien. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis fringilla tristique neque...
+
+\begin{figure}[h]
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=0.9\linewidth, height=6cm]{u14} 
+\caption{Caption1}
+\label{fig:subim1}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=0.9\linewidth, height=6cm]{u14}
+\caption{Caption 2}
+\label{fig:subim2}
+\end{subfigure}
+
+\caption{Caption for this figure with two images}
+\label{fig:image2}
+\end{figure}
+
+Praesent blandit blandit mauris. Praesent lectus tellus, aliquet aliquam, luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc quis urna dictum turpis accumsan semper.
+
+\section{Wrapped images}
+
+Praesent in sapien. Lorem ipsum dolor sit amet, consectetuer 
+adipiscing elit. Duis fringilla tristique neque. Sed interdum 
+libero ut metus. Pellentesque placerat.
+
+\begin{wrapfigure}{l}{0.25\textwidth}
+\includegraphics[width=0.9\linewidth]{u14} 
+\caption{Caption1}
+\label{fig:wrapfig}
+\end{wrapfigure}
+
+Praesent in sapien. Lorem ipsum dolor sit amet, consectetuer 
+adipiscing elit. Duis fringilla tristique neque. Sed interdum
+Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Wrapped Tables}
+
+Ciao! \cite{knuthwebsite}. Questo è il sito di Knuth.
+
+Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+%------------------------------------------
+\begin{wraptable}{r}{5.5cm}
+\caption{A wrapped table going nicely inside the text.}\label{wrap-tab:1}
+\begin{tabular}{ccc}\  
+Header-1 & Header-1 & Header-1 \\
+2 &3 & 5\\  
+2 &3 & 5\\  
+2 &3 & 5\\  
+\end{tabular}
+\end{wraptable}
+Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\end{document}
