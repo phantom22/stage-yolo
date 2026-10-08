@@ -5,7 +5,7 @@
 \chapter{Introduzione}
 \label{chap:intro}
 
-Nel contesto di un sistema informatico preposto al riconoscimento esclusivo degli alimenti sui vassoi, è fondamentale poter scartare i falsi positivi che si presentano sotto forma di oggetti inorganici (quali bicchieri, posate o altri elementi estranei) e, possibilmente, anche riconoscere in modo specifico certi prodotti come le lattine. Per raggiungere questo obiettivo è pertanto necessario addestrare un modello di visione artificiale atto alla segmentazione e classificazione che possa riconoscere genericamente il cibo oltre alle classi specifiche. 
+Nel contesto di un sistema informatico preposto al riconoscimento esclusivo delle pietanze sui piatti dei vassoi, è fondamentale poter estenderne le capacità di modo che possa individuare anche oggetti rigidi (quali bicchieri, posate o altri elementi estranei) e, eventualmente, anche riconoscere in modo più specifico certi prodotti come la marca di una lattina. Per raggiungere questo obiettivo è necessario addestrare un modello di visione artificiale atto alla segmentazione e classificazione che possa integrare le categorie del sistema preesistente con il riconoscimento specifico dei nuovi elementi.
 
 
 \vspace{\baselineskip}
@@ -13,8 +13,114 @@ Nel contesto di un sistema informatico preposto al riconoscimento esclusivo degl
 Il problema reale del non poter addestrare un modello monoblocco in una singola iterazione è intrinseco ai luoghi ad alta varianza come le mense. Le ragioni per cui le classi possono cambiare nel tempo, sia a livello semantico che di disponibilità, sono molteplici; modellare fedelmente simili scenari richiede, pertanto, una progettazione accurata.
 
 % Sono tante le possibili ragioni per cui le classi possono cambiare nel tempo sia a livello di semantica che a livello di disponibilità e modellare fedelmente questo tipo di scenari richiede deliberatezza
+\clearpage
+
 \vspace{\baselineskip}
 \noindent
-Una delle difficoltà più significative dell'acquisizione del dataset riguarda 
+L'insieme delle immagini che è stato acquisito è caratterizzato da una serie di scelte deliberate, mirate sia ad emulare fedelmente vassoi reali (Figura~\ref{fig:i32}) sia a focalizzarsi su scenari più complessi (Figura~\ref{fig:i47}).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{intro_32.jpg} 
+        \caption{32.jpg}
+        \label{fig:i32}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{intro_47.jpg}
+        \caption{47.jpg}
+        \label{fig:i47}
+    \end{subfigure}
+\end{figure}
+
+\noindent
+Inoltre, durante la fase di acquisizione, sono state utilizzate delle tecniche di analisi statistica al fine di individuare quali classi necessitino più esemplari ma, anche, di evitare troppe foto contenenti una selezione simile di oggetti.
+
+\noindent
+Successivamente, una volta annotate, queste immagini possono essere impiegate nell'addestramento di un modello.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{29.jpg} 
+        \caption{29.jpg}
+        \label{fig:i29}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{29_ann.png}
+        \caption{29.jpg annotata.}
+        \label{fig:i92ann}
+    \end{subfigure}
+    \hfill
+
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{62.jpg} 
+        \caption{62.jpg}
+        \label{fig:i62}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{62_ann.png}
+        \caption{62.jpg annotata.}
+        \label{fig:i62ann1}
+    \end{subfigure}
+\end{figure}
+
+\clearpage
+
+\noindent
+Lo studio dei vari scenari esplorati, sia mono-istante che multi-istante, ha permesso di concludere che avere un dataset più bilanciato, quindi costituito da classi che superino almeno una certa soglia di istanze, fosse fondamentale per il rendimento dei modelli addestrati. In questo caso specifico, alcune classi sono costituite da meno di dieci esemplari e ciò comporta delle chiare degradazioni nella qualità predittiva.
+
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.9\textwidth}
+        \includegraphics[width=\linewidth]{run_15.jpg}
+        \caption{Esempio di degradazione della qualità della maschera, dovuta alla sottorappresentazione di oggetti trasparenti, come le forchette di plastica.}
+        \label{fig:ip1}
+    \end{subfigure}
+    \hfill
+
+    % \vspace{0.2cm}
+
+    \begin{subfigure}{0.9\textwidth}
+        \includegraphics[width=\linewidth]{run_127.jpg} 
+        \caption{Esempio di localizzazione fallita dovuta al numero ristretto di istanze, offerto dalle lattine di Chinotto.}
+        \label{fig:ip2}
+    \end{subfigure}
+    \hfill
+
+    % \vspace{0.2cm}
+
+    \begin{subfigure}{0.9\textwidth}
+        \includegraphics[width=\linewidth]{run_137.jpg}
+        \caption{Stessa problematica della Figura~\ref{fig:ip3}, anche la classe dei telefoni è caratterizzata dalla scarsità di istanze.}
+        \label{fig:ip3}
+    \end{subfigure}
+\end{figure}
+
+\noindent
+Inoltre, si è osservato come l'addestramento a due istanti possa offrire vantaggi nel contesto di un dataset così piccolo, grazie alla riproposizione di immagini rappresentative dell'istante precedente.
+
+\clearpage
+
+\section{Struttura dell'elaborato}
+\noindent
+Nel Capitolo~\ref{chap:state-of-the-art} viene fatta una panoramica relativa ai modelli di visione artificiale per la localizzazione e segmentazione, spiegando nel dettaglio le ragioni per cui l'architettura YOLO sia evoluta fino a diventare lo stato dell'arte.
+
+\vspace{\baselineskip}
+\noindent
+Il Capitolo~\ref{chap:dataset} espone tutte le considerazioni fatte durante la raccolta dei dati da utilizzare per l'addestramento tra cui, anche, l'analisi statistica, le cardinalità delle classi e lo strumento utilizzato per l'annotazione delle immagini.
+
+\vspace{\baselineskip}
+\noindent
+Il Capitolo~\ref{chap:experiments-and-results} descrive le strategie di addestramento che sono state utilizzate per esplorare i vari scenari modellati, con tutte le relative configurazioni e risultati numerici.
+
+\vspace{\baselineskip}
+\noindent
+Infine, il capitolo~\ref{chap:conclusions} inquadra i risultati, discutendo le potenziali cause e gli sviluppi futuri.
+
 
 \end{document}

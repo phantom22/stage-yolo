@@ -5,6 +5,87 @@
 \chapter{Stato dell'arte}
 \label{chap:state-of-the-art}
 
-Il modello \texttt{yolo11m-seg.pt}\cite{yolo11_ultralytics} è stato pre-addestrato sul dataset \texttt{COCO-seg}\cite{lin2015microsoft}, fatto da 118287 immagini di train e 5000 immagini di validazione; questo permette l'utilizzo del \gls{transfer_learning} applicato a un dataset ristretto.
+\section{YOLO}
+% \subsection{YOLOv1}
+Nel 2016 l'algoritmo di \gls{deeplearning} basato su una \gls{cnn} sviluppato da Joseph Redmon et al.~\cite{redmon2016you} intitolato \textbf{You only look once} ha stravolto il campo della visione artificiale. Come si può intuire dal nome, questo approccio svolge in un singolo passo ciò che i suoi predecessori (come R-CNN~\cite{girshick2014rich}, Fast R-CNN~\cite{girshick2015fast} e Faster R-CNN~\cite{ren2015faster}) facevano in più passi.
+
+
+% "L'algoritmo di ottimizzazione minimizza una funzione di costo composta da tre termini: la localizzazione del box, la confidenza dell'oggetto e l'accuratezza della classificazione."
+
+\vspace{\baselineskip}
+\noindent
+L'approccio introdotto da Redmon, infatti, non necessita più di analizzare l'immagine per trovare delle potenziali regioni candidato; al contrario, tale metodologia ha convertito il problema della localizzazione degli oggetti in un singolo compito di regressione spaziale. In questo cambio di paradigma, la velocità di elaborazione è diventata il focus principale, sebbene ciò sia avvenuto a scapito della massima precisione teorica garantita dagli approcci multi-stadio.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{yolov1_error_analysis.png}
+\caption{Analisi degli errori tra Fast R-CNN e YOLO: \textit{Correct} indica la percentuale di predizioni corrette, \textit{Loc.} per gli errori di localizzazione (classe di appartenenza corretta), \textit{Sim.} considera gli errori dovuti a classi visivamente simili tra di loro, \textit{Background} indica le volte in cui lo sfondo è stato considerato un oggetto e \textit{Other} raggruppa tutto il resto. Questo confronto esalta i pro e i contro di entrambi gli approcci: Fast R-CNN è più preciso di YOLO, però è più propenso a classificare erroneamente lo sfondo come oggetto, mentre l'altro tende ad essere impreciso nel calcolo dei \gls{boundingbox}. Questa analisi è utile per sottolineare il compromesso scelto tra velocità e precisione. Figura tratta dalla pubblicazione originale di Redmon et al.~\cite{redmon2016you}.}
+\end{figure}
+
+\clearpage
+
+\subsection{Come funziona}
+L'intuizione principale dietro al funzionamento di YOLO consiste nel suddividere l'immagine in una griglia quadrata di celle ($S \times S$). Ciascuna di esse predice se al suo interno ricade il \gls{centroide} di un oggetto, stimando la classe di appartenenza e le coordinate dei due relativi bounding box, associando a ciascuno di essi un punteggio di confidenza; i rettangoli che emergono dalle predizioni sono vincolati a una libertà morfologica limitata e alla presunzione di forme geometriche semplici. La limitazione dei soli due bounding box per cella e la relativa semplicità geometrica degli oggetti riconosciuti rendevano impossibile la localizzazione di oggetti troppo vicini o sovrapposti, specialmente in presenza di significative discrepanze di scala tra di essi.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{yolov1_grid.png}
+\caption{Rappresentazione del meccanismo di predizione di YOLO basato su una griglia spaziale $7 \times 7$. Nonostante possa sembrare che il numero di bounding box fosse elevato, in realtà il sistema genera un numero contenuto di candidati ($7\times7\times2 = 98$), a differenza degli approcci precedenti basati su \textit{\gls{region_proposals}} che arrivavano ad analizzarne circa 2000 per singola immagine. Figura tratta dalla pubblicazione originale di Redmon et al.~\cite{redmon2016you}.}
+\label{img:yolov1_grid}
+\end{figure}
+
+\subsection{Vantaggi}
+L'utilizzo di un modello pre-addestrato offerto da Ultralytics~\cite{ultralytics_inc}, come modello di partenza, permette di risparmiare una quantità notevole di calcolo sfruttando il \gls{transfer_learning}. Questa tecnica adatta i pesi appresi della rete neurale alle esigenze specifiche di un dataset di dimensione ridotta.
+
+\noindent
+Entrambi i modelli analizzati, Ultralytics YOLO11 e YOLO26, sono stati addestrati sul dataset \texttt{COCO}~\cite{lin2015microsoft}, composto da 118 mila immagini di train e 5 mila immagini di validazione, su 80 classi. La vasta quantità di immagini ha permesso di apprendere una gamma eterogenea di \gls{texture}, pattern geometrici e contrasti cromatici. Attraverso questa esposizione massiva, i modelli sviluppano una gerarchia di filtri convoluzionali capace di estrarre caratteristiche di basso livello (come bordi e angoli) e di alto livello (forme complesse e relazioni spaziali), garantendo una solida base di conoscenza visiva che rende l'addestramento sui dati specifici del progetto più rapido e meno incline al fenomeno dell'\gls{overfitting}.
+
+\clearpage
+
+\section{Ultralytics YOLO11}
+Tra il modello accademico YOLOv1 e il modello industriale YOLO11 (2024) c'è stato un progresso tecnologico notevole. La limitazione principale dei due bounding box per cella è stata completamente superata da un approccio \textit{Anchor-Free} che permette di individuare il centroide di un oggetto con la sua bounding box e, successivamente, generare coefficienti di maschera che andranno combinati con dei prototipi di maschere globali per ritagliare la sagoma esatta (pixel per pixel) dell'oggetto.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{yolo11_architecture.png}
+\caption{Rappresentazione schematica dell'architettura di YOLO11. Immagine tratta da \cite{khan2024leafnet}, disponibile sotto licenza CC BY 4.0.}
+\label{img:yolov11_architecture}
+\end{figure}
+
+\subsection{Backbone}
+Il calcolo dei coefficienti di maschera, in realtà, è il passo finale al quale si arriva a partire dall'architettura \gls{csp} del \gls{backbone} che, non solo riesce ad estrarre descrittori più precisi (come \gls{texture} e bordi sottili), ma è anche computazionalmente più efficiente. Si tratta di una strategia \gls{divide_et_impera} che apprende come separare in due rami di flusso le \gls{feature} in input, per applicare \glspl{filtro_convolutivo} (Kernel) solo su metà di esse per poi combinarlo con l'altro ramo, rimasto intatto. Questo permette di evitare computazioni ridondanti, virtualmente dimezzando le operazioni matematiche necessarie ma, anche, di preservare la fedeltà spaziale dei dati durante il processo di astrazione; in particolare essa è costituita da moduli \gls{c3k2} dove il prefisso\textit{C3} si riferisce a "CSP \gls{bottleneck} con 3 convoluzioni", ormai in utilizzo da YOLOv5, mentre \textit{k2} indica l'uso di kernel più piccoli e ottimizzati, spesso $3 \times 3$.
+
+\clearpage
+
+\subsection{Neck}
+Il Neck di YOLO11 adotta una versione ottimizzata della \gls{fpn} (Enhanced FPN), progettata per massimizzare il flusso informativo tra i diversi livelli di astrazione del modello. A differenza delle implementazioni convenzionali, la Enhanced FPN di YOLO11 integra moduli di attenzione spaziale \gls{c2psa} e blocchi estrattivi C3k2. Questa combinazione permette una fusione multiscala più efficace, dove il contesto globale fornito dai livelli a bassa risoluzione guida il raffinamento dei dettagli geometrici nei livelli ad alta risoluzione, risultando in una segmentazione delle istanze estremamente precisa e computazionalmente efficiente.
+
+\vspace{\baselineskip}
+\noindent
+Il modulo \gls{sppf} effettua tre passaggi di \gls{maxpooling} in cascata di un unico filtro di dimensione fissa ($5 \times 5$). L'architettura è definita \textbf{Fast} poiché, riutilizzando sequenzialmente l'output del passaggio precedente, si ottiene un effetto matematicamente equivalente all'applicazione di filtri di dimensioni $5 \times 5$, $9 \times 9$ e $13 \times 13$. Questo approccio permette di estrarre le \textit{feature} con il valore di attivazione massimo, ovvero le caratteristiche più significative, su campi ricettivi progressivamente più ampi, riducendo drasticamente il costo computazionale rispetto al calcolo di grandi filtri convoluzionali in parallelo. Il risultato dei Max Pool viene concatenato insieme alle feature in input.
+
+\vspace{\baselineskip}
+\noindent
+Il modulo \gls{c2psa} riceve tali dati ed estrae una mappa di attenzione che ottimizza la rilevanza semantica e il dettaglio spaziale. Questo modulo eredita la logica funzionale del C3k2, basandosi sulla filosofia CSP per la gestione del flusso dei dati. La differenza risiede nei blocchi operativi: se il C3k2 utilizza una successione di \gls{bottleneck} convoluzionali per le caratteristiche geometriche, il C2PSA usa blocchi di \textit{Parallel Spatial Attention} (PSA).
+
+\subsection{Head}
+L'approccio architetturale \gls{anchorfree} di YOLO11 permette alla \gls{decoupledhead} di predire la posizione degli oggetti senza la necessità di definire \textit{anchor boxes} a priori (nella forma di rettangoli predefiniti di varie scale e rapporti di forma). Infatti, una volta trovato il centroide di un oggetto, il rispettivo bounding box viene calcolato in termini di distanza dei suoi bordi rispetto al centroide stesso. Dopodiché vengono estratti i coefficienti di maschera che verranno utilizzati come pesi per ritagliare pixel per pixel la maschera finale all'interno del bounding box.
+
+\clearpage
+
+\section{Ultralytics YOLO26}
+
+Il modello YOLO26, introdotto all'inizio del 2026, rappresenta l'attuale frontiera della ricerca nell'ambito dell'inferenza in tempo reale. Questo modello presenta una serie di scelte che puntano a migliorare sia l'efficienza che la qualità delle predizioni.
+
+\vspace{\baselineskip}
+\noindent
+La strategia di training prevede \gls{duallabelassignment}, ovvero l'addestramento contemporaneo di due obiettivi diversi: l'obiettivo \textit{One-to-Many} (ausiliario), lo stesso di YOLO11, e l'obiettivo \textit{One-to-One} (principale). Il primo permette a più predizioni di riferirsi alla stessa istanza mentre il secondo seleziona un unico candidato ottimale attraverso un processo di \textit{bipartite matching}. Tale processo analizza l'intero insieme delle predizioni e cerca la configurazione che identifica gli oggetti reali nel modo più efficiente possibile; questa selezione viene guidata dalla minimizzazione di una \textit{Cost Function} che valuta la precisione della localizzazione, la correttezza della classe e la fedeltà della maschera di segmentazione. L'innovazione di YOLO26 consiste nella rimozione del ramo ausiliario dalle Head a fine addestramento, preservando la selettività del candidato migliore e garantendo un'architettura \gls{nms}-Free (\gls{endtoend}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{yolo26vsyolo11.png}
+\caption{Confronto tra YOLO11 e YOLO26: sull'asse y è raffigurata la performance mentre sull'asse x è collocato il costo computazionale, direttamente correlato alla dimensione dei cinque modelli disponibili (n=nano, s=small, m=medium, l=large, x=extra-large) . Grafico tratto dal sito ufficiale di Ultralytics Inc.~\cite{ultralytics_inc}.}
+\label{img:yolo26vsyolo11}
+\end{figure}
 
 \end{document}

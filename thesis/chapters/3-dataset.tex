@@ -5,6 +5,346 @@
 \chapter{Dataset}
 \label{chap:dataset}
 
+L'acquisizione di un dataset è una condizione necessaria per effettuare il \gls{fine_tuning} del modello pre-addestrato \texttt{YOLO}~\cite{yolo11_ultralytics}. Tale procedura permette di specializzare l'architettura nel riconoscimento di classi non incluse nel dataset di pre-addestramento, adattando i pesi della rete neurale alle caratteristiche morfologiche delle classi appartenenti al dominio applicativo in esame.
+
+\vspace{\baselineskip}
+\noindent
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{oggetti.jpg}
+\caption{Parte degli oggetti utilizzati nelle foto del dataset.}
+\label{img:oggetti}
+\end{figure}
+
+\clearpage
+
+\section{Configurazione sperimentale}
+Il sistema di acquisizione è costituito da una struttura rigida munita di fotocamera che garantisce la ripresa dei vassoi ad una altezza costante; durante lo scatto si attivano due luci LED, apposte ai fianchi del sensore digitale della camera, che favoriscono un'illuminazione più omogenea tra i vari campioni.
+Le immagini generate sono di risoluzione 640x480 e spazio colore \gls{sRGB}, caratterizzate da diversi livelli di nitidezza e soggette a rumore digitale standard per la fascia medio-bassa della fotocamera.
+
+\vspace{\baselineskip}
+\noindent
+Per la simulazione delle pietanze si è fatto ricorso a modelli alimentari sintetici caratterizzati da diversi gradi di fedeltà estetica. L'utilizzo di tali repliche ha permesso di addestrare la classe eterogenea più grande, ovvero il pane, la frutta e le pietanze che si trovano sui piatti; il resto degli oggetti solidi è stato scelto considerando prima di tutto gli oggetti inorganici strettamente correlati al contesto della mensa (quali posate, bevande e condimenti) ma anche effetti personali che un utente della mensa potrebbe esibire (come fazzoletti, portafogli, telefoni).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{postazione.jpg}
+\caption{Esempio di allestimento del vassoio porta-oggetti sul sistema di acquisizione.}
+\label{img:3_postazione}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \caption{Cardinalità degli oggetti presenti nel dataset di 159 immagini, dove la colonna \textbf{imm} rappresenta il numero di immagini distinte in cui appare ciascun oggetto e la colonna \textbf{ist} il numero di istanze.}
+    \label{tab:full_cardinalities}
+    \small
+    \begin{tabular}{|l|l|l|} % Prima metà
+        \hline \textbf{classe} & \textbf{imm} & \textbf{ist} \\ \hline
+        Banana & 9 & 9 \\ \hline
+        Black Fork & 30 & 30 \\ \hline
+        Black Knife & 31 & 31 \\ \hline
+        Black Spoon & 25 & 25 \\ \hline
+        Black Thermal Bottle & 11 & 11 \\ \hline
+        Blue Thermal Bottle & 10 & 10 \\ \hline
+        Bordeaux napkin & 72 & 72 \\ \hline
+        Bread & 34 & 38 \\ \hline
+        Broccoli & 32 & 128 \\ \hline
+        Brown Thermal Bottle & 11 & 11 \\ \hline
+        Cake & 16 & 16 \\ \hline
+        Carrot & 46 & 227 \\ \hline
+        Cauliflower & 33 & 78 \\ \hline
+        Chinotto & 11 & 11 \\ \hline
+        Cigarettes & 18 & 18 \\ \hline
+        Coca Cola & 20 & 20 \\ \hline
+        Coca Cola Zero & 21 & 21 \\ \hline
+        Crackers & 31 & 31 \\ \hline
+        Croissant & 15 & 16 \\ \hline
+        Crushed Plastic Bottle & 15 & 15 \\ \hline
+        Dark Thermal Bottle & 11 & 11 \\ \hline
+        Disposable Cutlery & 23 & 23 \\ \hline
+        Ear Buds & 25 & 38 \\ \hline
+        Egg & 16 & 16 \\ \hline
+        Estathe Verde & 18 & 18 \\ \hline
+        Foco Maracuya & 10 & 10 \\ \hline
+        Gatorade & 26 & 26 \\ \hline
+        Gray Tray & 85 & 85 \\ \hline
+        Green Thermal Bottle & 11 & 11 \\ \hline
+        Kellogs & 27 & 27 \\ \hline
+        Keys & 38 & 38 \\ \hline
+        Licorice & 25 & 25 \\ \hline
+        Lighter & 47 & 62 \\ \hline
+        Lip Balm & 32 & 55 \\ \hline
+        Metal Fork & 48 & 60 \\ \hline
+    \end{tabular}
+    \quad % Spazio tra le due tabelle
+    \begin{tabular}{|l|l|l|} % Seconda metà
+        \hline \textbf{classe} & \textbf{imm} & \textbf{ist} \\ \hline
+        Metal spoon & 26 & 42 \\ \hline
+        Milka & 30 & 30 \\ \hline
+        Monster & 18 & 18 \\ \hline
+        Mug & 25 & 25 \\ \hline
+        Oil Cruet & 38 & 38 \\ \hline
+        Orange & 24 & 29 \\ \hline
+        Parchment paper & 44 & 44 \\ \hline
+        Peach & 14 & 14 \\ \hline
+        Peach Juice A & 19 & 19 \\ \hline
+        Peach Juice B & 25 & 27 \\ \hline
+        Pear Juice & 21 & 21 \\ \hline
+        Peas & 31 & 31 \\ \hline
+        Phone & 33 & 33 \\ \hline
+        Red Apple & 14 & 14 \\ \hline
+        Red Cup & 29 & 29 \\ \hline
+        Red Knife & 17 & 17 \\ \hline
+        Red Napkin & 76 & 76 \\ \hline
+        Red Thermal Bottle & 26 & 26 \\ \hline
+        Red Tray & 73 & 73 \\ \hline
+        Salmon & 27 & 27 \\ \hline
+        Salt Shaker & 26 & 26 \\ \hline
+        Sausage & 29 & 66 \\ \hline
+        Small Cup & 15 & 15 \\ \hline
+        Sprite & 22 & 22 \\ \hline
+        Steak & 30 & 30 \\ \hline
+        Teaspoon & 16 & 16 \\ \hline
+        Tennent's & 28 & 28 \\ \hline
+        The Pesca & 7 & 7 \\ \hline
+        Tissues & 42 & 52 \\ \hline
+        Transparent Cup & 32 & 32 \\ \hline
+        Transparent Fork & 19 & 19 \\ \hline
+        Wallet & 20 & 20 \\ \hline
+        Water & 30 & 49 \\ \hline
+        White Cup & 27 & 27 \\ \hline
+        White Napkin & 80 & 80 \\ \hline
+        Yogurt & 33 & 33 \\ \hline
+    \end{tabular}
+    \begin{tablenotes}
+        \small
+        \item[1] Dove un oggetto, in media, ha 34.90 istanze e appare in 28.15 foto distinte.
+    \end{tablenotes}
+\end{table}
+
+\clearpage
+
+\section{Considerazioni}
+La selezione degli oggetti è stata guidata da due obiettivi metodologici distinti.
+
+\vspace{\baselineskip}
+\noindent
+Il primo metodo mira a emulare fedelmente gli scenari tipici di una mensa universitaria o aziendale, infatti tiene conto di ciò che un utente medio può ordinare da un punto di vista nutrizionale; la presenza dei codici QR è solo una limitazione del sistema di acquisizione.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{10.jpg} 
+        \caption{10.jpg}
+        \label{fig:im_10}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{29.jpg}
+        \caption{29.jpg}
+        \label{fig:im_29}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{105.jpg}
+        \caption{105.jpg}
+        \label{fig:im_105}
+    \end{subfigure}
+    \caption{Esempi di vassoi realistici; compongono circa 2/3 del dataset.}
+    \label{fig:esempi_realistici_dataset}
+\end{figure}
+
+\noindent
+Il secondo, invece, ha come scopo far estrarre le \gls{feature} più complesse che si verificano durante scenari di di occlusione parziale e di variabilità prospettica. Quest'ultimo aspetto è cruciale per gli oggetti a sviluppo verticale (come bottiglie, lattine e borracce) che, a seconda della posizione sul vassoio, subiscono distorsioni ottiche tali da apparire bidimensionali o presentare inclinazioni variabili rispetto al piano del sensore; inoltre, l'inclusione di tre tovaglioli di colore diverso con o senza la presenza della carta sottovassoio dovrebbe esaltare esempi di alto e basso contrasto (quest'ultimo dovuto soprattutto ad oggetti dello stesso colore della superficie sulla quale sono stati appoggiati).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{45.jpg} 
+        \caption{45.jpg}
+        \label{fig:im_45}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{62.jpg}
+        \caption{62.jpg}
+        \label{fig:im_62}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{85.jpg}
+        \caption{85.jpg}
+        \label{fig:im_85}
+    \end{subfigure}
+    \caption{Esempi di vassoi "densi"; compongono circa 1/3 dataset.}
+    \label{fig:esempi_densi_dataset}
+\end{figure}
+
+\noindent
+Avere un dataset molto dettagliato permette di fare delle scelte granulari a livello di combinazioni tra oggetti nelle singole foto. Allo stesso modo ciò complica notevolmente sia la fase di addestramento che la fase di analisi grafica (che ha come scopo individuare le combinazioni sotto-rappresentate da arricchire nelle immagini successive). L'addestramento richiederebbe una quantità assai più vasta di immagini per raggiungere una soglia minima di istanze per classe, soprattutto perché certi oggetti sono troppo simili tra di loro, mentre l'analisi grafica, come nelle figure \ref{img:detailed_dataset_bccm} e \ref{img:detailed_dataset_2dpca}, risulta poco intuitiva nonostante dovesse dare una panoramica completa sulla distribuzione inter-classe degli oggetti.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{detailed_dataset_bccm.png}
+\caption{\Gls{ccm_matrix} relativa alle 71 classi calcolata sui dati binarizzati del dataset (dove ogni immagine tiene conto solo della presenza di una determinata classe, al posto del numero esatto di istanze). I valori sulla diagonale principale indicano il numero di immagini distinte in cui appare ciascuna classe. Le restanti celle indicano la frequenza di co-occorrenza, ovvero il numero di immagini distinte in cui due classi compaiono simultaneamente. In grigio sono evidenziate le combinazioni nulle, quindi mancanti.}
+\label{img:detailed_dataset_bccm}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{detailed_dataset_2dpca.png}
+\caption{Proiezione bidimensionale tramite \Gls{pca} della matrice di co-occorrenza della Figura~\ref{img:detailed_dataset_bccm}. L'analisi riduce la dimensionalità dello spazio delle occorrenze, raggruppando in \gls{cluster} spaziali le classi che tendono a comparire simultaneamente nelle medesime immagini. Tale rappresentazione evidenzia classi con una forte correlazione logica ma, anche, configurazioni che sono state sovra-rappresentate nel dataset.}
+\label{img:detailed_dataset_2dpca}
+\end{figure}
+
+\vspace{\baselineskip}
+\noindent
+\section{Configurazione finale}
+\subsection{Dataset Generico}
+Proprio per questa ragione sono state scelte 26 classi (Tabella \ref{tab:cardinalities}) che raggruppino al meglio il dataset dettagliato; inoltre sono anche stati rimossi gli elementi puramente accessori, come il colore dei vassoi (rosso o grigio) o la presenza della carta sottovassoio.
+
+\begin{table}[h!]
+    \centering
+    \caption{Quante volte ciascuna delle 26 classi appare in un'immagine distinta vs quante istanze ci sono in totale di ciascuna classe.}
+    \label{tab:cardinalities}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{classe} & \textbf{immagini} & \textbf{istanze} \\ \hline
+        Food & 96 & 739 \\ \hline
+        Snack & 59 & 88 \\ \hline
+        Sweets & 25 & 25 \\ \hline
+        Fork & 83 & 109 \\ \hline
+        Spoon & 49 & 83 \\ \hline
+        Knife & 41 & 48 \\ \hline
+        Disposable Cutlery & 23 & 23 \\ \hline
+        Napkin & 126 & 228 \\ \hline
+        Plastic Bottle & 51 & 93 \\ \hline
+        Crushed Plastic Bottle & 15 & 15 \\ \hline
+        Alluminum Can & 72 & 109 \\ \hline
+        Thermal Bottle & 35 & 80 \\ \hline
+        Tetrapak & 39 & 67 \\ \hline
+        Glass Bottle & 28 & 28 \\ \hline
+        Yogurt & 33 & 33 \\ \hline
+        Plastic Cup & 67 & 103 \\ \hline
+        Mug & 25 & 25 \\ \hline
+        Oil Cruet & 38 & 38 \\ \hline
+        Tissues & 42 & 52 \\ \hline
+        Keys & 38 & 38 \\ \hline
+        Wallet & 20 & 20 \\ \hline
+        Salt Shaker & 26 & 26 \\ \hline
+        Phone & 33 & 33 \\ \hline
+        Earbuds & 25 & 38 \\ \hline
+        Lighter & 47 & 62 \\ \hline
+        Lip Balm & 32 & 55 \\ \hline
+        Cigarettes & 18 & 18 \\ \hline
+    \end{tabular}
+    \begin{tablenotes}
+        \small
+        % \item[1] Con la classe \textbf{food}: una classe, in media, ha 84.30 istanze e appare in 43.93 foto distinte.
+        \item[1] Senza la classe \textbf{food}: una classe, in media, ha 59.11 istanze e appare in 41.92 foto distinte.
+    \end{tablenotes}
+\end{table}
+
+\vspace{\baselineskip}
+\noindent
+Avendo ridotto drasticamente il numero delle classi le figure, \ref{img:detailed_dataset_bccm} e \ref{img:detailed_dataset_2dpca}, di prima acquisiscono un significato grafico più immediato.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{dataset_bccm_full.png}
+\caption{Matrice di co-occorrenza relativa alle 26 classi scelte per il Dataset~Generico; l'utilizzo di classi più generiche ha rimosso le molteplici occorrenze nulle della Figura~\ref{img:detailed_dataset_bccm}, oltre ad aver reso i dati più compatti per l'analisi.}
+\label{img:dataset_bccm_full}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{dataset_2dpca_full.png}
+\caption{Grafico della PCA bidimensionale della matrice di co-occorrenza della Figura~\ref{img:dataset_bccm_full}; il numero contenuto di classi offre un quadro più immediato delle classi che spesso appaiono insieme nelle foto.}
+\label{img:dataset_2dpca_full}
+\end{figure}
+
+% Controparte della Figura \ref{img:detailed_dataset_2dpca}
+
+\noindent
+Dalle Figure \ref{img:dataset_bccm_full} e \ref{img:dataset_2dpca_full} si può dedurre che la classe \textbf{napkin} fosse un \gls{outlier} (questo è dovuto soprattutto a immagini dense come quelle mostrate nella Figura \ref{fig:esempi_densi_dataset}) quindi si potrebbe decidere di non considerarla nei Grafici, ad esempio filtrandola, oppure di focalizzarsi su altre classi da utilizzare nelle foto che verranno successivamente aggiunte al dataset.
+
+\clearpage
+
+\vspace{\baselineskip}
+\noindent
+\subsection{Dataset Specifico}
+\label{sec:dataset_specifico}
+Come ultima considerazione, le lattine sono state scelte come classe da analizzare più nel dettaglio. Per fare questo, sostanzialmente, ci sono due dataset: \textit{Dataset~Generico}, dove la lattina viene genericamente etichettata come \textbf{alluminum~can} e \textit{Dataset~Specifico}, dove le lattine vengono classificate in modo più preciso (con le classi della Tabella \ref{tab:cardinalities_alluminum_cans}). Le lattine di Coca Cola sono state raggruppate con le lattine di Coca Cola Zero sotto l'etichetta \textbf{coca~cola}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Quante volte ciascuna delle 6 classi di lattine appare in un'immagine distinta vs quante istanze ci sono in totale di ciascuna classe.}
+    \label{tab:cardinalities_alluminum_cans}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{classe} & \textbf{immagini} & \textbf{istanze} \\ \hline
+        Chinotto & 11 & 11 \\ \hline
+        Coca Cola & 30 & 41 \\ \hline
+        Foco Maracuya & 10 & 10 \\ \hline
+        Monster & 18 & 18 \\ \hline
+        Sprite & 22 & 22 \\ \hline
+        The Pesca & 7 & 7 \\ \hline
+    \end{tabular}
+    \begin{tablenotes}
+        \small
+        % \item[1] Con la classe \textbf{food}: una classe, in media, ha 79.50 istanze e appare in 42.80 foto distinte.
+        \item[1] Senza la classe \textbf{food}: una classe, in media, ha 51.23 istanze e appare in 37.20 foto distinte.
+        \center
+        \item[] La media è calcolata considerando anche le classi della Tabella \ref{tab:cardinalities}
+    \end{tablenotes}
+\end{table}
+
+\clearpage
+
+\section{Annotazione}
+Il dataset, composto da 159 immagini, è stato annotato tramite l'applicazione \gls{opensource} CVAT~\cite{cvat}, in modo semi-automatico con lo strumento aggiuntivo SAM~\cite{kirillov2023segment}; a causa della riflettanza dei materiali, gli oggetti caratterizzati da uno sviluppo verticale hanno presentato significative distorsioni nelle maschere generate automaticamente. Tale fenomeno ha reso necessario un esteso intervento di rifinitura manuale per garantire la fedeltà dei bordi e la coerenza delle annotazioni.
+
+\vspace{\baselineskip}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{29_ann.png} 
+        \caption{29.jpg}
+        \label{fig:im_29_ann}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{42_ann.png}
+        \caption{42.jpg}
+        \label{fig:im_42_ann}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{54_ann.png}
+        \caption{54.jpg}
+        \label{fig:im_54_ann}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{56_ann.png}
+        \caption{56.jpg}
+        \label{fig:im_56_ann}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\linewidth]{62_ann.png}
+        \caption{62.jpg}
+        \label{fig:im_62_ann}
+    \end{subfigure}
+    \hfill \null
+
+    \caption{Esempi di immagini annotate.}
+    \label{fig:esempi_ann_dataset}
+\end{figure}
+
 
 
 \end{document}

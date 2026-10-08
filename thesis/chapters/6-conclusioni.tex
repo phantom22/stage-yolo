@@ -6,6 +6,327 @@
 \chapter{Conclusioni}
 \label{chap:conclusions}
 
-This is \textcolor{red}{red text} for the final remarks of your thesis.
+Grazie ai molteplici scenari analizzati, è stata scoperta una serie di complicazioni. Visto che il dataset è stato deliberatamente modellato per emulare scenari realistici, è necessario soffermarsi sulle tipologie di problematiche che hanno reso il processo di addestramento particolarmente complicato, prima di poter discutere i risultati ottenuti e i potenziali sviluppi futuri.
+
+\noindent
+Le immagini acquisite contengono una vasta gamma di configurazioni di oggetti che richiedono particolare attenzione: oggetti influenzati (A) dalle distorsioni di prospettiva, (B) dai riflessi speculari e (C) dalle variazioni nell'orientamento. Quest'ultimo si verifica quando un oggetto è capovolto oppure posizionato lateralmente, cambiandone significativamente la percezione della sagoma e della texture. Tutti questi fattori compromettono l'accuratezza del riconoscimento.
+
+\clearpage
+
+\section{Distorsioni prospettiche e riflessi speculari}
+
+Problema di cui risentono soprattutto le lattine, le borracce e le bottiglie di vetro a causa della loro superficie ricurva e riflettente.
+
+\begin{figure}[h]
+    \centering
+    % Prima riga
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_1.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_2.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_3.png}
+    \end{minipage}% <-- Il % rimuove lo spazio prima della chiusura
+    }
+
+    \vspace{0.5cm}
+
+    % Seconda riga
+    \makebox[\textwidth][c]{%
+    \begin{minipage}[b]{0.31\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_4.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_5.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.31\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_6.png}
+    \end{minipage}%
+    }
+
+    \vspace{0.5cm}
+
+    \makebox[\textwidth][c]{%
+    \begin{minipage}[b]{0.30\textwidth}
+        \centering
+        \includegraphics[height=3.5cm]{conslusioni_A_7.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.5cm]{conslusioni_A_8.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[height=3.5cm]{conslusioni_A_9.png}
+    \end{minipage}% <-- Il % rimuove lo spazio prima della chiusura
+    }
+
+    \vspace{0.5cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.2cm]{conslusioni_A_10.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.34\textwidth}
+        \centering
+        \includegraphics[height=3.2cm]{conslusioni_A_11.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[height=3.2cm]{conslusioni_A_12.png}
+    \end{minipage}% <-- Il % rimuove lo spazio prima della chiusura
+    }
+
+    \caption{Esempi di oggetti che raffigurano contemporaneamente le problematiche (A), (B) e (C).}
+    \label{fig:conclusioni_A}
+\end{figure}
+
+\noindent
+L'apice della distorsione prospettica si raggiunge quando un oggetto è posizionato esattamente sotto al sensore della camera: questo comporta all'appiattamento dell'oggetto stesso e ne modifica drasticamente sia la sagoma che la texture.
+Si tratta di esempi difficili da apprendere soprattutto a causa della dimensione ristretta del dataset ma anche perché si verificano nelle classi caratterizzate da una bassa quantità di istanze (soprattutto nel Dataset Specifico~\ref{sec:dataset_specifico}).
+
+\clearpage
+
+\section{Orientamento e occlusione parziale}
+
+Anche l'orientamento degli oggetti è stato ampiamente rappresentato nel dataset nella forma di oggetti capovolti o posizionati lateralmente.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{54.jpg} 
+        \caption{54.jpg}
+        \label{fig:54}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{66.jpg}
+        \caption{66.jpg}
+        \label{fig:66}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{78.jpg}
+        \caption{78.jpg}
+        \label{fig:78}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{90.jpg}
+        \caption{90.jpg}
+        \label{fig:90}
+    \end{subfigure}
+
+    \caption{Esempi di oggetti orientati in modo inusuale.}
+    \label{fig:conclusioni_C}
+\end{figure}
+
+\noindent
+Le immagini della Figura \ref{fig:conclusioni_C} fanno parte dell'insieme di vassoi densi (citati in Figura~\ref{fig:esempi_densi_dataset}) che miravano ad aumentare la varianza degli oggetti per addestrare un modello che fosse capace di predire correttamente anche gli oggetti delle foto di vassoi reali.
+
+\noindent
+Mentre l'occlusione parziale spesso si verifica nelle posate, con posate sovrapposte tra di loro, per sottolineare la naturalezza di tale evento nelle mense.
+
+\clearpage
+
+\section{Troncamento degli oggetti}
+
+\noindent
+Infine le classi che sono particolarmente allungate, come le bottiglie e le borracce assieme a casi isolati di altre classi, presentano alcuni casi di troncamento, aggiunti appositamente per studiarne le conseguenze.
+
+\begin{figure}[h]
+    \centering
+    % Prima riga
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.30\textwidth}
+        \centering
+        \includegraphics[height=3.35cm]{conslusioni_A_13.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.35cm]{conslusioni_A_14.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[height=3.35cm]{conslusioni_A_15.png}
+    \end{minipage}% <-- Il % rimuove lo spazio prima della chiusura
+    }
+
+    \vspace{0.5cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_16.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_17.png}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[height=3.1cm]{conslusioni_A_18.png}
+    \end{minipage}% <-- Il % rimuove lo spazio prima della chiusura
+    }
+    \caption{Esempi di oggetti troncati; ciò si può dedurre osservando dove termina il vassoio.}
+    \label{fig:conclusioni_D}
+\end{figure}
+
+\noindent
+A causa di questa scelta, la classe delle bottiglie di vetro risulta essere una delle più sensibili durante la suddivisione delle immagini negli insiemi da usare durante l'addestramento.
+
+\clearpage
+
+\section{Analisi dei risultati}
+\subsection{Primo e terzo scenario}
+
+Osservando i Grafici \ref{img:1_performances} e \ref{img:3_performances} e considerando l'approccio che è stato impiegato, si può concludere che suddividere correttamente il dataset nei sottoinsiemi di addestramento e validazione sia la parte più cruciale dell'intero processo. Tralasciando questo dettaglio, i vari modelli addestrati, consistentemente, fanno fatica a distinguere le lattine di Coca-Cola, Sprite e Chinotto e, in modo meno accentuato, anche le forchette e i cucchiai. Per quanto riguarda le classi di oggetti esterni (come oliere, saliere, portafogli e altri oggetti solidi) il problema principale risiede nelle poche istanze di cui sono composti e nell'alta varianza del loro orientamento nelle immagini. Infatti, piccole modifiche che vanno a sottorappresentare queste classi, dell'insieme di addestramento, risultano in un degrado estremo del loro riconoscimento.
+
+\vspace{\baselineskip}
+\noindent
+Ciò viene supportato dal primo scenario, infatti, il dettaglio che contraddistingue il modello migliore da quello peggiore
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{1_best_conf_mat.png} 
+        \caption{Modello migliore}
+        \label{fig:1_best}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{1_worst_conf_mat.png}
+        \caption{Modello peggiore}
+        \label{fig:1_worst}
+    \end{subfigure}
+\end{figure}
+
+consiste nell'aver scelto sette immagini più descrittive rispetto a quelle utilizzate da quest'ultimo. Queste Foto, mostrate nella Figura~\ref{fig:1_compare}, contengono oggetti che nella matrice di confusione del modello peggiore~\ref{fig:1_worst} sono marcate dal tasso di errore più alto (come le bottiglie di vetro, yogurt, saliere, sigarette, burrocacao). Inoltre, due di queste immagini rientrano tra le prime 20 immagini della classifica delle immagini esemplari descritte nella Sezione~\ref{sec:secondo_scenario}.
+
+\clearpage
+
+\begin{figure}[h]
+    \centering
+    % Prima riga
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b1.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w1.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b2.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w2.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b3.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w3.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b4.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w4.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b5.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w5.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b6.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w6.jpg}
+    \end{minipage}%
+    }
+
+    \vspace{0.1cm}
+
+    \makebox[\textwidth][c]{% <-- Il % rimuove lo spazio dopo la graffa
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{b7.jpg}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=2.5cm]{w7.jpg}
+    \end{minipage}%
+    }
+
+    \caption{Immagini scelte dal modello migliore vs immagini scelte dal modello peggiore.}
+    \label{fig:1_compare}
+\end{figure}
+
+\clearpage
+
+\subsection{Secondo e quarto scenario}
+Se nell'addestramento a singolo stadio è stato fondamentale bilanciare l'insieme di addestramento e di validazione, nell'addestramento multi-istante risulta altrettanto cruciale la scelta delle immagini rappresentative delle fasi precedenti. L'approccio utilizzato permette di individuare velocemente quali classi necessitino di un maggior numero di esemplari. La lattina, scelta come classe nuova da aggiungere nel secondo istante, che ha tratto maggior vantaggio da questo approccio è la \textbf{coca-cola}. Ciò è dovuto alla sua numerosità sia delle istanze sia delle foto; questo garantisce un afflusso di informazioni nuove, volte a rafforzare anche le conoscenze apprese in passato.
+
+\vspace{\baselineskip}
+\noindent
+Il migliore risultato è attribuibile al secondo e al quarto scenario con la classe \textbf{the pesca}: è stato fondamentale partire da insiemi di addestramento bilanciati tra di loro; questo ha garantito il relativo punteggio alto del primo istante. Inoltre, visto che le classi \textbf{sprite}, \textbf{coca-cola} e \textbf{chinotto} sono le più problematiche, rimuovere la classe \textbf{the pesca} aiuta a focalizzarsi meglio sulle differenze tra queste lattine (nel secondo scenario) e sulle loro somiglianze (nel quarto scenario) che, poi, verranno consolidate con ulteriori foto rappresentative del primo istante.
+\noindent
+Mentre i peggiori risultati si riscontrano quando nel secondo istante viene aggiunta o la \textbf{sprite} o il \textbf{chinotto}, per le ragioni discusse fino ad ora.
+
+\section{Sviluppi futuri}
+Quindi si può concludere che il modo più diretto per migliorare la qualità delle predizioni è quello di espandere il dataset con una serie di immagini mirate ad aumentare le istanze delle classi più sottorappresentate; oltre a garantire un addestramento più efficace grazie alla maggior disponibilità di dati, ciò permetterebbe di costruire insiemi di validazione che diano dei risultati più stabili.
+Per addestrare un modello ancora più robusto, risulterebbe fondamentale acquisire una larga quantità di foto che ripropongano scenari caratterizzati da forti riflessi speculari e distorsioni prospettiche accentuate. Infine, nonostante YOLO26 rappresenti l'attuale stato dell'arte in termini di architettura, le prestazioni inferiori a YOLO11 sono verosimilmente riconducibili alla limitata dimensione del dataset utilizzato.
 
 \end{document}

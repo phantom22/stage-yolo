@@ -1,9 +1,213 @@
 \newglossaryentry{latex}{
-    name=latex,
-    description={Is a markup language specially suited for scientific documents}
+    name        = latex,
+    description = {Is a markup language specially suited for scientific documents}
 }
 
 \newglossaryentry{transfer_learning}{
-    name={transfer learning},
-    description={Tecnica che consiste nel riutilizzare un modello pre-addestrato su un dataset generico per specializzarlo su un dataset specifico, riducendo tempi e risorse di calcolo}
+    name        = {transfer learning},
+    description = {Tecnica che consiste nel riutilizzare un modello pre-addestrato su un dataset generico per specializzarlo su un dataset specifico, riducendo tempi e risorse di calcolo}
+}
+
+\newglossaryentry{fine_tuning}{
+    name        = {fine tuning},
+    description = {Processo di specializzazione di un modello neurale pre-addestrato (pre-trained) su un dataset specifico per un nuovo compito. Attraverso il ricalibramento dei pesi della rete, si sfrutta la conoscenza pregressa del modello per adattarla alle caratteristiche distintive di un dominio applicativo ristretto, migliorando l'efficacia del riconoscimento su classi non presenti nel dataset di training originale}
+}
+
+\newglossaryentry{sRGB}{
+    name        = {sRGB},
+    description = {Standard Red Green Blue. Spazio colore creato da HP e Microsoft nel 1996 per uniformare la visualizzazione cromatica su monitor, stampanti e browser web. Si basa su un gamut (gamma di colori) ridotto, progettato per essere coerente con le caratteristiche dei display consumer. Nel contesto del deep learning, l'utilizzo di immagini sRGB garantisce che i valori numerici dei pixel (solitamente in scala $0-255$) siano rappresentati in modo standardizzato, facilitando la convergenza del modello durante l'addestramento.}
+}
+
+\newglossaryentry{pca}{
+    name        = {PCA (Principal Component Analysis)},
+    description = {Tecnica statistica di riduzione della dimensionalità utilizzata per semplificare dataset complessi. Attraverso una trasformazione lineare, proietta i dati originali in un nuovo sistema di coordinate (componenti principali), minimizzando la perdita di informazione e permettendo la visualizzazione in spazi bidimensionali di relazioni esistenti in spazi a più dimensioni}
+}
+
+\newglossaryentry{cluster}{
+    name        = {cluster},
+    description = {Insieme di elementi (in questo caso classi di oggetti) che presentano caratteristiche comuni o un'elevata correlazione. Nel contesto della matrice di co-occorrenza, un cluster identifica un raggruppamento di oggetti che tendono a comparire frequentemente insieme nelle medesime immagini, suggerendo una relazione logica o funzionale tra di essi}
+}
+
+\newglossaryentry{ccm_matrix}{
+    name        = {matrice di co-occorrenza},
+    description = {Struttura dati tabellare utilizzata per quantificare la frequenza con cui coppie di elementi compaiono simultaneamente all'interno di un medesimo contesto (nel caso specifico, all'interno della stessa immagine). In un dataset di object detection, essa permette di mappare le relazioni probabilistiche tra le classi, evidenziando quali oggetti tendono a presentarsi insieme e fornendo la base statistica per analisi di clustering e riduzione della dimensionalità}
+}
+
+\newglossaryentry{outlier}{
+    name        = {outlier},
+    description = {Valore o elemento di un dataset che si discosta significativamente dalle restanti osservazioni. Nel contesto dell'analisi delle co-occorrenze, un outlier rappresenta una classe di oggetti che compare in modo sporadico, isolato o con pattern di associazione atipici rispetto ai cluster principali. In una proiezione PCA, tali elementi si posizionano solitamente alle estremità del piano, lontani dai raggruppamenti densi, segnalando una bassa correlazione con le combinazioni di oggetti più frequenti}
+}
+
+\newglossaryentry{texture}{
+    name        = {texture},
+    description = {Insieme di proprietà visive e spaziali che definiscono l'aspetto superficiale di un oggetto, caratterizzate dalla ripetizione di pattern locali, variazioni di luminosità o colore. Nel \textit{Deep Learning}, le texture rappresentano caratteristiche a basso e medio livello (\textit{low-level features}) fondamentali per distinguere materiali diversi, come il cibo o le superfici riflettenti di posate e vassoi, attraverso l'analisi dei gradienti spaziali nei primi strati della \textit{backbone}}
+}
+
+\newglossaryentry{feature}{
+    name        = {feature},
+    description = {Caratteristica distintiva, proprietà o variabile estratta dai dati grezzi che funge da input per un modello di analisi o di apprendimento automatico. In ambito di Computer Vision, le feature rappresentano pattern visivi (come bordi, texture o forme) che permettono di descrivere e riconoscere un oggetto. Nel contesto statistico della PCA, le feature sono le variabili originali del dataset che vengono combinate linearmente per generare le componenti principali}
+}
+
+\newglossaryentry{deeplearning}{
+    name        = {Deep Learning},
+    description = {Sottoinsieme del Machine Learning basato su reti neurali artificiali organizzate in molteplici strati di elaborazione. Consente l'estrazione automatica di gerarchie di caratteristiche dai dati grezzi, eliminando la necessità di feature engineering manuale}
+}
+
+\newglossaryentry{filtro_convolutivo}{
+    name        = {filtro convolutivo},
+    description = {Matrice numerica di piccole dimensioni (tipicamente $3 \times 3$ o $1 \times 1$) utilizzata nelle reti neurali convoluzionali per estrarre caratteristiche specifiche da un'immagine. Attraverso l'operazione matematica di convoluzione, il filtro scorre sulla mappa delle caratteristiche in input, calcolando il prodotto scalare tra i propri pesi e i pixel sottostanti. Questo processo permette di identificare pattern visivi elementari (bordi, angoli) negli strati iniziali e concetti semantici complessi (forme di oggetti, \textit{texture}) negli strati più profondi della \textit{backbone}},
+    plural      = {filtri convolutivi}
+}
+
+\newglossaryentry{cnn}{
+    name        = {CNN},
+    description = {Convolutional Neural Network (Rete Neurale Convoluzionale). Architettura neurale specializzata nell'elaborazione di dati spaziali. Utilizza filtri (kernel) per identificare pattern locali nelle immagini attraverso l'operazione di convoluzione},
+    first={Rete Neurale Convoluzionale (CNN)}
+}
+
+\newglossaryentry{boundingbox}{
+    name        = {bounding box},
+    description = {Rettangolo minimo che racchiude interamente un oggetto all'interno di un'immagine. In algoritmi come YOLO, è definito da quattro parametri principali: le coordinate del centroide $(x, y)$ e le dimensioni di larghezza ($w$) e altezza ($h$). Rappresenta l'output standard per i task di object detection}
+}
+
+\newglossaryentry{overfitting}{
+    name        = {overfitting},
+    description = {Fenomeno indesiderato in cui un modello statistico o una rete neurale si adatta eccessivamente ai dati del set di addestramento, apprendendone anche il rumore e i dettagli irrilevanti. Ciò comporta un'elevata accuratezza durante il training ma una scarsa capacità di generalizzazione, manifestandosi con prestazioni significativamente inferiori su dati nuovi o non visti in precedenza}
+}
+
+\newglossaryentry{backbone}{
+    name        = {backbone},
+    description = {Parte iniziale e fondamentale di un'architettura di \textit{Deep Learning} (spesso una rete neurale convoluzionale) che funge da estrattore di caratteristiche (\textit{feature extractor}). Riceve l'immagine in input e, attraverso una serie di strati di convoluzione e \textit{pooling}, genera una mappa delle caratteristiche ad alto livello di astrazione. In modelli moderni come YOLO11, la \textit{backbone} è ottimizzata tramite moduli \textit{CSP} e \textit{C3K2} per massimizzare la precisione riducendo il carico computazionale}
+}
+
+\newglossaryentry{csp}{
+    name        = {CSP (Cross Stage Partial Network)},
+    description = {Paradigma di architettura per reti neurali convoluzionali progettato per ridurre la ridondanza dei calcoli e l'onere computazionale. Funziona dividendo la mappa delle caratteristiche dello strato di base in due parti: una attraversa i blocchi convoluzionali densi, mentre l'altra (bypass) viene concatenata alla fine del modulo. Tale strategia ottimizza il flusso dei gradienti e riduce drasticamente i \textit{FLOPs} senza compromettere l'accuratezza del modello},
+    first       = {Cross Stage Partial Network (CSP)}
+}
+
+\newglossaryentry{divide_et_impera}{
+    name        = {Divide et Impera},
+    description = {Paradigma di progettazione algoritmica che consiste nel decomporre un problema complesso in sotto-problemi più semplici e indipendenti dello stesso tipo. Una volta risolti i sotto-problemi, le loro soluzioni vengono combinate per ottenere la soluzione del problema originale},
+    first       = {Divide et Impera (Dividi e Conquista)}
+}
+
+\newglossaryentry{flop}{
+    name        = {FLOP},
+    description = {Unità di misura che indica una singola operazione in virgola mobile (\textit{Floating Point Operation}). Nel contesto delle reti neurali, il numero totale di \textbf{FLOPs} (al plurale) viene utilizzato per quantificare la complessità computazionale di un modello e prevedere le risorse hardware necessarie per l'inferenza},
+    plural      = {FLOPs}
+}
+
+\newglossaryentry{centroide}{
+    name        = {centroide},
+    description = {Punto geometrico che rappresenta il centro di massa o il baricentro di un'area bidimensionale. Nelle architetture della famiglia YOLO, il centroide di un oggetto è il punto di riferimento critico: la cella della griglia (o il punto della \textit{feature map}) in cui esso ricade è l'unica responsabile della predizione delle coordinate della \textit{bounding box} e della classe dell'oggetto stesso. Il calcolo accurato del centroide è essenziale per la stabilità della regressione spaziale e per evitare errori di localizzazione},
+    plural      = {centroidi}
+}
+
+\newglossaryentry{region_proposals}{
+    name        = {Region Proposals},
+    description = {Sotto-porzioni di un'immagine identificate da algoritmi di segmentazione tradizionale (come la \textit{Selective Search}) che presentano un'alta probabilità di contenere un oggetto. Nelle architetture \textit{two-stage} come R-CNN, queste regioni venivano estratte prima della classificazione, comportando un elevato costo computazionale. L'avvento di YOLO ha eliminato la necessità di \textit{region proposals} esterne, integrando l'individuazione degli oggetti direttamente nella regressione spaziale della rete}
+}
+
+\newglossaryentry{sppf}{
+    name={SPPF},
+    description={Modulo evoluto di \textit{pooling} che permette alla rete di estrarre caratteristiche a scale diverse mantenendo un'elevata efficienza computazionale. Consente al modello di gestire la variabilità dimensionale degli oggetti senza aumentare significativamente il numero di \glspl{flop}},
+    first={Spatial Pyramid Pooling - Fast (SPPF)}
+}
+
+\newglossaryentry{maxpooling}{
+    name        = {Max Pooling},
+    description = {Operazione di sottocampionamento (\textit{downsampling}) non lineare utilizzata nelle reti neurali convoluzionali. Il processo consiste nello scorrere una finestra (filtro) di dimensioni predefinite sulla mappa delle caratteristiche e nel selezionare esclusivamente il valore massimo all'interno di ciascuna regione. Questa tecnica permette di ridurre la risoluzione spaziale dei dati, diminuendo il carico computazionale e garantendo una parziale invarianza alle traslazioni e alle piccole distorsioni geometriche degli oggetti}
+}
+
+\newglossaryentry{bottleneck}{
+    name={Bottleneck},
+    description={Modulo architetturale progettato per ridurre il numero di parametri e la complessità computazionale di una rete neurale. Consiste tipicamente in una sequenza di tre strati convoluzionali: una prima convoluzione $1 \times 1$ per ridurre la dimensionalità (numero di canali), una convoluzione $3 \times 3$ per l'estrazione delle caratteristiche, e una convoluzione $1 \times 1$ finale per ripristinare la profondità originale dei dati. Questa struttura a "clessidra" permette di aumentare la profondità della rete mantenendo elevata l'efficienza nell'inferenza}
+}
+
+\newglossaryentry{c2psa}{
+    name        = {C2PSA},
+    description = {Modulo architetturale (\textit{Convolutional block with Parallel Spatial Attention}) che integra il meccanismo di attenzione spaziale all'interno di una struttura \textit{Cross Stage Partial} a due stadi (C2). Il blocco opera una scissione del flusso dei dati in due rami: uno mantiene l'integrità delle caratteristiche originali (\textit{shortcut}), mentre l'altro applica un'attenzione spaziale parallela (PSA) per enfatizzare le regioni della mappa di caratteristiche più rilevanti per l'identificazione degli oggetti. Questa sinergia permette di aumentare la precisione nella localizzazione delle istanze riducendo al contempo il rumore informativo proveniente dallo sfondo},
+    first       = {Convolutional block with Parallel Spatial Attention (C2PSA)}
+}
+
+\newglossaryentry{fpn}{
+    name        = {FPN},
+    description = {Architettura a piramide di caratteristiche (\textit{Feature Pyramid Network}) progettata per gestire l'invarianza di scala nel rilevamento di oggetti. Attraverso un meccanismo di connessioni laterali e un percorso \textit{top-down}, la FPN combina mappe di caratteristiche ad alta risoluzione (semanticamente deboli) con mappe a bassa risoluzione (semanticamente forti). Questo processo permette di costruire una gerarchia di descrittori ricchi di informazioni a ogni livello, facilitando il riconoscimento accurato di oggetti di dimensioni eterogenee all'interno della medesima immagine},
+    first       = {Feature Pyramid Network}
+}
+
+\newglossaryentry{c3k2}
+{
+    name        = {C3k2},
+    description = {Modulo architetturale (\textit{CSP Bottleneck with 2 Convolutions}) introdotto in YOLO11 per l'estrazione gerarchica delle caratteristiche. Evoluzione del blocco C2f, utilizza una struttura \textit{Cross Stage Partial} (CSP) che scinde il flusso dei dati per ottimizzare il gradiente e ridurre la ridondanza computazionale. Il suffisso \textit{k2} indica l'impiego di due kernel convoluzionali all'interno dei suoi blocchi \textit{bottleneck} secondari, permettendo di approfondire la capacità di apprendimento del modello senza compromettere la velocità di inferenza in tempo reale}
+}
+
+\newglossaryentry{decoupledhead}
+{
+    name        = {Decoupled Head},
+    description = {Architettura del modulo di predizione finale che separa fisicamente e logicamente i compiti di classificazione (identificazione della categoria) e regressione (localizzazione dei \textit{bounding box} e generazione delle maschere). A differenza delle teste accoppiate (\textit{coupled}), questa struttura utilizza rami paralleli indipendenti per elaborare le \textit{feature} estratte dal \textit{neck}. Tale approccio riduce i conflitti durante l'ottimizzazione delle diverse funzioni di perdita e migliora significativamente la convergenza del modello e la precisione finale nelle attività di \textit{instance segmentation}}
+}
+
+\newglossaryentry{anchorfree}
+{
+    name        = {Anchor-free},
+    description = {Paradigma di rilevamento oggetti che elimina l'uso di \textit{anchor boxes} predefinite. In questo approccio, il modello predice direttamente la localizzazione degli oggetti individuandone i centri o i punti chiave e calcolando le distanze dai bordi del \textit{bounding box}. Ciò semplifica l'architettura della testa di predizione, riduce il numero di iperparametri da configurare e migliora la capacità di generalizzazione su oggetti con rapporti d'aspetto insoliti}
+}
+
+\newglossaryentry{nms}{
+    name        = {NMS},
+    description = {La \textit{Non-Maximum Suppression} è un algoritmo di post-processing utilizzato nel rilevamento oggetti per eliminare le predizioni ridondanti. Il processo seleziona il \textit{bounding box} con il punteggio di confidenza più elevato e rimuove tutti gli altri box sovrapposti che presentano un'area di intersezione (\textit{IoU}) superiore a una soglia prestabilita}
+}
+
+\newglossaryentry{lossfunction}{
+    name        = {Loss Function},
+    description = {Funzione matematica che quantifica la discrepanza tra le predizioni effettuate dal modello e i valori reali (\textit{ground truth}) forniti durante l'addestramento. Il valore restituito da questa funzione rappresenta l'\textit{errore} del sistema: l'obiettivo dell'algoritmo di ottimizzazione è minimizzare tale valore regolando i pesi della rete neurale. In modelli complessi come YOLO11, la \textit{loss} è tipicamente composta da più termini che pesano simultaneamente l'errore di classificazione, di localizzazione (\textit{bounding box}) e di segmentazione}
+}
+
+\newglossaryentry{duallabelassignment}{
+    name        = {Dual Label Assignment},
+    description = {Strategia di addestramento che prevede l'impiego simultaneo di due rami di supervisione all'interno della \textit{head} del modello. Il primo ramo utilizza un approccio \textit{one-to-many}, assegnando più predizioni a un singolo oggetto reale per massimizzare l'apprendimento delle caratteristiche (\textit{features}). Il secondo ramo impiega un approccio \textit{one-to-one}, forzando la rete a selezionare un'unica predizione ottimale per ogni istanza. Durante l'inferenza, il ramo \textit{one-to-many} viene rimosso, permettendo al modello di operare senza l'algoritmo \gls{nms} e riducendo drasticamente la latenza}
+}
+
+\newglossaryentry{endtoend}{
+    name={End-to-End},
+    description={Paradigma di progettazione in cui l'intero processo di elaborazione è risolto all'interno di un'unica rete neurale. In un sistema di \textit{object detection} e \textit{segmentation} \textit{end-to-end}, l'input (immagine) viene trasformato direttamente nel risultato finale (lista di istanze con relative maschere) senza l'intervento di algoritmi esterni alla rete, come la \gls{nms}. Questo approccio garantisce una maggiore efficienza computazionale e permette l'ottimizzazione globale dei parametri del modello rispetto all'obiettivo finale}
+}
+
+\newglossaryentry{opensource}{
+    name={Open Source},
+    description={Modello di sviluppo software basato sulla libera accessibilità del codice sorgente. Tale approccio favorisce la trasparenza, la collaborazione comunitaria e l'evoluzione rapida delle tecnologie, consentendo a terzi di analizzare, correggere o estendere le funzionalità originali}
+}
+
+\newglossaryentry{lwf}{
+    name={LwF},
+    description={Acronimo di \textit{Learning Without Forgetting}. Una strategia di \textit{Continual Learning} che utilizza la tecnica della \textit{Knowledge Distillation} per preservare le prestazioni sui task precedentemente appresi senza richiedere l'accesso ai dati originali. Il metodo bilancia l'apprendimento di nuove classi e il mantenimento della conoscenza pregressa minimizzando una funzione di perdita composta da un termine di classificazione e uno di distillazione}
+}
+
+\newglossaryentry{iou}{
+    name={IoU},
+    description={Acronimo di \textit{Intersection over Union}, nota anche come indice di Jaccard. È una metrica che quantifica la sovrapposizione tra la regione predetta dal modello (Box o Mask) e la regione reale (\textit{Ground Truth}). Matematicamente è definita come il rapporto tra l'area dell'intersezione e l'area dell'unione delle due regioni. Viene utilizzata come soglia per determinare se una predizione è un Vero Positivo (TP) o un Falso Positivo (FP)},
+    first={Intersection over Union (IoU)}
+}
+
+\newglossaryentry{iperparametri}{
+    name={Iperparametri},
+    description={Parametri di configurazione definiti esternamente al modello prima dell'inizio del processo di addestramento. A differenza dei parametri interni (pesi e bias), gli iperparametri non vengono appresi dai dati, ma determinano il modo in cui l'algoritmo di apprendimento opera.}
+}
+
+\newglossaryentry{confmatrix}{
+    name={Matrice di Confusione},
+    description={Tabella utilizzata per valutare le prestazioni di un modello di classificazione o rilevamento. Ciascuna riga rappresenta le istanze della classe reale (Ground Truth), mentre ogni colonna rappresenta le istanze della classe predetta dal modello. Permette di identificare visivamente se il sistema confonde sistematicamente due classi diverse, evidenziando i Veri Positivi (TP), Falsi Positivi (FP), Veri Negativi (TN) e Falsi Negativi (FN)},
+    plural={matrici di confusione}
+}
+
+\newglossaryentry{gt}{
+    name={Ground Truth},
+    description={Rappresenta il dato oggettivo e verificato, considerato come "verità assoluta" per l'addestramento e la valutazione di un modello. Nel contesto dell'object detection, consiste nelle annotazioni manuali (bounding box e classi) che indicano la posizione e la categoria reale degli oggetti presenti nell'immagine}
+}
+
+\newglossaryentry{ap}{
+    name={Average Precision},
+    description={La Precisione Media (AP) è una metrica che riassume la curva Precisione-Richiamo come la media ponderata delle precisioni ottenute a ogni soglia di richiamo. Nel rilevamento di oggetti, l'AP viene calcolata per ogni singola classe; la media di tali valori sull'intero insieme di classi determina la mAP (mean Average Precision)}
 }

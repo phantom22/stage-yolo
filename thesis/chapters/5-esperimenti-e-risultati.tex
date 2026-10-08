@@ -5,6 +5,468 @@
 \chapter{Esperimenti e risultati}
 \label{chap:experiments-and-results}
 
-This is \textcolor{red}{red text} for anything.
+\section{Scenari esplorati}
+In totale sono stati studiati quattro scenari distinti, riassunti nella Tabella~\ref{tab:strategies}.
 
+\newcommand{\cell}[1]{\begin{tabular}{@{}l@{}}#1\end{tabular}}
+
+\begin{table}[h!]
+    \makebox[\textwidth][c]{
+        \renewcommand{\arraystretch}{1.5} % Aggiunge respiro verticale per evitare l'effetto "schiacciato"
+        \begin{tabular}{|l|l|c|l|l|l|}
+            \hline
+            & \textbf{strategia} & \textbf{dataset} & \textbf{istante} & \textbf{addestramento} & \textbf{validazione} \\ \hline
+            1 & base & specifico & $t_0$ & Coke $\rightarrow$ Coke & Coke $\rightarrow$ Coke \\ \hline
+            
+            % Strategia 2: Dataset centrato su 3 righe
+            \multirow{3}{*}{2} & \multirow{3}{*}{\cell{\gls{lwf} con \\ nuova classe}} & \multirow{3}{*}{specifico} & $t_0$ & Coke $\rightarrow$ Coke & Coke $\rightarrow$ Coke \\ \cdashline{4-6}
+            & & & $t_1$ & Fanta $\rightarrow$ Fanta & Coke $\rightarrow$ Coke \\ 
+            & & & & & Fanta $\rightarrow$ Fanta \\ \hline
+            
+            % Strategia 4: Dataset centrato su 2 righe
+            \multirow{2}{*}{3} & \multirow{2}{*}{base per \#3} & \multirow{2}{*}{generico} & $t_0$ & Coke $\rightarrow$ Alluminum & Coke $\rightarrow$ Alluminum \\
+            & & & & & Fanta $\rightarrow$ Alluminum \\ \hline
+
+            % Strategia 3: Dataset centrato su 3 righe
+            \multirow{3}{*}{4} & \multirow{3}{*}{\cell{LwF con \\ stesse classi}} & \multirow{3}{*}{generico} & $t_0$ & Coke $\rightarrow$ Alluminum & Coke $\rightarrow$ Alluminum \\ \cdashline{4-6}
+            & & & $t_1$ & Fanta $\rightarrow$ Alluminum & Coke $\rightarrow$ Alluminum \\ 
+            & & & & & Fanta $\rightarrow$ Alluminum \\ \hline
+            
+        \end{tabular}
+    }
+    \caption{Riassunto delle strategie esplorate durante gli esperimenti.}
+    \label{tab:strategies}
+\end{table}
+
+\noindent
+Il primo e il terzo scenario si focalizzano sull'addestramento di un modello monoblocco mentre il secondo e il quarto modellano uno scenario più realistico in cui gli oggetti, in un contesto come la mensa, possono cambiare nel tempo. Considerando che le lattine sono state scelte come la classe da analizzare nel dettaglio, il fatto che alcune di esse avessero un numero estremamente piccolo di istanze (come riportato nella Tabella \ref{tab:cardinalities_alluminum_cans}) ha comportato una serie di sintomi che diventeranno evidenti nei risultati successivi.
+
+\clearpage
+
+\section{Metrica di valutazione}
+Per garantire insiemi di addestramento e validazione bilanciati è stato impiegato un algoritmo di suddivisione stratificata iterativa progettato proprio per il \textbf{Multi-label Learning}~\cite{scikit_multilearn}, che si verifica quando un'immagine può contenere contemporaneamente più classi. Si tratta di un algoritmo che valuta la frequenza delle istanze di ciascuna classe; esso suddivide un insieme di immagini in due sottoinsiemi. Questo approccio parte dalle immagini che contengono gli oggetti più rari, analizzando le frequenze assolute delle istanze e, a ogni iterazione, considera quale dei due sottoinsiemi necessiti le classi contenute nell'immagine analizzata; arrivando, così, a due sottoinsiemi bilanciati similmente all'insieme di partenza.
+
+\vspace{\baselineskip}
+\noindent
+Per avere una valutazione rigorosa della capacità di localizzazione e segmentazione è stata scelta la metrica \textbf{mAP@0.5:0.95} (anche denominata come \textbf{mAP50-95}): essa rappresenta la media delle \gls{ap} calcolata su un intervallo di soglie di \gls{iou} crescente, a partire dal 50\% fino ad arrivare al 95\% a incrementi di 5\%.
+
+\begin{equation}
+    \text{IoU} = \frac{\lvert A \cap B \rvert}{\lvert A \cup B \rvert}
+\end{equation}
+dove $A$ rappresenta la regione della predizione e $B$ quella del \gls{gt}
+
+\vspace{\baselineskip}
+\noindent
+Se la \textit{IoU} di una predizione è inferiore della soglia scelta, allora tale predizione verrà completamente scartata. La soglia del 95\% è la più severa, infatti richiede una sovrapposizione quasi perfetta tra la maschera predetta e quella reale.
+
+\vspace{\baselineskip}
+\noindent
+Infine, viste le innumerevoli combinazioni che si possono verificare tra le configurazioni specifiche ai modelli YOLO~\cite{ultralytics_inc} e le immagini utilizzate in fase di addestramento, è stata compiuta la scelta di affidarsi alla selezione automatica dell'ottimizzatore adatto a questo caso specifico; YOLO ha dedotto che l'algoritmo \textbf{AdamW} con \textit{learn rate} pari a 0,000278 e \textit{momentum} a 0,9 è il più ottimale.
+
+\clearpage
+
+\section{Primo e terzo scenario}
+Il primo scenario è stato sfruttato come punto di partenza per esplorare come e quali \gls{iperparametri} di YOLO vanno ad agire sul rendimento di un modello addestrato su dataset di dimensioni ristrette e con classi numericamente sbilanciate. L'80\% del dataset è stato utilizzato per l'addestramento mentre il restante 20\% per la validazione.
+
+\vspace{\baselineskip}
+\noindent
+I principali parametri individuati sono:
+\begin{table}[h!]
+    \centering
+    \caption{Iperparametri di addestramento di YOLO.}
+    \label{tab:yolo_parameters}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{iperparametro} & \textbf{descrizione} \\ \hline
+        batch & Numero di immagini elaborate contemporaneamente prima di aggiornare i pesi. \\ \hline
+        epochs & Numero totale di cicli completi di addestramento sull'intero dataset. \\ \hline
+        freeze & Numero di strati iniziali della rete i cui pesi vengono bloccati (non addestrati). \\ \hline
+        copy\_paste & Tecnica di \textit{augmentation} che copia segmenti di oggetti su altre immagini. \\ \hline
+        mosaic & Combina quattro immagini di addestramento in una sola per variare il contesto. \\ \hline
+        close\_mosaic & Numero di epoche finali in cui il \textit{mosaic augmentation} viene disattivato. \\ \hline
+        mixup & Sovrappone due immagini diverse creando un effetto di trasparenza combinata. \\ \hline
+        weight\_decay & Termine di regolarizzazione che penalizza i pesi troppo grandi per evitare \textit{overfitting}. \\ \hline
+        warmup\_epochs & Epoche iniziali a \textit{learning rate} ridotto per stabilizzare i gradienti. \\ \hline
+    \end{tabular}
+\end{table}
+
+\noindent
+Come punto di partenza sono stati scelti i valori predefiniti;
+Per via empirica, i parametri \textit{copy\_paste} e \textit{mixup} sono stati scartati subito, in quanto andavano a degradare notevolmente la qualità delle predizioni.
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{
+\includegraphics[width=1.7\textwidth]{1_performances.png}
+}
+\caption{I modelli sono ordinati in ordine decrescente, dal migliore al peggiore; il testo specifica solo gli iperparametri con valore diverso da quello standard. I doppioni sono dovuti a insiemi di addestramento e validazione leggermente diversi. In fondo alla lista c'è un modello addestrato con YOLO26 (da cui la sigla Y26); \textbf{decay} sta per weight\_decay, \textbf{warmup} sta per warmup\_epochs e \textbf{close} sta per close\_mosaic.}
+\label{img:1_performances}
+\end{figure}
+
+\clearpage
+
+\noindent
+Il modello migliore, del primo scenario, ha una Box \textbf{mAP} di 0.920 e una Mask \textbf{mAP} di 0.887 e la sua \gls{confmatrix} suggerisce che il modello confonde le lattine di Sprite con le lattine di Coca Cola, fa fatica a riconoscere le saliere e tende a confondere le forchette e i cucchiai; inoltre si può notare come l'addestramento sul modello YOLO26 abbia un rendimento nettamente peggiore rispetto ai modelli che utilizzano YOLO11.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{1_best_conf_mat.png}
+\caption{Matrice di confusione del migliore modello addestrato per il primo scenario.}
+\label{img:1_best_conf_mat}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{
+\includegraphics[width=1.7\textwidth]{3_performances.png}
+}
+\caption{I modelli sono ordinati in ordine decrescente, dal migliore al peggiore; il testo specifica solo gli iperparametri con valore diverso da quello standard. I doppioni sono dovuti a insiemi di addestramento e validazione leggermente diversi. La sigla Y26 indica l'utilizzo di YOLO26 come modello pre-addestrato; \textbf{decay} sta per weight\_decay, \textbf{warmup} sta per warmup\_epochs e \textbf{close} sta per close\_mosaic.}
+\label{img:3_performances}
+\end{figure}
+
+\clearpage
+
+\noindent
+Il modello migliore, del terzo scenario, ha una Box \textbf{mAP} di 0.937 e una Mask \textbf{mAP} di 0.901 e la sua \gls{confmatrix} suggerisce che confonde leggermente le posate tra di loro (forchette, cucchiai e coltelli).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{3_best_conf_mat.png}
+\caption{Matrice di confusione del migliore modello addestrato per il terzo scenario.}
+\label{img:3_best_conf_mat}
+\end{figure}
+
+\clearpage
+
+\section{Secondo scenario}
+\label{sec:secondo_scenario}
+Questo scenario è stato esplorato selezionando, separatamente, ogni marca di lattina come ipotetica classe che viene aggiunta come nuovo oggetto all'interno del menù di una mensa e, di conseguenza, risulta assente dal dataset di acquisizione originale.
+La strategia del primo istante è quella di prendere l'intero dataset, filtrando tutte le foto in cui è presente la classe da omettere e metterle da parte per il prossimo istante; le foto restanti vengono suddivise in due sottoinsiemi con la stessa tecnica iterativa degli scenari precedenti e si addestra il primo istante del modello. 
+
+\vspace{\baselineskip}
+\noindent
+Per procedere, vengono selezionate delle foto significative dell'istante precedente, da riproporre durante l'addestramento del nuovo istante al fine di non far dimenticare le classi apprese precedentemente. Tale selezione viene fatta costruendo un vettore che contiene la frequenza inversa di ciascuna classe, da utilizzare nel prodotto scalare con la matrice che codifica per ogni immagine quante istanze essa contiene, così calcolando una somma pesata che è direttamente proporzionale alla quantità di oggetti statisticamente rari contenuti all'interno della singola immagine (Figura~\ref{fig:immagini_esemplari} mostra alcuni esempi). Il numero di tali rappresentanti viene scelto in base al numero di istanze della nuova classe. Quindi, durante il secondo addestramento non solo vengono introdotti nuovi oggetti ma vengono riproposti vecchi esemplari. Dopo aver addestrato il secondo istante, il procedimento diventa più sperimentale e iterativo: si consulta la matrice di confusione ottenuta e si individuano le classi più patologiche; dopo aver esteso l'insieme di addestramento con foto della classe problematica, si ripete l'intero processo. Questo approccio permette di migliorare drasticamente il rendimento di un modello.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_66.jpg} 
+        \caption{66.jpg}
+        \label{fig:e66}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_62.jpg}
+        \caption{62.jpg}
+        \label{fig:e62}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_151.jpg}
+        \caption{151.jpg}
+        \label{fig:e151}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_130.jpg}
+        \caption{130.jpg}
+        \label{fig:e130}
+    \end{subfigure}
+
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_144.jpg}
+        \caption{144.jpg}
+        \label{fig:e144}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\linewidth]{exemplar_106.jpg}
+        \caption{106.jpg}
+        \label{fig:e106}
+    \end{subfigure}
+
+    \caption{Sei immagini con la somma pesata più alta, quindi contenenti una vasta quantità di informazioni utili per essere utilizzate come esemplari da essere aggiunti durante l'addestramento del secondo istante.}
+    \label{fig:immagini_esemplari}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \caption{Le seguenti tabelle riportano gli iperparametri utilizzati da tutti i modelli addestrati nel secondo e nel quarto scenario, omettendo tutti quelli che sono stati lasciati invariati; l'ottimizzatore è sempre \textbf{AdamW}, come detto precedentemente}
+    \label{tab:comparison_hyperparameters}
+    
+    % Prima Tabella (Sinistra)
+    \begin{subtable}[t]{0.45\textwidth}
+        \centering
+        \caption{Primo istante.}
+        \label{tab:2_4_hyperparameters_first}
+        \begin{tabular}{|l|c|}
+            \hline
+            \textbf{parametro} & \textbf{valore} \\ \hline
+            epochs        & 150    \\ \hline
+            freeze        & 5      \\ \hline
+            weight\_decay & 0,0007 \\ \hline
+            warmup\_epochs & 5      \\ \hline
+        \end{tabular}
+    \end{subtable}
+    \hfill % Crea spazio tra le due tabelle
+    % Seconda Tabella (Destra)
+    \begin{subtable}[t]{0.45\textwidth}
+        \centering
+        \caption{Secondo istante.}
+        \label{tab:2_4_hyperparameters_second}
+        \begin{tabular}{|l|c|}
+            \hline
+            \textbf{parametro} & \textbf{valore} \\ \hline
+            batch         & 20     \\ \hline
+            epochs        & 150    \\ \hline
+            freeze        & 15     \\ \hline
+            close\_mosaic  & 5      \\ \hline
+            weight\_decay & 0,001  \\ \hline
+            warmup\_epochs & 5      \\ \hline
+        \end{tabular}
+    \end{subtable}
+\end{table}
+
+\clearpage
+
+\subsection{Coca Cola (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_coca_cola_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,860 e una Mask \textbf{mAP} di 0,832.}
+\label{img:2_coca_cola_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_coca_cola_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,922 e una Mask \textbf{mAP} di 0,882; il set di addestramento comprende 24 nuove immagini integrate con 27 esemplari del passaggio precedente.}
+\label{img:2_coca_cola_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Foco Maracuya (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_foco_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,901 e una Mask \textbf{mAP} di 0,855.}
+\label{img:2_foco_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_foco_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,903 e una Mask \textbf{mAP} di 0,867; il set di addestramento comprende 8 nuove immagini integrate con 23 esemplari del passaggio precedente.}
+\label{img:2_foco_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{The alla pesca (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_the_pesca_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,926 e una Mask \textbf{mAP} di 0,892.}
+\label{img:2_the_pesca_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_the_pesca_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,919 e una Mask \textbf{mAP} di 0,885; il set di addestramento comprende 5 nuove immagini integrate con 6 esemplari del passaggio precedente.}
+\label{img:2_the_pesca_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Sprite (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_sprite_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,941 e una Mask \textbf{mAP} di 0,903.}
+\label{img:2_sprite_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_sprite_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,904 e una Mask \textbf{mAP} di 0,877; il set di addestramento comprende 17 nuove immagini integrate con 21 esemplari del passaggio precedente.}
+\label{img:2_sprite_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Chinotto (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_chinotto_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,906 e una Mask \textbf{mAP} di 0,867.}
+\label{img:2_chinotto_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_chinotto_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,895 e una Mask \textbf{mAP} di 0,855; il set di addestramento comprende 8 nuove immagini integrate con 7 esemplari del passaggio precedente.}
+\label{img:2_chinotto_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Monster (2)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_monster_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,898 e una Mask \textbf{mAP} di 0,863.}
+\label{img:2_monster_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_monster_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,891 e una Mask \textbf{mAP} di 0,854; il set di addestramento comprende 14 nuove immagini integrate con 16 esemplari del passaggio precedente.}
+\label{img:2_monstert_conf_mat}
+\end{figure}
+
+\clearpage
+
+\section{Quarto scenario}
+
+La strategia rispecchia quella del secondo scenario soprattutto per esaltare le problematiche principali che si possono verificare nell'avere un dataset carente di istanze. Ogni modello del quarto scenario ha appreso sugli stessi insiemi di addestramento e di validazione utilizzati dalle loro controparti del secondo scenario.
+
+\subsection{Coca Cola (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{4_cola_cola_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,877 e una Mask \textbf{mAP} di 0,839.}
+\label{img:4_coca_cola_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{4_coca_cola_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,936 e una Mask \textbf{mAP} di 0,897; il set di addestramento comprende 24 nuove immagini integrate con 27 esemplari del passaggio precedente.}
+\label{img:4_coca_cola_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Foco Maracuya (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_foco_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,924 e una Mask \textbf{mAP} di 0,884.}
+\label{img:4_foco_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_foco_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,932 e una Mask \textbf{mAP} di 0,885; il set di addestramento comprende 8 nuove immagini integrate con 23 esemplari del passaggio precedente.}
+\label{img:4_foco_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{The alla pesca (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_the_pesca_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,947 e una Mask \textbf{mAP} di 0.913.}
+\label{img:4_the_pesca_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{2_the_pesca_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,952 e una Mask \textbf{mAP} di 0.917; il set di addestramento comprende 5 nuove immagini integrate con 6 esemplari del passaggio precedente.}
+\label{img:4_the_pesca_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Sprite (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_sprite_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,914 e una Mask \textbf{mAP} di 0,865.}
+\label{img:4_sprite_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_sprite_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,886 e una Mask \textbf{mAP} di 0,839; il set di addestramento comprende 17 nuove immagini integrate con 21 esemplari del passaggio precedente.}
+\label{img:4_sprite_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Chinotto (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_chinotto_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,920 e una Mask \textbf{mAP} di 0,873.}
+\label{img:4_chinotto_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_chinotto_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,917 e una Mask \textbf{mAP} di 0,873; il set di addestramento comprende 8 nuove immagini integrate con 7 esemplari del passaggio precedente.}
+\label{img:4_chinotto_conf_mat}
+\end{figure}
+
+\clearpage
+
+\subsection{Monster (4)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_monster_first_conf_mat.png}
+\caption{Matrice di confusione del primo istante, con una Box \textbf{mAP} di 0,900 e una Mask \textbf{mAP} di 0,852.}
+\label{img:4_monster_first_conf_mat}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{4_monster_conf_mat.png}
+\caption{Matrice di confusione del secondo istante, con una Box \textbf{mAP} di 0,912 e una Mask \textbf{mAP} di 0,856; il set di addestramento comprende 14 nuove immagini integrate con 16 esemplari del passaggio precedente.}
+\label{img:4_monstert_conf_mat}
+\end{figure}
+
+\clearpage
+    
 \end{document}

@@ -13,6 +13,11 @@
 \usepackage{subfiles} % support multiple files
 \usepackage{fancyhdr} % more control on headers and footers
 \usepackage{xcolor}
+\usepackage{threeparttable}
+
+\usepackage{arydshln}
+\usepackage{multirow}
+\usepackage{titlesec}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 
@@ -39,11 +44,12 @@ sorting=ynt
 \makeatother
 
 \addbibresource{extra/bibliografia.bib}
-% per mostrare tutta la bibliografia, a
-\nocite{*} 
+% per mostrare tutta la bibliografia, anche ciò che non è stato citato
+% \nocite{*} 
 
 \makeglossaries
 \loadglsentries{extra/glossario.tex}
+\setcounter{tocdepth}{2}
 
 \begin{document}
 
@@ -55,12 +61,12 @@ sorting=ynt
 \printglossary
 \clearpage
 
-\subfile{extra/acronimi.tex}
+% \subfile{extra/acronimi.tex}
 
 \subfile{chapters/1-introduzione.tex}
 \subfile{chapters/2-stato-dell-arte.tex}
 \subfile{chapters/3-dataset.tex}
-\subfile{chapters/4-metodi.tex}
+% \subfile{chapters/4-metodi.tex}
 \subfile{chapters/5-esperimenti-e-risultati.tex}
 \subfile{chapters/6-conclusioni.tex}
 

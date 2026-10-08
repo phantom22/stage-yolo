@@ -1,6 +1,0 @@
-
-Stato dell'arte: 1-2 pagine, descrizione a grandi linee eg. Yolo, CVAT
-Metodi: descrizione molto tecnica del funzionamento eg. di Yolo11, Yolo26
-Dataset: descrizione completa con considerazione di come e perche' e' stato acquisito il dataset con IMMAGINI
-Esperimenti e risultati: risultati e parametri, immagini delle run, immagini di cosa e' andato storto
-Conclusioni: considerando i risultati, cosa e perche' e' andato storto, cosa si puo' migliorare in futuro (senza andare nel dettaglio)
