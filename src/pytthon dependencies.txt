@@ -1,0 +1,17 @@
+dalla radice della cartella eseguire:
+    python -m venv .venv
+
+attivare il virtual environment su Linux:
+    dal terminal:
+        source .venv/bin/activate
+
+attivare il virtual environment su Windows:
+    dal Powershell:
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    dal CMD:
+        .\.venv\Scripts\activate
+    e settare l'impostazione di sistema `Settings > Advanced System Settings > Developer mode > On`
+
+infine, col virtual environment attivo, eseguire:
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+    pip install matplotlib plotly pandas seaborn scikit-learn mplcursors opencv-python scikit-multilearn datumaro ultralytics
